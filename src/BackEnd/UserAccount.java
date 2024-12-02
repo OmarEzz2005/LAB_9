@@ -42,7 +42,7 @@ public class UserAccount {
     
     
     
-    protected static String hashPassword(String password) {
+    public static String hashPassword(String password) {
         try { 
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hashedBytes = messageDigest.digest(password.getBytes());
@@ -68,6 +68,14 @@ public class UserAccount {
     public String getSearchKey()
     {
         return this.userID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
     
     

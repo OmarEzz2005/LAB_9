@@ -272,8 +272,20 @@ public class LOGIN extends javax.swing.JFrame {
             throw new Exception();
         }
         
+        ArrayList <UserAccount> users = database.getUsers();
+        for(UserAccount user : users)
+        {
+            if((user.getEmail().equals(email)) && (user.getPassword().equals(UserAccount.hashPassword(password))))
+            {
+                System.out.println("Logged in successfully");
+                user.makeOnline();
+                return;
+            }
+        }
         
-        
+        JOptionPane.showMessageDialog(null,"Email or password is incorrect !", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+            
         
         }catch(Exception e)
         {

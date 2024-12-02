@@ -353,7 +353,7 @@ public class SignUp extends javax.swing.JPanel {
         // TODO add your handling code here:
        try{
         
-        
+        ArrayList <UserAccount> users = database.getUsers();
         String first = jTextField1.getText();
         String last = jTextField2.getText();
         String Gender = (String)jComboBox4.getSelectedItem();
@@ -378,6 +378,48 @@ public class SignUp extends javax.swing.JPanel {
         if(date.isAfter(LocalDate.now().minusYears(16)))
         {
             JOptionPane.showMessageDialog(null,"Must be greater than 16 years", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+        if(!email.contains("@") || !email.contains(".")  || email.indexOf("@") > email.lastIndexOf(".") 
+            || email.startsWith("@") || email.endsWith(".") )
+        {
+            JOptionPane.showMessageDialog(null,"Invalid Email", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+        for(UserAccount user : users)
+        {
+            if(user.getEmail().equals(email))
+            {
+                JOptionPane.showMessageDialog(null,"Email already exists, Try to Login !", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        
+        
+        if(pass.length() < 8)
+        {
+            JOptionPane.showMessageDialog(null,"Invalid Password (Must be greater than or equal to 8 characters)", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!pass.matches(".*[A-Z].*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one uppercase letter.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!pass.matches(".*[a-z].*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one lowercase letter.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!pass.matches(".*\\d.*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one digit.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!pass.matches(".*[@#$%^&+=!].*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one special character.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
