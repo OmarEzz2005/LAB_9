@@ -77,8 +77,11 @@ public class UserAccount {
     public String getPassword() {
         return password;
     }
-    
-    
+
+    public void setPassword(String password) {
+        this.password = hashPassword(password);
+    }
+ 
     
     
     public LocalDate getDate() {
