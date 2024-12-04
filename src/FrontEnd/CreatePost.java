@@ -18,12 +18,12 @@ import javax.swing.JOptionPane;
  */
 public class CreatePost extends javax.swing.JPanel {
 
-    private UserDatabase database;
+    private UserDatabase database = LOGIN.database;
 
     /**
      * Creates new form CreatePost
      */
-    private UserAccount user;
+    private UserAccount user = database.getCurrentUser();
     private ContentDatabase contentdatabase;
 
     public CreatePost() {

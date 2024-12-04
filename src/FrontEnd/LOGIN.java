@@ -27,6 +27,7 @@ public class LOGIN extends javax.swing.JFrame {
 
     
     protected static UserDatabase database;
+    public static String logged;
     
     
     /**
@@ -131,14 +132,14 @@ public class LOGIN extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
+                        .addGap(105, 105, 105)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
+                        .addGap(82, 82, 82)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,7 +513,7 @@ public class LOGIN extends javax.swing.JFrame {
         
         if(jPasswordField1.getText().isEmpty() || jTextField1.getText().isEmpty() || email.equals("Email address") || password.equals("Enter Password"))
         {
-            throw new Exception();
+          //  throw new Exception();
         }
         
         ArrayList <UserAccount> users = database.getUsers();
@@ -521,7 +522,19 @@ public class LOGIN extends javax.swing.JFrame {
             if((user.getEmail().equals(email)) && (user.getPassword().equals(UserAccount.hashPassword(password))))
             {
                 System.out.println("Logged in successfully");
+                logged = user.getSearchKey();
                 user.makeOnline();
+                Newsfeed page = new Newsfeed();
+                page.setVisible(true);
+        
+        
+                 LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+                 if (parentFrame != null) {
+                  parentFrame.setContentPane(page);
+                 parentFrame.revalidate();
+                 parentFrame.repaint();
+                 parentFrame.pack();
+                }
                 return;
             }
         }
