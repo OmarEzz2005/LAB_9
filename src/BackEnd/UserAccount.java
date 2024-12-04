@@ -24,6 +24,7 @@ public class UserAccount {
     private String password;
     private String date;
     private String status;
+    //private ArrayList <Friend> friends;
 
     public UserAccount(String email, String username,String Gender, String password, LocalDate date) {
         this.userID = "User" + String.format("%03d", count++);
@@ -91,6 +92,10 @@ public class UserAccount {
     public void setDate(LocalDate date) {
         this.date = date.format(DATE_FORMAT);
     } 
+
+    public String getStatus() {
+        return status;
+    }
     
     
     

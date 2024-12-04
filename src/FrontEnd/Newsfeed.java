@@ -4,6 +4,7 @@
  */
 package FrontEnd;
 
+import BackEnd.UserDatabase;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -17,10 +18,17 @@ public class Newsfeed extends javax.swing.JPanel {
     /**
      * Creates new form Newsfeed
      */
+    
+    
+    UserDatabase users;
+    
     public Newsfeed() {
         initComponents();
+        users = LOGIN.database;
         ImageIcon icon = new ImageIcon(getClass().getResource("/FrontEnd/image.png"));
         Image image = icon.getImage();
+        
+        
 
 
      if (image != null && image.getWidth(null) > 0 && image.getHeight(null) > 0) {
@@ -64,7 +72,11 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel1.setText("Contacts");
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = {"hello"};
+            /* for(Friend friend:friends)
+            {
+                strings[i] = friend+"  "+friend.getStatus();
+            }*/
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });

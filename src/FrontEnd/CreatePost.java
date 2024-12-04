@@ -8,6 +8,10 @@ import BackEnd.*;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -31,6 +35,8 @@ public class CreatePost extends javax.swing.JPanel {
         initComponents();
         jTextField2.setText("What's on Your mind ?");
         jTextField2.setForeground(Color.GRAY);
+        contentdatabase = new ContentDatabase("Content.json");
+        contentdatabase.readFromFile();
     }
 
     /**
@@ -66,6 +72,14 @@ public class CreatePost extends javax.swing.JPanel {
         });
 
         jTextField2.setText("jTextField2");
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -131,6 +145,7 @@ public class CreatePost extends javax.swing.JPanel {
 
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                                  
         // TODO add your handling code here:
         String ContentText = jButton1.getText();
         if (ContentText.equals("What's on Your mind ?") || ContentText.isEmpty()) {
@@ -143,6 +158,25 @@ public class CreatePost extends javax.swing.JPanel {
         } else {
             ImgPath = null;
         }
+        if (ImgPath != null && !ImgPath.isEmpty()) {
+            String fixedDir = "images/";
+            File dir = new File(fixedDir);
+            if (!dir.exists()) 
+            {
+                dir.mkdir();
+            }
+            String newImgPath=fixedDir+new File(ImgPath).getName();
+            
+            try {
+                Files.copy((Paths.get(ImgPath)),Paths.get(newImgPath),StandardCopyOption.REPLACE_EXISTING);
+                ImgPath=newImgPath;
+                
+            }
+            catch(IOException e)
+            {
+                JOptionPane.showMessageDialog(null, "failed to save image: "+e .getMessage());
+            }
+        }
         Post post = new Post(user, ContentText);
         if (ImgPath != null) {
             post.setImgPath(ImgPath);
@@ -150,29 +184,35 @@ public class CreatePost extends javax.swing.JPanel {
         contentdatabase.getContent().add(post);
         contentdatabase.saveToFile();
 
+    
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
 
      }//GEN-LAST:event_jTextField2ActionPerformed
-    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {
+
+    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().equals(placeHolder)) {
             jTextField2.setText("");
             jTextField2.setForeground(Color.BLACK);
         }
-    }
+    }//GEN-LAST:event_jTextField2FocusGained
 
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().isEmpty()) {
             jTextField2.setText(placeHolder);
             jTextField2.setForeground(Color.GRAY);
         }
-    }
+    }//GEN-LAST:event_jTextField2FocusLost
+    
+
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -6,12 +6,15 @@ package BackEnd;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  *
@@ -31,13 +34,20 @@ public class ContentDatabase {
     }
 
     public void saveToFile() {
-        Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(this.FileName)) {
-            gson.toJson(contentList, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
+    Gson gson = new Gson();
+    for (Content content : contentList) {
+        if (content.getImgPath() != null && content.getImgPath().startsWith(System.getProperty("user.dir"))) {
+            content.setImgPath(content.getImgPath().replace(System.getProperty("user.dir") + File.separator, ""));
         }
     }
+
+    try (FileWriter writer = new FileWriter(this.FileName)) {
+        gson.toJson(contentList, writer);
+        System.out.println("Data successfully saved to file: " + this.FileName);
+    } catch (IOException e) {
+        System.err.println("error saving to file "+e.getMessage());
+    }
+}
 
     public void readFromFile() {
         Gson gson = new Gson();
@@ -48,10 +58,20 @@ public class ContentDatabase {
                 contentList.addAll(loadedContent);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("can not read the file ! ");
+        }
+        for(Content content:contentList)
+        {
+            if(content.getImgPath()!=null&&!content.getImgPath().isEmpty())
+            {
+                File imgfile=new File(content.getImgPath());
+                if(!imgfile.exists())
+                {
+                    content.setImgPath("image/"+new File(content.getImgPath()).getName());
+                }
+            }
         }
     }
-    
     public boolean contains(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
@@ -60,10 +80,7 @@ public class ContentDatabase {
         }
         return false;
     }
-    
-    
-    
-     public Content getRecord(String key) {
+    public Content getRecord(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
                 return c;
@@ -101,5 +118,18 @@ public class ContentDatabase {
                 return;
             }
         }
+    }
+    public void saveImageToAppDirectory(String sourcePath, String targetDirectory) {
+    try {
+        File sourceFile = new File(sourcePath);
+        File targetDir = new File(targetDirectory);
+        if (!targetDir.exists()) {
+            targetDir.mkdirs(); // Create directory if it doesn't exist
+        }
+        File targetFile = new File(targetDir, sourceFile.getName());
+        Files.copy(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 }
