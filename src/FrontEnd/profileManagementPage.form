@@ -81,6 +81,10 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;&#xa;    BufferedImage profileImage;&#xa;    @Override&#xa;    protected void paintComponent(Graphics g) {&#xa;        super.paintComponent(g);&#xa;&#xa;        UserDatabase users = LOGIN.database;&#xa;        String profilePath = users.getCurrentUser().getProfile().getProfilePhotoPath();&#xa;       // System.out.println(profilePath);&#xa;&#xa;        if (profilePath != null) {&#xa;            if (profileImage == null) {&#xa;                try {&#xa;                    profileImage = ImageIO.read(new File(profilePath));&#xa;                } catch (IOException e) {&#xa;                    System.out.println(&quot;Error loading profile photo&quot;);&#xa;                }&#xa;            }&#xa;&#xa;            if (profileImage != null) {&#xa;&#xa;                g.drawImage(profileImage, 0,0,this.getWidth(), this.getHeight(), this);&#xa;            }&#xa;        }&#xa;    }&#xa;&#xa;    public void setProfileImage(String profilePath) {&#xa;        try {&#xa;            profileImage = ImageIO.read(new File(profilePath));&#xa;            repaint();&#xa;        } catch (IOException e) {&#xa;            System.out.println(&quot;Error loading profile photo&quot;);&#xa;        }&#xa;    }&#xa;&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -101,6 +105,10 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;&#xa;    BufferedImage coverImage;&#xa;    @Override&#xa;    protected void paintComponent(Graphics g) {&#xa;        super.paintComponent(g);&#xa;&#xa;        UserDatabase users = LOGIN.database;&#xa;        String coverPath = users.getCurrentUser().getProfile().getCoverPhotoPath();&#xa;        // System.out.println(profilePath);&#xa;&#xa;        if (coverPath != null) {&#xa;            if (coverImage == null) {&#xa;                try {&#xa;                    coverImage = ImageIO.read(new File(coverPath));&#xa;                } catch (IOException e) {&#xa;                    System.out.println(&quot;Error loading profile photo&quot;);&#xa;                }&#xa;            }&#xa;&#xa;            if (coverImage != null) {&#xa;&#xa;                g.drawImage(coverImage, 0,0,this.getWidth(), this.getHeight(), this);&#xa;            }&#xa;        }&#xa;    }&#xa;&#xa;    public void setProfileImage(String coverPath) {&#xa;        try {&#xa;            coverImage = ImageIO.read(new File(coverPath));&#xa;            repaint();&#xa;        } catch (IOException e) {&#xa;            System.out.println(&quot;Error loading profile photo&quot;);&#xa;        }&#xa;    }&#xa;&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

@@ -5,6 +5,10 @@
 package FrontEnd;
 
 import BackEnd.ProfileManagement;
+import BackEnd.UserAccount;
+import BackEnd.UserDatabase;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,12 +33,13 @@ public class profileManagementPage extends javax.swing.JPanel {
     
     
     
+    
     /**
      * Creates new form profileManagementPage
      */
     public profileManagementPage() {
         initComponents();
-        
+        //this.setProfileImage("C:\\Users\\lenovo\\OneDrive\\Desktop\\39eb6215-3133-4a70-85dd-fc18da0467f0.JPG");
     }
 
     /**
@@ -46,8 +51,80 @@ public class profileManagementPage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        profilePhotoJPanel = new javax.swing.JPanel();
-        coverPhotoJPanel = new javax.swing.JPanel();
+        profilePhotoJPanel = new javax.swing.JPanel(){
+
+            BufferedImage profileImage;
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                UserDatabase users = LOGIN.database;
+                String profilePath = users.getCurrentUser().getProfile().getProfilePhotoPath();
+                // System.out.println(profilePath);
+
+                if (profilePath != null) {
+                    if (profileImage == null) {
+                        try {
+                            profileImage = ImageIO.read(new File(profilePath));
+                        } catch (IOException e) {
+                            System.out.println("Error loading profile photo");
+                        }
+                    }
+
+                    if (profileImage != null) {
+
+                        g.drawImage(profileImage, 0,0,this.getWidth(), this.getHeight(), this);
+                    }
+                }
+            }
+
+            public void setProfileImage(String profilePath) {
+                try {
+                    profileImage = ImageIO.read(new File(profilePath));
+                    repaint();
+                } catch (IOException e) {
+                    System.out.println("Error loading profile photo");
+                }
+            }
+
+        };
+        coverPhotoJPanel = new javax.swing.JPanel(){
+
+            BufferedImage coverImage;
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                UserDatabase users = LOGIN.database;
+                String coverPath = users.getCurrentUser().getProfile().getCoverPhotoPath();
+                // System.out.println(profilePath);
+
+                if (coverPath != null) {
+                    if (coverImage == null) {
+                        try {
+                            coverImage = ImageIO.read(new File(coverPath));
+                        } catch (IOException e) {
+                            System.out.println("Error loading profile photo");
+                        }
+                    }
+
+                    if (coverImage != null) {
+
+                        g.drawImage(coverImage, 0,0,this.getWidth(), this.getHeight(), this);
+                    }
+                }
+            }
+
+            public void setProfileImage(String coverPath) {
+                try {
+                    coverImage = ImageIO.read(new File(coverPath));
+                    repaint();
+                } catch (IOException e) {
+                    System.out.println("Error loading profile photo");
+                }
+            }
+
+        };
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -184,6 +261,32 @@ public class profileManagementPage extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    public void setProfileImage(String profilePath) {
+    try {
+        profileImage = ImageIO.read(new File(profilePath));
+        profilePhotoJPanel.repaint(); 
+    } catch (IOException e) {
+        System.out.println("Error loading profile photo");
+    }
+   }
+    
+    
+    public void setCoverImage(String coverPath) {
+    try {
+        coverImage = ImageIO.read(new File(coverPath));
+        coverPhotoJPanel.repaint(); 
+    } catch (IOException e) {
+        System.out.println("Error loading cover photo");
+    }
+   }
+    
+    
+    
+    
+    
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
        JFileChooser fileChooser = new JFileChooser();
@@ -286,7 +389,7 @@ public class profileManagementPage extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTextField bio;
-    private javax.swing.JPanel coverPhotoJPanel;
+    public static javax.swing.JPanel coverPhotoJPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -294,6 +397,6 @@ public class profileManagementPage extends javax.swing.JPanel {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel profilePhotoJPanel;
+    public static javax.swing.JPanel profilePhotoJPanel;
     // End of variables declaration//GEN-END:variables
 }
