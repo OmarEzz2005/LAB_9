@@ -22,22 +22,20 @@ import javax.swing.JOptionPane;
  */
 public class CreateStorie extends javax.swing.JPanel {
 
+    private UserDatabase database = LOGIN.database;
+
     /**
      * Creates new form CreateStorie
      */
-    
-    private UserDatabase database = LOGIN.database;
     private UserAccount user = database.getCurrentUser();
     private Storie storie ;
     private ContentDatabase contentdatabase;
-
     public CreateStorie() {
          initComponents();
         jTextField2.setText("tell us story ! ");
         jTextField2.setForeground(Color.GRAY);
         contentdatabase = new ContentDatabase("Content.json");
         contentdatabase.readFromFile();
-
     }
 
     /**
@@ -55,7 +53,7 @@ public class CreateStorie extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText(user.getSearchKey());
+        jLabel1.setText(user.getUsername());
         jLabel1.setToolTipText("");
 
         jButton1.setText("send Storie");
@@ -73,13 +71,19 @@ public class CreateStorie extends javax.swing.JPanel {
         });
 
         jTextField2.setText("jTextField2");
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -90,8 +94,8 @@ public class CreateStorie extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(205, 205, 205)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(149, 149, 149)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
@@ -117,6 +121,7 @@ public class CreateStorie extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+                                                                       
         String ContentText=jButton1.getText();
          if (ContentText.equals("tell us story !") || ContentText.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please enter a story text !", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -189,23 +194,24 @@ public class CreateStorie extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {                                        
+    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().equals(placeHolder)) {
             jTextField2.setText("");
             jTextField2.setForeground(Color.BLACK); 
         }
-    }                                       
+    }//GEN-LAST:event_jTextField2FocusGained
 
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {                                      
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().isEmpty()) {
             jTextField2.setText(placeHolder);
             jTextField2.setForeground(Color.GRAY);
         }
-    } 
+    }//GEN-LAST:event_jTextField2FocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

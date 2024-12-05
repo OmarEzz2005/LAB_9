@@ -23,12 +23,13 @@ import javax.swing.JOptionPane;
 public class CreatePost extends javax.swing.JPanel {
 
     private UserDatabase database = LOGIN.database;
+    
+    private ContentDatabase contentdatabase;
 
     /**
      * Creates new form CreatePost
      */
     private UserAccount user = database.getCurrentUser();
-    private ContentDatabase contentdatabase;
 
     public CreatePost() {
 
@@ -36,7 +37,6 @@ public class CreatePost extends javax.swing.JPanel {
         jTextField2.setText("What's on Your mind ?");
         jTextField2.setForeground(Color.GRAY);
         contentdatabase = new ContentDatabase("Content.json");
-        contentdatabase.readFromFile();
     }
 
     /**
@@ -54,7 +54,7 @@ public class CreatePost extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText(user.getSearchKey());
+        jLabel1.setText(user.getUsername());
         jLabel1.setToolTipText("");
 
         jButton1.setText("Post");
@@ -86,8 +86,6 @@ public class CreatePost extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setText("jLabel2");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,8 +94,8 @@ public class CreatePost extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(205, 205, 205)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(141, 141, 141)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
@@ -142,7 +140,6 @@ public class CreatePost extends javax.swing.JPanel {
         Image ScaleImage = imageicon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
         jLabel2.setIcon(new ImageIcon(ScaleImage));
         jLabel2.setText("");
-
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
                                   
@@ -186,7 +183,6 @@ public class CreatePost extends javax.swing.JPanel {
         contentdatabase.getContent().add(post);
         contentdatabase.saveToFile();
         JOptionPane.showMessageDialog(null, "Post Added Successfully !","Success",JOptionPane.INFORMATION_MESSAGE);
-    
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -212,9 +208,6 @@ public class CreatePost extends javax.swing.JPanel {
             jTextField2.setForeground(Color.GRAY);
         }
     }//GEN-LAST:event_jTextField2FocusLost
-    
-
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
