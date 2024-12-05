@@ -26,10 +26,7 @@ public class ProfileManagement {
     public void updateBio(String bio){
         this.bio = bio;
     }
-    public void updatePassword(String newPassword){
-        password = newPassword;
-        hashedPassword = UserAccount.hashPassword(newPassword);
-    }   
+    
     public String getProfilePhotoPath(){
         return profilePhotoPath;
     }
@@ -39,12 +36,7 @@ public class ProfileManagement {
     public String getBio(){
         return bio;
     }
-    public String getHashedPassword(){
-        return hashedPassword;
-    }
-    public String getPassword(){
-        return password;
-    }
+    
     
 }
 
