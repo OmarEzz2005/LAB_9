@@ -12,7 +12,9 @@ package BackEnd;
 
 
 
+import FrontEnd.LOGIN;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 
@@ -21,17 +23,18 @@ import javax.swing.JOptionPane;
  * @author Mostafa
  */
 public class FriendManagment {
-
+    
+    private UserDatabase data = LOGIN.database;
     private UserAccount current;
     private ArrayList<FriendRequests> friendRequests = new ArrayList<>();
     private ArrayList<UserAccount> friends = new ArrayList<>();
     private ArrayList<UserAccount> blockedUsers = new ArrayList<>();
 
-    public FriendManagment(UserAccount current, ArrayList<FriendRequests> friendRequests, ArrayList<UserAccount> blockedUsers, ArrayList<UserAccount> friends) {
-        this.current = current;
+    public FriendManagment( ArrayList<FriendRequests> friendRequests, ArrayList<UserAccount> blockedUsers) {
+        this.current = data.getCurrentUser();
         this.friendRequests = friendRequests;
         this.blockedUsers = blockedUsers;
-        this.friends = friends;
+        this.friends = current.getFriends();
     }
 
     public ArrayList<FriendRequests> getFriendRequests() {
@@ -60,7 +63,7 @@ public class FriendManagment {
             FriendRequests traversed = friendRequests.get(i);
             if (traversed.getSender().getUsername().equals(username) && traversed.getStatus().equals("Pending")) {
                 this.friends.add(traversed.getSender());
-                traversed.getSender().friendManagment.friends.add(current);
+                
                 System.out.println("You are now friends with " + traversed.getSender().getUsername());
                 friendRequests.remove(i);
                 return;
@@ -94,17 +97,29 @@ public class FriendManagment {
     }
 
     public void removeFriend(UserAccount removed) {
-        for (UserAccount friend : friends) {
-            if (friend.getUserID().equals(removed.getUserID())) {
-                friends.remove(friend);
-                removed.friendManagment.removeFriend(this.current);
-                return;
-            }
+        if(friends.size() <= 0)
+        {
+            System.out.println("No friends");
+            return;
         }
-        System.out.println("Not already in your Friends ");
+    Iterator<UserAccount> iterator = friends.iterator();
+    while (iterator.hasNext()) {
+        UserAccount friend = iterator.next();
+        if (friend.getUserID().equals(removed.getUserID())) {
+            iterator.remove();
+            System.out.println("Removed " + removed.getUsername() + " from friends");
+            return;
+        }
+    }
+    System.out.println("Not in your friends list");
     }
 
     public ArrayList<String> getFriendsWithStatus() {
+        if(friends.size() <= 0)
+        {
+            System.out.println("No friends");
+            return null;
+        }
         ArrayList<String> friendsWithStatus = new ArrayList();
         for (UserAccount friend : friends) {
             friendsWithStatus.add(friend.getUsername() + "," + friend.getStatus());
@@ -114,8 +129,12 @@ public class FriendManagment {
     }
 
     public void blockUser(UserAccount blocked) {
+        if (isBlocked(blocked.getUserID())) {
+        System.out.println(blocked.getUsername() + " is already blocked.");
+        return;
+        }
 
-        for (UserAccount user : allusers) {
+        for (UserAccount user : data.getUsers()) {
             if (user.getUserID().equals(blocked.getUserID())) {
                 this.blockedUsers.add(blocked);
             }
@@ -126,7 +145,7 @@ public class FriendManagment {
     public ArrayList<UserAccount> getFriendSuggestions() {
         ArrayList<UserAccount> friendSuggestions = new ArrayList<>();
 
-        for (UserAccount user : UserAccount.allusers) {
+        for (UserAccount user : data.getUsers()) {
             if (!user.getUserID().equals(current.getUserID()) && !isFriends(user.getUserID()) && !isBlocked(user.getUserID())) {
                 if (!friendSuggestions.contains(user)) {
                     friendSuggestions.add(user);
@@ -138,6 +157,11 @@ public class FriendManagment {
     }
 
     public void showFriends() {
+        if(friends.size() <= 0)
+        {
+            System.out.println("No friends");
+            return;
+        }
         for (UserAccount friend : friends) {
             System.out.println(friend.getUsername());
         }
