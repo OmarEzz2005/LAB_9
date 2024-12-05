@@ -26,7 +26,7 @@ public class LOGIN extends javax.swing.JFrame {
     
 
     
-    protected static UserDatabase database;
+    public static UserDatabase database;
     public static String logged;
     
     
