@@ -4,6 +4,8 @@
  */
 package BackEnd;
 
+import FrontEnd.LOGIN;
+
 /**
  *
  * @author lenovo
@@ -11,20 +13,22 @@ package BackEnd;
 
 public class ProfileManagement {
 
+    
     protected String profilePhotoPath;
     protected String coverPhotoPath;
     protected String bio;
-    protected String password;
-    protected String hashedPassword;
     
     public void updateProfilePhoto(String profilePhotopath){
         this.profilePhotoPath = profilePhotopath;
+        LOGIN.database.saveToFile();
     }
     public void updateCoverPhoto(String coverPhotoPath){
         this.coverPhotoPath = coverPhotoPath;
+        LOGIN.database.saveToFile();
     }
     public void updateBio(String bio){
         this.bio = bio;
+        LOGIN.database.saveToFile();
     }
     
     public String getProfilePhotoPath(){

@@ -25,7 +25,7 @@ public class profileManagementPage extends javax.swing.JPanel {
     
     private BufferedImage coverImage;
     private BufferedImage profileImage;
-    ProfileManagement profilemanager = new ProfileManagement();
+    ProfileManagement profilemanager = LOGIN.database.getCurrentUser().getProfile();
     
     
     
@@ -130,6 +130,7 @@ public class profileManagementPage extends javax.swing.JPanel {
         });
 
         bio.setEditable(false);
+        bio.setText(profilemanager.getBio());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -256,8 +257,11 @@ public class profileManagementPage extends javax.swing.JPanel {
         editbiowindow.setVisible(true);
         
         String newBio = EditBioWindow.bioText;
-        System.out.println(newBio);
-        profilemanager.updateBio(newBio);
+        if(newBio != null && !newBio.isEmpty())
+        {
+            profilemanager.updateBio(newBio);
+        }
+       
         
     }//GEN-LAST:event_jButton6ActionPerformed
 

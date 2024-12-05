@@ -4,6 +4,8 @@
  */
 package FrontEnd;
 
+import BackEnd.ProfileManagement;
+
 /**
  *
  * @author lenovo
@@ -15,6 +17,7 @@ public class EditBioWindow extends javax.swing.JFrame {
      */
     
     protected static String bioText;
+    ProfileManagement profilemanager = LOGIN.database.getCurrentUser().getProfile();
     
     public EditBioWindow() {
         initComponents();
@@ -82,6 +85,7 @@ public class EditBioWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         bioText = bioTextArea.getText();
         profileManagementPage.bio.setText(bioText);
+        profilemanager.updateBio(bioText);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

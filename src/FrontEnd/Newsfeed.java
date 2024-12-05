@@ -5,6 +5,7 @@
 package FrontEnd;
 
 import BackEnd.UserDatabase;
+import static FrontEnd.profileManagementPage.bio;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -236,8 +237,18 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        String BIO;
         profileManagementPage page = new profileManagementPage();
         page.setVisible(true);
+        
+            if(users.getCurrentUser().getProfile().getBio() != null && !users.getCurrentUser().getProfile().getBio().isEmpty()){
+            BIO = users.getCurrentUser().getProfile().getBio();
+            System.out.println(BIO);
+            bio.setText(BIO);
+            }
+        
+        
+        
         
         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
         if (parentFrame != null) {

@@ -28,6 +28,7 @@ public class UserAccount {
     private String date;
     private String status;
     private ArrayList <UserAccount> friends;
+    private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username,String Gender, String password, LocalDate date) {
         this.userID = "User" + String.format("%03d", count++);
@@ -42,6 +43,7 @@ public class UserAccount {
         }
         this.date = date.format(DATE_FORMAT);
         this.makeOnline();
+        
     }
     
     
@@ -112,6 +114,13 @@ public class UserAccount {
     public ArrayList<UserAccount> getFriends() {
         return friends;
     }
+
+    public ProfileManagement getProfile() {
+        return profile;
+    }
+    
+    
+    
     
     
     
