@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 public class CreatePost extends javax.swing.JPanel {
 
     private UserDatabase database = LOGIN.database;
+    
     private ContentDatabase contentdatabase;
 
     /**
