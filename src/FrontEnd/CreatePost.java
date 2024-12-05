@@ -48,7 +48,7 @@ public class CreatePost extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText(user.getSearchKey());
+        jLabel1.setText(user.getUsername());
         jLabel1.setToolTipText("");
 
         jButton1.setText("Post");
@@ -71,8 +71,6 @@ public class CreatePost extends javax.swing.JPanel {
                 jTextField2ActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -128,7 +126,6 @@ public class CreatePost extends javax.swing.JPanel {
         Image ScaleImage = imageicon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
         jLabel2.setIcon(new ImageIcon(ScaleImage));
         jLabel2.setText("");
-
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -143,12 +140,34 @@ public class CreatePost extends javax.swing.JPanel {
         } else {
             ImgPath = null;
         }
+        if (ImgPath != null && !ImgPath.isEmpty()) {
+            String fixedDir = "images/";
+            File dir = new File(fixedDir);
+            if (!dir.exists()) 
+            {
+                dir.mkdir();
+            }
+            
+             String fileExtension = ImgPath.substring(ImgPath.lastIndexOf('.'));
+             String newImgPath = fixedDir + File.separator + new File(ImgPath).getName().split("\\.")[0] + fileExtension;
+             
+            try {
+                Files.copy((Paths.get(ImgPath)),Paths.get(newImgPath),StandardCopyOption.REPLACE_EXISTING);
+                ImgPath=newImgPath;
+                
+            }
+            catch(IOException e)
+            {
+                JOptionPane.showMessageDialog(null, "failed to save image: "+e .getMessage());
+            }
+        }
         Post post = new Post(user, ContentText);
         if (ImgPath != null) {
             post.setImgPath(ImgPath);
         }
         contentdatabase.getContent().add(post);
         contentdatabase.saveToFile();
+        JOptionPane.showMessageDialog(null, "Post Added Successfully !","Success",JOptionPane.INFORMATION_MESSAGE);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

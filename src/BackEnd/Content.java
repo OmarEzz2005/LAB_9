@@ -8,7 +8,7 @@ package BackEnd;
  *
  * @author yaseen
  */
-public abstract class Content 
+public class Content 
 {
     public static int countC=0;
     private final  String ContentId;

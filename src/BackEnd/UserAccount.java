@@ -63,6 +63,11 @@ public class UserAccount {
     {
         this.status = "offline";
     }
+
+    public String getUsername() {
+        return username;
+    }
+    
     
     
     public String getSearchKey()

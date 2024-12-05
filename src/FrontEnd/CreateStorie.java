@@ -9,6 +9,10 @@ import BackEnd.*;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -18,16 +22,19 @@ import javax.swing.JOptionPane;
  */
 public class CreateStorie extends javax.swing.JPanel {
 
+    private UserDatabase database = LOGIN.database;
+
     /**
      * Creates new form CreateStorie
      */
-    private Storie storie ;
+    private UserAccount user = database.getCurrentUser();
     private ContentDatabase contentdatabase;
-    private UserAccount user ;
     public CreateStorie() {
         initComponents();
         jTextField2.setText("tell us story ! ");
         jTextField2.setForeground(Color.GRAY);
+        contentdatabase = new ContentDatabase("Content.json");
+        contentdatabase.readFromFile();
     }
 
     /**
@@ -45,7 +52,7 @@ public class CreateStorie extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText(user.getSearchKey());
+        jLabel1.setText(user.getUsername());
         jLabel1.setToolTipText("");
 
         jButton1.setText("send Storie");
@@ -63,13 +70,19 @@ public class CreateStorie extends javax.swing.JPanel {
         });
 
         jTextField2.setText("jTextField2");
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -107,12 +120,13 @@ public class CreateStorie extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+                                                                       
         String ContentText=jButton1.getText();
-        String ImgPath;
          if (ContentText.equals("tell us story !") || ContentText.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please enter a story text !", "Warning", JOptionPane.WARNING_MESSAGE);
         return;
     }
+         String ImgPath;
         if(jLabel2.getIcon()!=null)
         {
             ImgPath=((ImageIcon)jLabel2.getIcon()).toString();
@@ -121,7 +135,29 @@ public class CreateStorie extends javax.swing.JPanel {
         {
             ImgPath=null;
         }
-        storie=new Storie(user,ContentText) ;
+        
+        if (ImgPath != null && !ImgPath.isEmpty()) {
+            String fixedDir = "images/";
+            File dir = new File(fixedDir);
+            if (!dir.exists()) 
+            {
+                dir.mkdir();
+            }
+            
+             String fileExtension = ImgPath.substring(ImgPath.lastIndexOf('.'));
+             String newImgPath = fixedDir + File.separator + new File(ImgPath).getName().split("\\.")[0] + fileExtension;
+             
+            try {
+                Files.copy((Paths.get(ImgPath)),Paths.get(newImgPath),StandardCopyOption.REPLACE_EXISTING);
+                ImgPath=newImgPath;
+                
+            }
+            catch(IOException e)
+            {
+                JOptionPane.showMessageDialog(null, "failed to save image: "+e .getMessage());
+            }
+        }
+        Storie storie=new Storie(user,ContentText) ;
         if(ImgPath!=null)
         {
             storie.setImgPath(ImgPath);
@@ -158,23 +194,27 @@ public class CreateStorie extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {                                        
+    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().equals(placeHolder)) {
             jTextField2.setText("");
             jTextField2.setForeground(Color.BLACK); 
         }
-    }                                       
+    }//GEN-LAST:event_jTextField2FocusGained
 
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {                                      
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().isEmpty()) {
             jTextField2.setText(placeHolder);
             jTextField2.setForeground(Color.GRAY);
         }
-    } 
+    }//GEN-LAST:event_jTextField2FocusLost
+
+                                        
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
