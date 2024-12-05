@@ -176,7 +176,5 @@ public class ContentDatabase {
         
     } catch (IOException e) {
         JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    
+    }  
 }}

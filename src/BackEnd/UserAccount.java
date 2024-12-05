@@ -52,6 +52,60 @@ public class UserAccount {
             return null;
         }
     }
+    /*
+    public ArrayList<UserAccount> MutualFriends()
+    {
+        Random random=new Random();
+        int count=0;
+        
+        ArrayList <UserAccount> UserFriendList =this.getFriends();
+        ArrayList <UserAccount> UserFriendFriendList = new ArrayList<>();
+        ArrayList<UserAccount> mutualFriends = new ArrayList<>();
+        
+        int x; 
+    
+        for(UserAccount friend: UserFriendList)
+        {
+            UserFriendFriendList=friend.getFriends();
+            x = random.nextInt(UserFriendFriendList.size());
+            for (UserAccount FofF: UserFriendFriendList)
+            {
+                  
+              do{
+                   count++;
+                   if(!UserFriendList.contains(FofF)&&!FofF.equals(this)&&mutualFriends.contains(FofF))
+                     {
+                         mutualFriends.add(UserFriendFriendList.get(x));
+                     }
+                }while (count<3);
+                
+            }
+            
+        }
+        return mutualFriends;
+    }
+    public ArrayList<UserAccount> SuggestedFriends()
+    {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        ArrayList<UserAccount> suggestedFriends = new ArrayList<>();
+        ArrayList<UserAccount> DataBaseusers = new ArrayList<>();
+        if(this.getFriends()==null||this.getFriends().isEmpty())
+        {
+            Random random=new Random();
+            int count=0;
+            int x=random.nextInt(DataBaseusers.size());
+            do{
+                count++;
+                suggestedFriends.add(DataBaseusers.get(x));
+            }while(count<5);
+        }
+        else
+        {
+            suggestedFriends=this.MutualFriends();
+        }
+        return suggestedFriends;
+
+    }*/
 
     public String getUsername() {
         return username;
