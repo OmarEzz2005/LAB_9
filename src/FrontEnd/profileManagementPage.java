@@ -4,12 +4,29 @@
  */
 package FrontEnd;
 
+import BackEnd.ProfileManagement;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author lenovo
  */
 public class profileManagementPage extends javax.swing.JPanel {
 
+    
+    private BufferedImage coverImage;
+    private BufferedImage profileImage;
+    ProfileManagement profilemanager = new ProfileManagement();
+    
+    
     /**
      * Creates new form profileManagementPage
      */
@@ -26,8 +43,8 @@ public class profileManagementPage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        profilePhotoJPanel = new javax.swing.JPanel();
+        coverPhotoJPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -35,29 +52,29 @@ public class profileManagementPage extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        profilePhotoJPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout profilePhotoJPanelLayout = new javax.swing.GroupLayout(profilePhotoJPanel);
+        profilePhotoJPanel.setLayout(profilePhotoJPanelLayout);
+        profilePhotoJPanelLayout.setHorizontalGroup(
+            profilePhotoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 150, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        profilePhotoJPanelLayout.setVerticalGroup(
+            profilePhotoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 150, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        coverPhotoJPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout coverPhotoJPanelLayout = new javax.swing.GroupLayout(coverPhotoJPanel);
+        coverPhotoJPanel.setLayout(coverPhotoJPanelLayout);
+        coverPhotoJPanelLayout.setHorizontalGroup(
+            coverPhotoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 900, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        coverPhotoJPanelLayout.setVerticalGroup(
+            coverPhotoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 160, Short.MAX_VALUE)
         );
 
@@ -66,6 +83,11 @@ public class profileManagementPage extends javax.swing.JPanel {
         jLabel1.setText("Bio");
 
         jButton1.setText("View Profile Photo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Change Profile Photo");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -75,8 +97,18 @@ public class profileManagementPage extends javax.swing.JPanel {
         });
 
         jButton3.setText("View Cover Photo");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Change Cover Photo");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Home Page");
 
@@ -95,9 +127,9 @@ public class profileManagementPage extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coverPhotoJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profilePhotoJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44))
         );
@@ -105,7 +137,7 @@ public class profileManagementPage extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coverPhotoJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton5)))
@@ -116,7 +148,7 @@ public class profileManagementPage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(profilePhotoJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1))
                     .addComponent(jLabel1))
@@ -128,21 +160,80 @@ public class profileManagementPage extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-        
+       JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png"));
+        //types of files that can be chosen from
+        int result = fileChooser.showOpenDialog(this);//show open file dialog 
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();//capture selected file
+            try {
+                profileImage = ImageIO.read(selectedFile);//read and capture image file 
+                profilemanager.updateProfilePhoto(selectedFile.getAbsolutePath());
+                profilePhotoJPanel.getGraphics().drawImage(profileImage, 0, 0, profilePhotoJPanel.getWidth(), profilePhotoJPanel.getHeight(), this);
+                //display photo on profile photo JPanel
+            } catch (IOException e) {
+                e.printStackTrace();  // Handle file not found, etc..
+            }
+        }
         
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (profileImage != null) {      
+        JFrame fullSizeFrame = new JFrame("Full Size Profile Photo");//New Jframe to display pic in full size
+        fullSizeFrame.setSize(profileImage.getWidth(), profileImage.getHeight());// Set frame size = image size 
+        JLabel imageLabel = new JLabel(new ImageIcon(profileImage));//JLabel to display the image       
+        fullSizeFrame.add(imageLabel);// Add image label to frame
+        fullSizeFrame.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "No profile photo available.");
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png"));
+        //types of files that can be chosen from
+        int result = fileChooser.showOpenDialog(this);//Show open file dialog  
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();//capture selected file
+            try {
+                coverImage = ImageIO.read(selectedFile);//read and capture image file   
+                profilemanager.updateCoverPhoto(selectedFile.getAbsolutePath());
+                coverPhotoJPanel.getGraphics().drawImage(coverImage, 0, 0, coverPhotoJPanel.getWidth(), coverPhotoJPanel.getHeight(), this);
+                //display photo on cover photo JPanel
+            } catch (IOException e) {
+                e.printStackTrace(); //Handle file not found, etc..
+            }}
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if (coverImage != null) {       
+        JFrame fullSizeFrame = new JFrame("Full Size Cover Photo");// New JFrame to display pic in Full size       
+        fullSizeFrame.setSize(coverImage.getWidth(), coverImage.getHeight());// Set frame size = image size      
+        JLabel imageLabel = new JLabel(new ImageIcon(coverImage));//JLabel to display the image        
+        fullSizeFrame.add(imageLabel);// Add image label to frame
+        fullSizeFrame.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "No cover photo available.");
+    }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel coverPhotoJPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel profilePhotoJPanel;
     // End of variables declaration//GEN-END:variables
 }
