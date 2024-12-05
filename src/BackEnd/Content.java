@@ -34,6 +34,7 @@ public abstract class Content
     public String getContenText() {
         return ContenText;
     }
+    
 
     public void setContenText(String ContenText) {
         this.ContenText = ContenText;
