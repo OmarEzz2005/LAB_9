@@ -212,9 +212,8 @@ public class CreateStorie extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextField2FocusLost
 
-                                        
-
     
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -7,6 +7,7 @@ package BackEnd;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Iterator;
 
 /**
  *
@@ -47,11 +47,10 @@ public class ContentDatabase {
     }
     }
     public void saveToFile() {
-        Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(this.FileName)) {
-            gson.toJson(contentList, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
+    Gson gson = new Gson();
+    for (Content content : contentList) {
+        if (content.getImgPath() != null && content.getImgPath().startsWith(System.getProperty("user.dir"))) {
+            content.setImgPath(content.getImgPath().replace(System.getProperty("user.dir") + File.separator, ""));
         }
     }
 
@@ -61,7 +60,6 @@ public class ContentDatabase {
     } catch (IOException e) {
         System.err.println("error saving to file "+e.getMessage());
     }
-    
 }
 
     public void readFromFile() {
@@ -87,7 +85,6 @@ public class ContentDatabase {
             }
         }
     }
-    
     public boolean contains(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
@@ -96,10 +93,7 @@ public class ContentDatabase {
         }
         return false;
     }
-    
-    
-    
-     public Content getRecord(String key) {
+    public Content getRecord(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
                 return c;
@@ -181,6 +175,17 @@ public class ContentDatabase {
     } catch (IOException e) {
         JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+    public void saveImageToAppDirectory(String sourcePath, String targetDirectory) {
+    try {
+        File sourceFile = new File(sourcePath);
+        File targetDir = new File(targetDirectory);
+        if (!targetDir.exists()) {
+            targetDir.mkdirs(); // Create directory if it doesn't exist
+        }
+        File targetFile = new File(targetDir, sourceFile.getName());
+        Files.copy(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-    
-}
+     
+}}

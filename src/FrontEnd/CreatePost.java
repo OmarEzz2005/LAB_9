@@ -8,6 +8,10 @@ import BackEnd.*;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -19,18 +23,19 @@ import javax.swing.JOptionPane;
 public class CreatePost extends javax.swing.JPanel {
 
     private UserDatabase database = LOGIN.database;
+    private ContentDatabase contentdatabase;
 
     /**
      * Creates new form CreatePost
      */
     private UserAccount user = database.getCurrentUser();
-    private ContentDatabase contentdatabase;
 
     public CreatePost() {
 
         initComponents();
         jTextField2.setText("What's on Your mind ?");
         jTextField2.setForeground(Color.GRAY);
+        contentdatabase = new ContentDatabase("");
     }
 
     /**
@@ -66,6 +71,14 @@ public class CreatePost extends javax.swing.JPanel {
         });
 
         jTextField2.setText("jTextField2");
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -175,23 +188,25 @@ public class CreatePost extends javax.swing.JPanel {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
 
      }//GEN-LAST:event_jTextField2ActionPerformed
-    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {
+
+    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().equals(placeHolder)) {
             jTextField2.setText("");
             jTextField2.setForeground(Color.BLACK);
         }
-    }
+    }//GEN-LAST:event_jTextField2FocusGained
 
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
         // TODO add your handling code here:
         String placeHolder = "What's on Your mind ?";
         if (jTextField2.getText().isEmpty()) {
             jTextField2.setText(placeHolder);
             jTextField2.setForeground(Color.GRAY);
         }
-    }
+    }//GEN-LAST:event_jTextField2FocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
