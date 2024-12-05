@@ -25,9 +25,5 @@ public class Storie extends Content{
         return false;
         
     }
-    
-    }
 
-    
-
-   
+   }

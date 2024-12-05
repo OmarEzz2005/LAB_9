@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Iterator;
 
 /**
  *
@@ -27,12 +29,24 @@ public class ContentDatabase {
 
     public ContentDatabase(String file) {
         this.FileName = file;
+        ensureimagesFolderExists();
     }
 
     public ArrayList<Content> getContent() {
         return contentList;
     }
 
+    public void ensureimagesFolderExists()
+    {
+        String imagesFolder = "img";
+    File dir = new File(imagesFolder);
+    if (!dir.exists()) {
+        dir.mkdir(); 
+        System.out.println("Created directory: " + imagesFolder);
+    } else {
+        System.out.println("Directory already exists: " + imagesFolder);
+    }
+    }
     public void saveToFile() {
     Gson gson = new Gson();
     for (Content content : contentList) {
@@ -47,6 +61,7 @@ public class ContentDatabase {
     } catch (IOException e) {
         System.err.println("error saving to file "+e.getMessage());
     }
+    
 }
 
     public void readFromFile() {
@@ -58,16 +73,16 @@ public class ContentDatabase {
                 contentList.addAll(loadedContent);
             }
         } catch (IOException e) {
-            System.out.println("can not read the file ! ");
+            System.out.println("can not read the file ! "+e.getMessage());
         }
-        for(Content content:contentList)
-        {
-            if(content.getImgPath()!=null&&!content.getImgPath().isEmpty())
+        for (Content content : contentList) {
+    
+            if (content.getImgPath() != null && !content.getImgPath().isEmpty()) 
             {
-                File imgfile=new File(content.getImgPath());
-                if(!imgfile.exists())
+                File imgFile = new File(content.getImgPath());
+                if (!imgFile.exists()) 
                 {
-                    content.setImgPath("image/"+new File(content.getImgPath()).getName());
+                    content.setImgPath("img/" + new File(content.getImgPath()).getName());
                 }
             }
         }
@@ -96,6 +111,13 @@ public class ContentDatabase {
             JOptionPane.showMessageDialog(null, "Error, There is a Post with the same ID !!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if(record.getImgPath()!=null&&!record.getImgPath().isEmpty())
+        {
+         String sourcePath=record.getImgPath();
+        saveImageToAppDirectory(sourcePath,"img/");
+        record.setImgPath("img/"+new File(sourcePath).getName());
+        }
+        
 
         contentList.add(record);
         saveToFile();
@@ -106,30 +128,55 @@ public class ContentDatabase {
      
      public void deleteRecord(String key) {
         if (!contains(key)) {
-            JOptionPane.showMessageDialog(null, "User not found !!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "content not found !!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        for (Content c : contentList) {
-            if (c.getSearchKey().equals(key)) {
-                contentList.remove(c);
-                JOptionPane.showMessageDialog(null, "post with ID " + key + " was successfully removed", "Message", JOptionPane.INFORMATION_MESSAGE);
-                saveToFile();
-                return;
-            }
+    
+          Iterator<Content> iterator = contentList.iterator();
+    
+          while (iterator.hasNext()) {
+        
+              Content c = iterator.next();
+        
+              if (c.getSearchKey().equals(key)) {
+            
+                  iterator.remove();
+           
+                  JOptionPane.showMessageDialog(null, "Post with ID " + key + " was successfully removed", "Message", JOptionPane.INFORMATION_MESSAGE);
+            
+                  saveToFile();
+            
+                  return;
         }
-    }
+    }}
     public void saveImageToAppDirectory(String sourcePath, String targetDirectory) {
     try {
+        
         File sourceFile = new File(sourcePath);
+        if(!sourceFile.exists())
+        {
+            JOptionPane.showMessageDialog(null, "the source image doesnt exise !","error" ,JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         File targetDir = new File(targetDirectory);
         if (!targetDir.exists()) {
-            targetDir.mkdirs(); // Create directory if it doesn't exist
+            targetDir.mkdirs(); 
         }
-        File targetFile = new File(targetDir, sourceFile.getName());
+        
+         File targetFile = new File(targetDir, sourceFile.getName());
+        if (targetFile.exists()) {
+            JOptionPane.showMessageDialog(null, "The file already exists and will be overwritten.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        
         Files.copy(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        JOptionPane.showMessageDialog(null, "Image successfully saved to " + targetFile.getPath(), "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+        
     } catch (IOException e) {
         JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-    }
-}
+    
+    
+}}

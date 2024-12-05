@@ -9,6 +9,10 @@ import BackEnd.*;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,13 +25,19 @@ public class CreateStorie extends javax.swing.JPanel {
     /**
      * Creates new form CreateStorie
      */
+    
+    private UserDatabase database = LOGIN.database;
+    private UserAccount user = database.getCurrentUser();
     private Storie storie ;
     private ContentDatabase contentdatabase;
-    private UserAccount user ;
+
     public CreateStorie() {
-        initComponents();
+         initComponents();
         jTextField2.setText("tell us story ! ");
         jTextField2.setForeground(Color.GRAY);
+        contentdatabase = new ContentDatabase("Content.json");
+        contentdatabase.readFromFile();
+
     }
 
     /**
@@ -108,11 +118,11 @@ public class CreateStorie extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String ContentText=jButton1.getText();
-        String ImgPath;
          if (ContentText.equals("tell us story !") || ContentText.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please enter a story text !", "Warning", JOptionPane.WARNING_MESSAGE);
         return;
     }
+         String ImgPath;
         if(jLabel2.getIcon()!=null)
         {
             ImgPath=((ImageIcon)jLabel2.getIcon()).toString();
@@ -120,6 +130,27 @@ public class CreateStorie extends javax.swing.JPanel {
         else
         {
             ImgPath=null;
+        }
+        if (ImgPath != null && !ImgPath.isEmpty()) {
+            String fixedDir = "images/";
+            File dir = new File(fixedDir);
+            if (!dir.exists()) 
+            {
+                dir.mkdir();
+            }
+            
+             String fileExtension = ImgPath.substring(ImgPath.lastIndexOf('.'));
+             String newImgPath = fixedDir + File.separator + new File(ImgPath).getName().split("\\.")[0] + fileExtension;
+             
+            try {
+                Files.copy((Paths.get(ImgPath)),Paths.get(newImgPath),StandardCopyOption.REPLACE_EXISTING);
+                ImgPath=newImgPath;
+                
+            }
+            catch(IOException e)
+            {
+                JOptionPane.showMessageDialog(null, "failed to save image: "+e .getMessage());
+            }
         }
         storie=new Storie(user,ContentText) ;
         if(ImgPath!=null)

@@ -159,14 +159,16 @@ public class CreatePost extends javax.swing.JPanel {
             ImgPath = null;
         }
         if (ImgPath != null && !ImgPath.isEmpty()) {
-            String fixedDir = "images/";
+            String fixedDir = "img";
             File dir = new File(fixedDir);
             if (!dir.exists()) 
             {
                 dir.mkdir();
             }
-            String newImgPath=fixedDir+new File(ImgPath).getName();
             
+             String fileExtension = ImgPath.substring(ImgPath.lastIndexOf('.'));
+             String newImgPath = fixedDir + File.separator + new File(ImgPath).getName().split("\\.")[0] + fileExtension;
+             
             try {
                 Files.copy((Paths.get(ImgPath)),Paths.get(newImgPath),StandardCopyOption.REPLACE_EXISTING);
                 ImgPath=newImgPath;
@@ -183,7 +185,7 @@ public class CreatePost extends javax.swing.JPanel {
         }
         contentdatabase.getContent().add(post);
         contentdatabase.saveToFile();
-
+        JOptionPane.showMessageDialog(null, "Post Added Successfully !","Success",JOptionPane.INFORMATION_MESSAGE);
     
 
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -50,8 +50,4 @@ public abstract class Content
     public long getTimestamp() {
         return timestamp;
     }
-    
-    
-    
-    
 }
