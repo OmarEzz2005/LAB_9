@@ -27,7 +27,9 @@ public class CreateStorie extends javax.swing.JPanel {
     /**
      * Creates new form CreateStorie
      */
+    private UserDatabase database = LOGIN.database;
     private UserAccount user = database.getCurrentUser();
+    private Storie storie ;
     private ContentDatabase contentdatabase;
     public CreateStorie() {
         initComponents();
@@ -135,7 +137,6 @@ public class CreateStorie extends javax.swing.JPanel {
         {
             ImgPath=null;
         }
-        
         if (ImgPath != null && !ImgPath.isEmpty()) {
             String fixedDir = "images/";
             File dir = new File(fixedDir);
@@ -212,8 +213,6 @@ public class CreateStorie extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextField2FocusLost
 
-    
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

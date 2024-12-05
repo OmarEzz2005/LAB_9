@@ -154,12 +154,16 @@ public class CreatePost extends javax.swing.JPanel {
             ImgPath = null;
         }
         if (ImgPath != null && !ImgPath.isEmpty()) {
-            String fixedDir = "images/";
+            String fixedDir = "img";
             File dir = new File(fixedDir);
             if (!dir.exists()) 
             {
                 dir.mkdir();
             }
+            
+            
+            String FileExtension=ImgPath.substring(ImgPath.lastIndexOf('.'));
+            String newImgPath=fixedDir+new File(ImgPath).getName().split("\\.")[0]+FileExtension;
             
              String fileExtension = ImgPath.substring(ImgPath.lastIndexOf('.'));
              String newImgPath = fixedDir + File.separator + new File(ImgPath).getName().split("\\.")[0] + fileExtension;

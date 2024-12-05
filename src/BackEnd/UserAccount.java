@@ -52,6 +52,10 @@ public class UserAccount {
             return null;
         }
     }
+
+    public String getUsername() {
+        return username;
+    }
     
     
     public void makeOnline()

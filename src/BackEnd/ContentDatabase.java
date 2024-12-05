@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Iterator;
 
 /**
  *
@@ -60,6 +61,7 @@ public class ContentDatabase {
     } catch (IOException e) {
         System.err.println("error saving to file "+e.getMessage());
     }
+    
 }
 
     public void readFromFile() {
@@ -177,15 +179,32 @@ public class ContentDatabase {
     }
     public void saveImageToAppDirectory(String sourcePath, String targetDirectory) {
     try {
+        
         File sourceFile = new File(sourcePath);
+        if(!sourceFile.exists())
+        {
+            JOptionPane.showMessageDialog(null, "the source image doesnt exise !","error" ,JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         File targetDir = new File(targetDirectory);
         if (!targetDir.exists()) {
-            targetDir.mkdirs(); // Create directory if it doesn't exist
+            targetDir.mkdirs(); 
         }
-        File targetFile = new File(targetDir, sourceFile.getName());
+        
+         File targetFile = new File(targetDir, sourceFile.getName());
+        if (targetFile.exists()) {
+            JOptionPane.showMessageDialog(null, "The file already exists and will be overwritten.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        
         Files.copy(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        JOptionPane.showMessageDialog(null, "Image successfully saved to " + targetFile.getPath(), "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+        
     } catch (IOException e) {
         JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-     
-}}
+    }
+    
+}
