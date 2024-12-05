@@ -6,6 +6,7 @@ package BackEnd;
 
 import java.time.LocalDate;
 import java.security.*;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import javax.swing.JOptionPane;
@@ -20,7 +21,7 @@ public class UserAccount {
     private String userID;
     private String email;
     private String username;
-     private String Gender;
+    private String Gender;
     private String password;
     private String date;
     private String status;
@@ -39,10 +40,14 @@ public class UserAccount {
         this.date = date.format(DATE_FORMAT);
         this.makeOnline();
     }
+
+    public void updateUser(UserAccount user){
+        //users.put(user.getUserId(), user);
+        //saveDatabase();
+    }
     
     
-    
-    protected static String hashPassword(String password) {
+    public static String hashPassword(String password) {
         try { 
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hashedBytes = messageDigest.digest(password.getBytes());

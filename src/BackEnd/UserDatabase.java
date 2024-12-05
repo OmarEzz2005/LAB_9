@@ -4,8 +4,8 @@
  */
 package BackEnd;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 import java.io.FileWriter;
 import java.util.List;
 import java.io.IOException;
@@ -38,8 +38,8 @@ public class UserDatabase {
         try {
             if (Files.exists(filepath)) {
                 String jsonContent = new String(Files.readAllBytes(filepath));
-                Gson gson = new Gson();
-                users = gson.fromJson(jsonContent, new TypeToken<List<UserAccount>>(){}.getType());
+                //Gson gson = new Gson();
+                //users = gson.fromJson(jsonContent, new TypeToken<List<UserAccount>>(){}.getType());
                 if (users == null) {
                     users = new ArrayList<>(); 
                 }
@@ -106,9 +106,9 @@ public class UserDatabase {
      public void saveToFile() {
         Path filepath = Paths.get(filename);
         try (FileWriter writer = new FileWriter(filepath.toFile())) {
-            Gson gson = new Gson();
-            String jsonContent = gson.toJson(users);
-            writer.write(jsonContent);
+            //Gson gson = new Gson();
+            //String jsonContent = gson.toJson(users);
+            //writer.write(jsonContent);
         } catch (IOException e) {
             System.out.println("Error while writing to the file!");
         }
