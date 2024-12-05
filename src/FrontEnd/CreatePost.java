@@ -161,10 +161,6 @@ public class CreatePost extends javax.swing.JPanel {
                 dir.mkdir();
             }
             
-            
-            String FileExtension=ImgPath.substring(ImgPath.lastIndexOf('.'));
-            String newImgPath=fixedDir+new File(ImgPath).getName().split("\\.")[0]+FileExtension;
-            
              String fileExtension = ImgPath.substring(ImgPath.lastIndexOf('.'));
              String newImgPath = fixedDir + File.separator + new File(ImgPath).getName().split("\\.")[0] + fileExtension;
              

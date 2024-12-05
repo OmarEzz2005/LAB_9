@@ -27,7 +27,6 @@ public class CreateStorie extends javax.swing.JPanel {
     /**
      * Creates new form CreateStorie
      */
-    private UserDatabase database = LOGIN.database;
     private UserAccount user = database.getCurrentUser();
     private Storie storie ;
     private ContentDatabase contentdatabase;
@@ -158,7 +157,7 @@ public class CreateStorie extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "failed to save image: "+e .getMessage());
             }
         }
-        Storie storie=new Storie(user,ContentText) ;
+        storie=new Storie(user,ContentText) ;
         if(ImgPath!=null)
         {
             storie.setImgPath(ImgPath);
