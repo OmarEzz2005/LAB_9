@@ -30,9 +30,9 @@ public class UserAccount {
     private String password;
     private String date;
     private String status;
-    protected ArrayList <UserAccount> friends;
-    protected ArrayList <UserAccount> blocked;
-    protected ArrayList <FriendRequests> requests;
+    protected ArrayList <UserAccount> friends = new ArrayList<>();
+    protected ArrayList <UserAccount> blocked  = new ArrayList<>();
+    protected ArrayList <FriendRequests> requests  = new ArrayList<>();
     private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username, String Gender, String password, LocalDate date) {
@@ -133,6 +133,11 @@ public class UserAccount {
     
     
     public boolean isFriends(String username) {
+        if(this.friends.isEmpty() || this.friends == null)
+        {
+            System.out.println("Done");
+            return false;
+        }
         for (UserAccount friend : friends) {
             if (username.equals(friend.getUsername())) {
                 return true;
