@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -147,7 +148,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
@@ -254,14 +255,14 @@ public class Newsfeed extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 110, Short.MAX_VALUE))
+                        .addGap(0, 174, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3)))
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -272,13 +273,7 @@ public class Newsfeed extends javax.swing.JPanel {
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -370,7 +365,20 @@ public class Newsfeed extends javax.swing.JPanel {
         contentArea.setEditable(false);
         contentArea.setOpaque(false); 
         postPanel.add(contentArea, BorderLayout.CENTER);
-
+        
+        //Adding Image 
+        if (post.getImgPath() != null && !post.getImgPath().isEmpty()) {
+            try {
+                // Load the image from the path
+                ImageIcon imageIcon = new ImageIcon(post.getImgPath());
+                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH); // Resize the image
+                JLabel imageLabel = new JLabel(new ImageIcon(image));
+                postPanel.add(imageLabel, BorderLayout.SOUTH); // Add image below the text
+            } catch (Exception e) {
+                System.err.println("Error loading image from path: " + post.getImgPath());
+                e.printStackTrace();
+            }
+        }
        
         jPanel3.add(postPanel);
         System.out.println("Added post: " + post.getContentId());
@@ -387,11 +395,7 @@ public class Newsfeed extends javax.swing.JPanel {
     jScrollPane1.revalidate();
     jScrollPane1.repaint();
 }
-
-
-
-    
-    
+   
     public void loadPosts() {
     ArrayList<Post> posts = new ArrayList<>();
     ArrayList<Content> content = contents.getContentList();
@@ -416,10 +420,10 @@ public class Newsfeed extends javax.swing.JPanel {
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+        postPanel.setPreferredSize(new Dimension(250,150));
         
         JLabel titleLabel = new JLabel(users.getRecord(storie.getAutherId()).getUsername());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
         postPanel.add(titleLabel, BorderLayout.NORTH);
 
         
@@ -432,12 +436,13 @@ public class Newsfeed extends javax.swing.JPanel {
 
        
         jPanel4.add(postPanel);
+        jPanel4.add(Box.createRigidArea(new Dimension(30,20)));
         System.out.println("Added post: " + storie.getContentId());
     }
     
 
     
-    int totalHeight = stories.size() * 200; 
+        int totalHeight=Math.max(300, stories.size()*200);
     jPanel4.setPreferredSize(new Dimension(jPanel4.getWidth(), totalHeight));
 
     
@@ -485,6 +490,6 @@ public class Newsfeed extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    public javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }
