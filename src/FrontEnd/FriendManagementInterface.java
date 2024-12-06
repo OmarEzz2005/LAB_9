@@ -4,7 +4,7 @@
  */
 package frontend;
 
-import com.mycompany.lab9karim.FriendManagment;
+
 import BackEnd.UserAccount;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -183,9 +183,9 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
     }//GEN-LAST:event_jButton2ActionPerformed
     public String[] getRequestsData() {
 
-        String[] Data = new String[current.friendManagment.getFriendRequests().toArray().length];
-        for (int i = 0; i < current.friendManagment.getFriendRequests().size(); i++) {
-            Data[i] = current.friendManagment.getFriendRequests().get(i).LineRepresentation();
+        String[] Data = new String[current.getRequests().toArray().length];
+        for (int i = 0; i < current.getRequests().size(); i++) {
+            Data[i] = current.getRequests().get(i).LineRepresentation();
         }
         return Data;
     }
@@ -197,10 +197,10 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
         int option = JOptionPane.showConfirmDialog(this, message, "Send Friend Request ", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String user = name.getText();
-            if (current.friendManagment.isFriends(user)) {
+            if (current.isFriends(user)) {
                 JOptionPane.showMessageDialog(this, "You are already friends");
             } else {
-                boolean done = current.friendManagment.sendFriendRequest(user);
+                boolean done = current.sendFriendRequest(user);
                 if (done) {
                     JOptionPane.showMessageDialog(this, "Friend Request sent to " + user + " Successfully ");
                 } else {
@@ -228,9 +228,9 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
     }//GEN-LAST:event_jButton4ActionPerformed
     public String[] getFriendsData() {
 
-        String[] Data = new String[current.friendManagment.getFriendsWithStatus().toArray().length];
-        for (int i = 0; i < current.friendManagment.getFriendsWithStatus().size(); i++) {
-            Data[i] = current.friendManagment.getFriendsWithStatus().get(i);
+        String[] Data = new String[current.getFriendsWithStatus().toArray().length];
+        for (int i = 0; i < current.getFriendsWithStatus().size(); i++) {
+            Data[i] = current.getFriendsWithStatus().get(i);
         }
         return Data;
     }
@@ -242,10 +242,10 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
         int option = JOptionPane.showConfirmDialog(this, message, "Remove Friend ", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String user = name.getText();
-            if (!current.friendManagment.isFriends(user)) {
+            if (!current.isFriends(user)) {
                 JOptionPane.showMessageDialog(this, "User is not one of your friends");
             } else {
-                current.friendManagment.removeFriend(user);
+                current.removeFriend(user);
                 JOptionPane.showMessageDialog(this, user + " Removed Successfully ");
             }
         }
@@ -259,8 +259,8 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
         int option = JOptionPane.showConfirmDialog(this, message, "Block User ", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String user = name.getText();
-            if (!current.friendManagment.isBlocked(user)) {
-                boolean done = current.friendManagment.blockUser(user);
+            if (!current.isBlocked(user)) {
+                boolean done = current.blockUser(user);
                 if (done){
                     JOptionPane.showMessageDialog(this, user + " Blocked Successfully ");}
              if(!done) {
@@ -290,9 +290,9 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
     }//GEN-LAST:event_jButton1ActionPerformed
     public String[] getSuggestionData() {
 
-        String[] Data = new String[current.friendManagment.getFriendSuggestions().toArray().length];
-        for (int i = 0; i < current.friendManagment.getFriendSuggestions().size(); i++) {
-            Data[i] = current.friendManagment.getFriendSuggestions().get(i).getUsername();
+        String[] Data = new String[current.getFriendSuggestions().toArray().length];
+        for (int i = 0; i < current.getFriendSuggestions().size(); i++) {
+            Data[i] = current.getFriendSuggestions().get(i).getUsername();
         }
         return Data;
     }
