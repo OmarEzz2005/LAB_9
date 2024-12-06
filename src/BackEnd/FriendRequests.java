@@ -6,16 +6,6 @@ package BackEnd;
 
 /**
  *
- * @author lenovo
- */
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
  * @author Mostafa
  */
 public class FriendRequests {
@@ -53,4 +43,10 @@ public class FriendRequests {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    public String LineRepresentation(){
+    String line = this.sender.getUsername()+","+this.status;
+    return line;
+    }
+    
 }
