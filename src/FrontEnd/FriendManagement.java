@@ -40,7 +40,7 @@ public class FriendManagement extends javax.swing.JPanel{
     
     
     
-    
+    /*
     public String[] getRequestsData() {
 
         String[] Data = new String[current.getRequests().toArray().length];
@@ -48,7 +48,7 @@ public class FriendManagement extends javax.swing.JPanel{
             Data[i] = current.getRequests().get(i).LineRepresentation();
         }
         return Data;
-    }
+    }*/
     
     public String[] getSuggestionData() {
 
