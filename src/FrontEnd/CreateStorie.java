@@ -31,9 +31,9 @@ public class CreateStorie extends javax.swing.JPanel {
     ContentDatabase contentdatabase;
     public CreateStorie() {
          initComponents();
-         contentdatabase=Newsfeed.contentdatabase;
         jTextField2.setText("tell us story !");
         jTextField2.setForeground(Color.GRAY);
+        contentdatabase = Newsfeed.contents;
     }
 
     /**

@@ -4,6 +4,7 @@
  */
 package BackEnd;
 
+import FrontEnd.Newsfeed;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -12,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,7 +23,8 @@ import java.util.List;
  */
 public abstract class Content 
 {
-    public static int countC=0;
+    
+    public static int countC;
     private final  String ContentId;
     private final String autherId;
     private String ContenText;
@@ -29,8 +32,9 @@ public abstract class Content
     private final long timestamp;
     private String type;
 
-    public Content( UserAccount User, String ContenText, String ImgPath,String type ) 
-    {
+    public Content( UserAccount User, String ContenText, String ImgPath,String type ) {
+        
+        countC = Newsfeed.contents.getSize();
         this.ContentId = "contant"+String.format("%03d", countC++);
         this.autherId = User.getSearchKey();
         this.ContenText = ContenText;
@@ -92,4 +96,11 @@ public abstract class Content
     }
 }
     public abstract String getType();
+
+    public String getAutherId() {
+        return autherId;
+    }
+    
+    
+    
 }

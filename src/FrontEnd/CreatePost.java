@@ -36,7 +36,7 @@ public class CreatePost extends javax.swing.JPanel {
         contentdatabase=Newsfeed.contentdatabase;
         jTextField2.setText("What's on Your mind ?");
         jTextField2.setForeground(Color.GRAY);
-        
+        contentdatabase = Newsfeed.contents;
     }
 
     /**
