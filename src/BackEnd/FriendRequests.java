@@ -4,17 +4,21 @@
  */
 package BackEnd;
 
+import FrontEnd.LOGIN;
+
 /**
  *
  * @author Mostafa
  */
 public class FriendRequests {
 
+    private String id;
     private UserAccount receiver;
     private UserAccount sender;
     private String status;
 
     public FriendRequests(UserAccount sender, UserAccount receiver) {
+        this.id = sender.getUserID()+receiver.getUserID();
         this.receiver = receiver;
         this.sender = sender;
         this.status = "Pending";
@@ -43,6 +47,12 @@ public class FriendRequests {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getId() {
+        return id;
+    }
+    
+    
     
     public String LineRepresentation(){
     String line = this.sender.getUsername()+","+this.status;

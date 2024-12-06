@@ -4,7 +4,7 @@
  */
 package FrontEnd;
 
-import frontend.FriendManagementInterface;
+
 import BackEnd.Content;
 import BackEnd.ContentDatabase;
 import BackEnd.Post;
@@ -116,26 +116,6 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Contacts");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-
-            UserAccount current = LOGIN.database.getCurrentUser();
-            String[] strings;
-
-            {
-                ArrayList<UserAccount> friends = current.getFriends();
-                if (current.getFriends() == null) {
-                    strings = new String[]{"No friends"};
-                } else {
-                    strings = new String[friends.size()];
-                    for (int i = 0; i < friends.size(); i++) {
-                        strings[i] = friends.get(i).getUsername() + " " + friends.get(i).getStatus();
-                    }
-                }
-            }
-
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -382,15 +362,15 @@ public class Newsfeed extends javax.swing.JPanel {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         
-        FriendManagementInterface page = new FriendManagementInterface(this.currentUser);
-        page.setSize(1000, 500);  // Adjust the size of the new window
-        page.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        page.setVisible(true);  // Show the page as a new frame
-
-       // Optionally, close the current frame or minimize it
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+        FriendManagement create = new FriendManagement(this.currentUser);
+        create.setVisible(true);
+        
+        
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
         if (parentFrame != null) {
-            parentFrame.setVisible(false);  // Hide the current frame if necessary
+            parentFrame.setContentPane(create);
+            parentFrame.revalidate();
+            parentFrame.repaint();
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 

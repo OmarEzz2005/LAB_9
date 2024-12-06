@@ -29,9 +29,9 @@ public class UserAccount {
     private String password;
     private String date;
     private String status;
-    protected ArrayList <UserAccount> friends = new ArrayList<>();
-    protected ArrayList <UserAccount> blocked  = new ArrayList<>();
-    protected ArrayList <FriendRequests> requests  = new ArrayList<>();
+    protected ArrayList <String> friends = new ArrayList<>();
+    protected ArrayList <String> blocked  = new ArrayList<>();
+    protected ArrayList <String> requests  = new ArrayList<>();
     private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username, String Gender, String password, LocalDate date) {
@@ -61,14 +61,12 @@ public class UserAccount {
     }
     
     
-    
-    
     public boolean sendFriendRequest(String receiver)
     {
         for (UserAccount user : LOGIN.database.getUsers()) {
-            if (user.getUsername().equals(receiver))
+            if (user.getUserID().equals(receiver))
             {
-                this.requests.add(new FriendRequests(this, user));
+                this.requests.add(user.getUserID());
                 JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
                 LOGIN.database.saveToFile();
                 return true;
@@ -79,17 +77,24 @@ public class UserAccount {
     }
     
     public void approveRequest(String username) {
+        
         for (int i = 0; i < this.requests.size(); i++) {
-            FriendRequests traversed = requests.get(i);
-            if (traversed.getSender().getUsername().equals(username) && traversed.getStatus().equals("Pending")) {
-                this.friends.add(traversed.getSender());
-                traversed.getSender().friends.add(this);
+            String traversed = requests.get(i);
+            if (traversed.equals(username)) {
+                this.friends.add(this.getUserID());
                 requests.remove(i);
                 LOGIN.database.saveToFile();
-                JOptionPane.showMessageDialog(null,"You are now friends with " + traversed.getSender().getUsername(),"Success",JOptionPane.INFORMATION_MESSAGE);
-                return;
+                JOptionPane.showMessageDialog(null,"You are now friends with " + username,"Success",JOptionPane.INFORMATION_MESSAGE);
+                for (UserAccount user : LOGIN.database.getUsers()) {
+            if (user.getUsername().equals(username))
+            {
+                user.friends.add(this.getUserID());
+                LOGIN.database.saveToFile();
             }
-        }
+                }
+                return;
+            
+        }}
         JOptionPane.showMessageDialog(null,"There is no friend request from this person","Error",JOptionPane.ERROR_MESSAGE);
 
     }
@@ -97,24 +102,33 @@ public class UserAccount {
     
     public void declineRequest(String username)
     {
-        for (int i = 0; i < requests.size(); i++) {
-            FriendRequests traversed = requests.get(i);
-            if (traversed.getSender().getUsername().equals(username) && traversed.getStatus().equals("Pending")) {
-                traversed.setStatus("Declined");
-                JOptionPane.showMessageDialog(null,"You declined " + username + " as a friend","Success",JOptionPane.INFORMATION_MESSAGE);
-                return;
+        for (int i = 0; i < this.requests.size(); i++) {
+            String traversed = requests.get(i);
+            if (traversed.equals(username)) {
+                requests.remove(i);
+                LOGIN.database.saveToFile();
+                JOptionPane.showMessageDialog(null,"You declined " + username,"Success",JOptionPane.INFORMATION_MESSAGE);
+                for (UserAccount user : LOGIN.database.getUsers()) {
+            if (user.getUsername().equals(username))
+            {
+                LOGIN.database.saveToFile();
             }
-        }
+                }
+                return;
+            
+        }}
+        
         JOptionPane.showMessageDialog(null,"There is no friend request from this person","Error",JOptionPane.ERROR_MESSAGE);
+
     }
+        
     
     
     
     public void showFriendRequests() {
-        ArrayList<FriendRequests> pendingRequests = this.requests;
-        if (pendingRequests.size() != 0) {
-            for (int i = 0; i < pendingRequests.size(); i++) {
-                System.out.println("You have friend Request from " + pendingRequests.get(i).getSender().getUsername());
+        if (requests.size() != 0) {
+            for (int i = 0; i < requests.size(); i++) {
+                System.out.println("You have friend Request from " + requests.get(i));
             }
 
         } else {
@@ -125,29 +139,31 @@ public class UserAccount {
     
     
     public void showFriends() {
-        for (UserAccount friend : friends) {
-            System.out.println(friend.getUsername());
+        ArrayList <UserAccount> friendlist=LOGIN.database.getUsers();
+        for (UserAccount user:friendlist)
+        {  
+            System.out.println(user.getUsername());
         }
     }
     
     
     public boolean isFriends(String username) {
-        if(this.friends.isEmpty() || this.friends == null)
+        ArrayList <UserAccount> friendlist=LOGIN.database.getUsers();
+        for (UserAccount user:friendlist)
+        {  if(username.equals(user.getUsername()))
+                {
+                    return true;
+                }
+        else 
         {
-            System.out.println("Done");
             return false;
         }
-        for (UserAccount friend : friends) {
-            if (username.equals(friend.getUsername())) {
-                return true;
-            }
         }
-        return false;
     }
 
     public boolean isBlocked(String username) {
-        for (UserAccount block : blocked) {
-            if (username.equals(block.getUsername())) {
+        for (String user: blocked) {
+            if (user.equals(blocked)) {
                 return true;
             }
         }
@@ -283,7 +299,7 @@ public class UserAccount {
         this.password = hashPassword(password);
     }
 
-    public void setFriends(ArrayList<UserAccount> friends) {
+    public void setFriends(ArrayList<String> friends) {
         this.friends = friends;
     }
 
@@ -303,7 +319,7 @@ public class UserAccount {
         return userID;
     }
 
-    public ArrayList<UserAccount> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 
@@ -311,14 +327,12 @@ public class UserAccount {
         return profile;
     }
 
-    public ArrayList<UserAccount> getBlocked() {
+    public ArrayList<String> getBlocked() {
         return blocked;
     }
 
-    public ArrayList<FriendRequests> getRequests() {
+    public ArrayList<String> getRequests() {
         return requests;
     }
-    
-    
-    
+
 }
