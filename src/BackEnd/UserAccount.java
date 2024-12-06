@@ -154,11 +154,12 @@ public class UserAccount {
                 {
                     return true;
                 }
-        else 
-        {
-            return false;
+             else 
+              {
+                  return false;
+               }
         }
-        }
+        return false;
     }
 
     public boolean isBlocked(String username) {
@@ -221,18 +222,18 @@ public class UserAccount {
     }*/
     
     
-    public ArrayList<UserAccount> MutualFriends() {
+    public ArrayList<String> MutualFriends() {
         Random random = new Random();
         int count = 0;
 
-        ArrayList<UserAccount> UserFriendList = this.getFriends();
-        ArrayList<UserAccount> UserFriendFriendList = new ArrayList<>();
-        ArrayList<UserAccount> mutualFriends = new ArrayList<>();
+        ArrayList<String> UserFriendList = this.getFriends();
+        ArrayList<String> UserFriendFriendList = new ArrayList<>();
+        ArrayList<String> mutualFriends = new ArrayList<>();
 
         int x;
 
-        for (UserAccount friend : UserFriendList) {
-            UserFriendFriendList = friend.getFriends();
+        for (String friend : UserFriendList) {
+            UserFriendFriendList = friend;
             x = random.nextInt(UserFriendFriendList.size());
             for (UserAccount FofF : UserFriendFriendList) {
 
