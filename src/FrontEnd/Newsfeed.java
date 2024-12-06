@@ -6,7 +6,6 @@ package FrontEnd;
 
 import BackEnd.Content;
 import BackEnd.ContentDatabase;
-import BackEnd.FriendManagment;
 import BackEnd.Post;
 import BackEnd.Storie;
 import BackEnd.UserAccount;
@@ -44,7 +43,7 @@ public class Newsfeed extends javax.swing.JPanel {
     
     
     UserDatabase users;
-    public static FriendManagment manager;
+    
     public static ContentDatabase contents = new ContentDatabase("Content.json");
     private JPanel jPanel3;
     private JPanel jPanel4;
@@ -63,7 +62,7 @@ public class Newsfeed extends javax.swing.JPanel {
         Image image = icon.getImage();
         contents.readFromFile();
         currentUser = users.getCurrentUser();
-        manager = new FriendManagment(currentUser,currentUser.getRequests(),currentUser.getBlocked(),currentUser.getFriends());
+        
         
         
 

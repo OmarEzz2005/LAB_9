@@ -129,7 +129,7 @@ public class ViewFriendRequest extends javax.swing.JFrame implements Node{
              int selectedRow = jTable1.getSelectedRow();
         if (selectedRow >= 0) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            ((FriendManagementInterface) getParentNode()).current.friendManagment.approveRequest(username);
+            ((FriendManagementInterface) getParentNode()).current.approveRequest(username);
             ((DefaultTableModel) jTable1.getModel()).removeRow(selectedRow); 
             JOptionPane.showMessageDialog(this, " You are now friends with "+username);
         } else {
@@ -141,7 +141,7 @@ public class ViewFriendRequest extends javax.swing.JFrame implements Node{
                 int selectedRow = jTable1.getSelectedRow();
         if (selectedRow >= 0) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            ((FriendManagementInterface) getParentNode()).current.friendManagment.declineRequest(username);
+            ((FriendManagementInterface) getParentNode()).current.declineRequest(username);
             ((DefaultTableModel) jTable1.getModel()).removeRow(selectedRow);
             JOptionPane.showMessageDialog(this, " You declined friend request from "+username);
         } else {
