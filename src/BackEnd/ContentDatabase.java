@@ -29,39 +29,35 @@ public class ContentDatabase {
 
     public ContentDatabase(String file) {
         this.FileName = file;
-        ensureimagesFolderExists();
     }
 
-    public ArrayList<Content> getContent() {
+    public ArrayList<Content> getContentList() {
         return contentList;
     }
-
-    public void ensureimagesFolderExists()
-    {
-        String imagesFolder = "img";
-    File dir = new File(imagesFolder);
-    if (!dir.exists()) {
-        dir.mkdir(); 
-        System.out.println("Created directory: " + imagesFolder);
-    } else {
-        System.out.println("Directory already exists: " + imagesFolder);
-    }
-    }
+    
     public void saveToFile() {
     Gson gson = new Gson();
-    for (Content content : contentList) {
-        if (content.getImgPath() != null && content.getImgPath().startsWith(System.getProperty("user.dir"))) {
-            content.setImgPath(content.getImgPath().replace(System.getProperty("user.dir") + File.separator, ""));
+    File file = new File(this.FileName);
+    if (!file.exists()) {
+        try {
+            
+            try (FileWriter writer = new FileWriter(file)) {
+                gson.toJson(contentList, writer);
+                System.out.println("File created and data successfully saved to file: " + this.FileName);
+            }
+        } catch (IOException e) {
+            System.err.println("Error creating and saving to file: " + e.getMessage());
+        }
+    } else {
+        try {
+            try (FileWriter writer = new FileWriter(file)) {
+                gson.toJson(contentList, writer);
+                System.out.println("Data successfully saved to existing file: " + this.FileName);
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving to file: " + e.getMessage());
         }
     }
-
-    try (FileWriter writer = new FileWriter(this.FileName)) {
-        gson.toJson(contentList, writer);
-        System.out.println("Data successfully saved to file: " + this.FileName);
-    } catch (IOException e) {
-        System.err.println("error saving to file "+e.getMessage());
-    }
-    
 }
 
     public void readFromFile() {
@@ -75,18 +71,8 @@ public class ContentDatabase {
         } catch (IOException e) {
             System.out.println("can not read the file ! "+e.getMessage());
         }
-        for (Content content : contentList) {
-    
-            if (content.getImgPath() != null && !content.getImgPath().isEmpty()) 
-            {
-                File imgFile = new File(content.getImgPath());
-                if (!imgFile.exists()) 
-                {
-                    content.setImgPath("img/" + new File(content.getImgPath()).getName());
-                }
-            }
-        }
     }
+    
     public boolean contains(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
@@ -104,28 +90,6 @@ public class ContentDatabase {
         return null;
     }
     
-    
-     
-     public void insertRecord(Content record) {
-        if (contains(record.getSearchKey())) {
-            JOptionPane.showMessageDialog(null, "Error, There is a Post with the same ID !!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        if(record.getImgPath()!=null&&!record.getImgPath().isEmpty())
-        {
-         String sourcePath=record.getImgPath();
-        saveImageToAppDirectory(sourcePath,"img/");
-        record.setImgPath("img/"+new File(sourcePath).getName());
-        }
-        
-
-        contentList.add(record);
-        saveToFile();
-        JOptionPane.showMessageDialog(null, "content with ID " + record.getSearchKey() + " was successfully added", "Message", JOptionPane.INFORMATION_MESSAGE);
- 
-    }
-     
-     
      public void deleteRecord(String key) {
         if (!contains(key)) {
             JOptionPane.showMessageDialog(null, "content not found !!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -149,32 +113,5 @@ public class ContentDatabase {
                   return;
         }
     }}
-    public void saveImageToAppDirectory(String sourcePath, String targetDirectory) {
-    try {
-        
-        File sourceFile = new File(sourcePath);
-        if(!sourceFile.exists())
-        {
-            JOptionPane.showMessageDialog(null, "the source image doesnt exise !","error" ,JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        File targetDir = new File(targetDirectory);
-        if (!targetDir.exists()) {
-            targetDir.mkdirs(); 
-        }
-        
-         File targetFile = new File(targetDir, sourceFile.getName());
-        if (targetFile.exists()) {
-            JOptionPane.showMessageDialog(null, "The file already exists and will be overwritten.", "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-        
-        
-        Files.copy(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        JOptionPane.showMessageDialog(null, "Image successfully saved to " + targetFile.getPath(), "Success", JOptionPane.INFORMATION_MESSAGE);
-        
-        
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }  
-}}
+     
+}

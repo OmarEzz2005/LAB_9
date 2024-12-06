@@ -12,20 +12,21 @@ public class Storie extends Content{
     
     private final long time=24;
 
-    public Storie( UserAccount User, String ContenText) {
-        super( User, ContenText);
+    public Storie(UserAccount User, String ContenText, String ImgPath, String type) {
+        super(User, ContenText, ImgPath, "Storie");
     }
-    
-    public boolean isExpired()
+    public void isExpired()
     {
         if(this.getTimestamp()==time)
         {
-            return true;
+            this.deleteContent("Content.json");
         }
-        return false;
-        
     }
-    
+
+    @Override
+    public String getType() {
+       return "Storie";
+    }
     
     }
 

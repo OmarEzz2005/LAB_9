@@ -9,8 +9,17 @@ package BackEnd;
  * @author yaseen
  */
 public class Post extends Content{ 
+
+    public Post(UserAccount User, String ContenText, String ImgPath, String type) {
+        super(User, ContenText, ImgPath, "Post");
+    }
+
     
-    public Post( UserAccount User, String ContenText) {
-        super( User, ContenText);
-    } 
+    
+    
+
+    @Override
+    public String getType() {
+        return "Post";
+    }
 }
