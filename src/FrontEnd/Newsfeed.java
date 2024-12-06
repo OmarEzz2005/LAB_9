@@ -12,6 +12,7 @@ import BackEnd.UserAccount;
 import BackEnd.UserDatabase;
 import static FrontEnd.profileManagementPage.bio;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -59,6 +60,7 @@ public class Newsfeed extends javax.swing.JPanel {
         contents.readFromFile();
         
         
+        
 
      if (image != null && image.getWidth(null) > 0 && image.getHeight(null) > 0) {
     
@@ -98,7 +100,7 @@ public class Newsfeed extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane(new javax.swing.JScrollPane(jPanel3));
-        jScrollPane3 = new javax.swing.JScrollPane(new javax.swing.JScrollPane(jPanel4));
+        jScrollPane3 = new javax.swing.JScrollPane(jPanel4);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -147,7 +149,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 871, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
@@ -221,9 +223,11 @@ public class Newsfeed extends javax.swing.JPanel {
         jScrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setViewportView(jPanel3);
 
-        jScrollPane3.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane3.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane3.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane3.setViewportView(jPanel4);
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setMaximumSize(new java.awt.Dimension(200, 100));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -240,9 +244,9 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -254,15 +258,15 @@ public class Newsfeed extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 110, Short.MAX_VALUE))
+                        .addGap(0, 136, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane3)))
-                .addGap(38, 38, 38)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -374,7 +378,7 @@ public class Newsfeed extends javax.swing.JPanel {
     
     int totalHeight = posts.size() * 200; 
     jPanel3.setPreferredSize(new Dimension(jPanel3.getWidth(), totalHeight));
-
+   
     
     jPanel3.revalidate();
     jPanel3.repaint();
@@ -401,11 +405,20 @@ public class Newsfeed extends javax.swing.JPanel {
     
     displayPosts(posts);          
     }
+   
+    
+    
+    
+    
+    
+    
+    
+    
     public void displayStorie(ArrayList<Storie> stories) {
     jPanel4.removeAll();
-    jPanel4.setLayout(new BoxLayout(jPanel4, BoxLayout.X_AXIS)); 
+    jPanel4.setLayout(new BoxLayout(jPanel4, BoxLayout.Y_AXIS)); 
 
-    
+   
     for (Storie storie : stories) {
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
@@ -421,25 +434,32 @@ public class Newsfeed extends javax.swing.JPanel {
         contentArea.setWrapStyleWord(true);
         contentArea.setLineWrap(true);
         contentArea.setEditable(false);
-        contentArea.setOpaque(false); // Transparent background
+        contentArea.setOpaque(false); 
         postPanel.add(contentArea, BorderLayout.CENTER);
 
        
         jPanel4.add(postPanel);
         System.out.println("Added post: " + storie.getContentId());
     }
-    
 
     
-    int totalHeight = stories.size() * 200; 
+    int totalHeight = stories.size() * 200;  
+    System.out.println("TOTAL height: " + totalHeight);
+
+    
     jPanel4.setPreferredSize(new Dimension(jPanel4.getWidth(), totalHeight));
 
     
     jPanel4.revalidate();
     jPanel4.repaint();
-    jScrollPane3.revalidate();
-    jScrollPane3.repaint();
+    jScrollPane3.revalidate();  
+    jScrollPane3.repaint();     
+
+   
 }
+
+
+
 
 
 
@@ -453,7 +473,7 @@ public class Newsfeed extends javax.swing.JPanel {
         if(c instanceof Storie)
         {
             stories.add((Storie) c);
-            System.out.println("Post Found" + ((Storie) c).getContentId());
+            System.out.println("Story Found" + ((Storie) c).getContentId());
         }
         
     }
