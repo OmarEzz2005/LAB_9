@@ -174,8 +174,12 @@ public class UserAccount {
     public boolean blockUser(String blocked) {
 
         for (UserAccount user : LOGIN.database.getUsers()) {
+           if(blocked.contains(user.getUsername()))
+           {
+               return false;
+           }
             if (user.getUsername().equals(blocked)) {
-                this.blocked.add(user);
+                this.blocked.add(blocked);
                 if(isFriends(blocked))
                     this.removeFriend(blocked);
                 System.out.println("Blocked Successfully");
@@ -183,16 +187,11 @@ public class UserAccount {
             }
         }
         return false;
-    }
+     }  
     
     
-    public ArrayList<String> getFriendsWithStatus() {
-        ArrayList<String> friendsWithStatus = new ArrayList();
-        for (UserAccount friend : friends) {
-            friendsWithStatus.add(friend.getUsername() + "," + friend.getStatus());
-        }
-        return friendsWithStatus;
-    }
+    
+    
     
     
     public void removeFriend(String removed) {
