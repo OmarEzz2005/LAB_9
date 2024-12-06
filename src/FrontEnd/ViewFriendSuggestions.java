@@ -20,16 +20,13 @@ public class ViewFriendSuggestions extends javax.swing.JFrame {
         this.columnsnames=columnsnames;
         
     }
-    public void setdata(String[][] data){
-        jTable1.setModel(new DefaultTableModel(data,columnsnames){
-        @Override
-        public boolean isCellEditable (int row,int column){
-            return false;
-        } 
-        
-        });
-        
-    }
+    
+public void setdata(String[][] data) {
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        data,
+        new String[] {"Suggested Friend"}
+    ));
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,8 +81,7 @@ public class ViewFriendSuggestions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        this.setVisible(false);
-        ((JFrame)getParentNode()).setVisible(true);
+        
     }//GEN-LAST:event_formWindowClosing
 
     /**
