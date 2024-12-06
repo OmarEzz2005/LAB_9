@@ -132,9 +132,9 @@ public class UserAccount {
     
     
     public boolean isFriends(String username) {
-        if(this.friends.isEmpty() || this.friends == null)
+        if(this.friends == null || this.friends.isEmpty())
         {
-            System.out.println("Done");
+            
             return false;
         }
         for (UserAccount friend : friends) {
