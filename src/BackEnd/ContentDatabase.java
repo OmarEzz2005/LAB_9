@@ -6,6 +6,7 @@
 package BackEnd;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileReader;
@@ -61,17 +62,19 @@ public class ContentDatabase {
 }
 
     public void readFromFile() {
-        Gson gson = new Gson();
-        try (FileReader reader = new FileReader(FileName)) {
-            ArrayList<Content> loadedContent = gson.fromJson(reader, new TypeToken<List<Content>>() {}.getType());
-            if (loadedContent != null) {
-                contentList.clear();
-                contentList.addAll(loadedContent);
-            }
-        } catch (IOException e) {
-            System.out.println("can not read the file ! "+e.getMessage());
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapter(Content.class, new ContentDeserializer())
+        .create();
+    try (FileReader reader = new FileReader(FileName)) {
+        ArrayList<Content> loadedContent = gson.fromJson(reader, new TypeToken<List<Content>>() {}.getType());
+        if (loadedContent != null) {
+            contentList.clear();
+            contentList.addAll(loadedContent);
         }
+    } catch (IOException e) {
+        System.out.println("Cannot read the file: " + e.getMessage());
     }
+}
     
     public boolean contains(String key) {
         for (Content c : contentList) {
