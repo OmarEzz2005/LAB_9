@@ -32,9 +32,9 @@ public class CreateStorie extends javax.swing.JPanel {
     private ContentDatabase contentdatabase;
     public CreateStorie() {
          initComponents();
-        jTextField2.setText("tell us story ! ");
+        jTextField2.setText("tell us story !");
         jTextField2.setForeground(Color.GRAY);
-        contentdatabase = new ContentDatabase("Content.json");
+        contentdatabase = Newsfeed.contents;
     }
 
     /**
