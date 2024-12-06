@@ -13,11 +13,6 @@ public class Post extends Content{
     public Post(UserAccount User, String ContenText, String ImgPath, String type) {
         super(User, ContenText, ImgPath, "Post");
     }
-
-    
-    
-    
-
     @Override
     public String getType() {
         return "Post";

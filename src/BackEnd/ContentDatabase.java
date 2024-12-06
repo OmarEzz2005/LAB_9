@@ -62,7 +62,8 @@ public class ContentDatabase {
 
     public void readFromFile() {
         Gson gson = new Gson();
-        try (FileReader reader = new FileReader(FileName)) {
+        try (FileReader reader = new FileReader(FileName)) 
+        {
             ArrayList<Content> loadedContent = gson.fromJson(reader, new TypeToken<List<Content>>() {}.getType());
             if (loadedContent != null) {
                 contentList.clear();

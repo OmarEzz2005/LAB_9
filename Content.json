@@ -1,4 +1,1 @@
-
-[{"time":24,"ContentId":"contant001","autherId":"User003","ContenText":"meme49","timestamp":1733443264320,"type":"Storie"}]
-
-
+[{"ContentId":"contant000","autherId":"User002","ContenText":"post1","timestamp":1733450948557,"type":"Post"},{"time":86400000,"ContentId":"contant001","autherId":"User002","ContenText":"story1","timestamp":1733450957501,"type":"Storie"},{"ContentId":"contant002","autherId":"User002","ContenText":"post2","timestamp":1733450966181,"type":"Post"}]

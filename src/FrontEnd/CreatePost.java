@@ -23,21 +23,20 @@ import javax.swing.SwingUtilities;
  */
 public class CreatePost extends javax.swing.JPanel {
 
-    private UserDatabase database = LOGIN.database;
+    private final UserDatabase database = LOGIN.database;
     
-    private ContentDatabase contentdatabase;
-
     /**
      * Creates new form CreatePost
      */
-    private UserAccount user = database.getCurrentUser();
+    private final UserAccount user = database.getCurrentUser();
+    ContentDatabase contentdatabase;
 
     public CreatePost() {
-
         initComponents();
+        contentdatabase=Newsfeed.contentdatabase;
         jTextField2.setText("What's on Your mind ?");
         jTextField2.setForeground(Color.GRAY);
-        contentdatabase = new ContentDatabase("Content.json");
+        
     }
 
     /**
@@ -110,8 +109,8 @@ public class CreatePost extends javax.swing.JPanel {
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2))
+                    .addComponent(jTextField2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,7 +154,6 @@ public class CreatePost extends javax.swing.JPanel {
         jLabel2.setText("");
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                                  
         // TODO add your handling code here:
         
         String ImgPath;
@@ -170,7 +168,7 @@ public class CreatePost extends javax.swing.JPanel {
             ImgPath = null;
         }
         
-        Post post = new Post(user, ContentText,ImgPath,"Storie");
+        Post post = new Post(user, ContentText,ImgPath,"Post");
         contentdatabase.getContentList().add(post);
         contentdatabase.saveToFile();
         JOptionPane.showMessageDialog(null, "Post Added Successfully !","Success",JOptionPane.INFORMATION_MESSAGE);
@@ -200,7 +198,6 @@ public class CreatePost extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextField2FocusLost
 
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Newsfeed page = new Newsfeed();
@@ -214,7 +211,6 @@ public class CreatePost extends javax.swing.JPanel {
             parentFrame.pack();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

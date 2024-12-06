@@ -29,7 +29,8 @@ public abstract class Content
     private final long timestamp;
     private String type;
 
-    public Content( UserAccount User, String ContenText, String ImgPath,String type ) {
+    public Content( UserAccount User, String ContenText, String ImgPath,String type ) 
+    {
         this.ContentId = "contant"+String.format("%03d", countC++);
         this.autherId = User.getSearchKey();
         this.ContenText = ContenText;
@@ -75,9 +76,7 @@ public abstract class Content
       public void deleteContent(String fileName) 
       {
     RuntimeTypeAdapterFactory<Content> runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of(Content.class, "type").registerSubtype(Storie.class, "Storie"); 
-    Gson gson = new GsonBuilder()
-            .registerTypeAdapterFactory(runtimeTypeAdapterFactory)
-            .create();
+    Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
 
     try (FileReader reader = new FileReader(fileName)) {
         

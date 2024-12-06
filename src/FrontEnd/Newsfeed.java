@@ -4,6 +4,7 @@
  */
 package FrontEnd;
 
+import BackEnd.ContentDatabase;
 import BackEnd.UserAccount;
 import BackEnd.UserDatabase;
 import static FrontEnd.profileManagementPage.bio;
@@ -27,10 +28,12 @@ public class Newsfeed extends javax.swing.JPanel {
     
     
     UserDatabase users;
+    static ContentDatabase contentdatabase=new ContentDatabase("Content.json"); 
     
     
     public Newsfeed() {
         initComponents();
+        
         users = LOGIN.database;
         ImageIcon icon = new ImageIcon(getClass().getResource("/FrontEnd/image.png"));
         Image image = icon.getImage();
