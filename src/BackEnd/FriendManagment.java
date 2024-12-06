@@ -1,40 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BackEnd;
 
-/**
- *
- * @author lenovo
- */
 
-
-
-
+import BackEnd.UserAccount;
 import FrontEnd.LOGIN;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JOptionPane;
-
 
 /**
  *
  * @author Mostafa
  */
 public class FriendManagment {
-    
-    private UserDatabase data = LOGIN.database;
+
     private UserAccount current;
     private ArrayList<FriendRequests> friendRequests = new ArrayList<>();
     private ArrayList<UserAccount> friends = new ArrayList<>();
     private ArrayList<UserAccount> blockedUsers = new ArrayList<>();
+    private UserDatabase database = LOGIN.database;
 
-    public FriendManagment( ArrayList<FriendRequests> friendRequests, ArrayList<UserAccount> blockedUsers) {
-        this.current = data.getCurrentUser();
+    public FriendManagment(UserAccount current, ArrayList<FriendRequests> friendRequests, ArrayList<UserAccount> blockedUsers, ArrayList<UserAccount> friends) {
+        this.current = current;
         this.friendRequests = friendRequests;
         this.blockedUsers = blockedUsers;
-        this.friends = current.getFriends();
+        this.friends = friends;
     }
 
     public ArrayList<FriendRequests> getFriendRequests() {
@@ -49,13 +37,15 @@ public class FriendManagment {
         return pendingRequests;
     }
 
-    public void sendFriendRequest(UserAccount receiver) {
-        if (isFriends(receiver.getUserID())) {
-            System.out.println("You are already friends.");
-            return;
+    public boolean sendFriendRequest(String receiver) {
+        for (UserAccount user : database.getUsers()) {
+            if (user.getUsername().equals(receiver)) {
+                user.requests.add(new FriendRequests(current, user));
+                System.out.println("Friend request sent from " + current.getUsername() + " to " + user.getUsername());
+                return true;
+            }
         }
-        friendRequests.add(new FriendRequests(current, receiver));
-        JOptionPane.showMessageDialog(null,"Friend request sent from " + current.getUsername() + " to " + receiver.getUsername(),"Info message",JOptionPane.INFORMATION_MESSAGE);
+        return false;
     }
 
     public void approveRequest(String username) {
@@ -63,13 +53,13 @@ public class FriendManagment {
             FriendRequests traversed = friendRequests.get(i);
             if (traversed.getSender().getUsername().equals(username) && traversed.getStatus().equals("Pending")) {
                 this.friends.add(traversed.getSender());
-                
-                System.out.println("You are now friends with " + traversed.getSender().getUsername());
+                traversed.getSender().friends.add(current);
+                JOptionPane.showMessageDialog(null,"You are now friends with " + traversed.getSender().getUsername(),"Success",JOptionPane.INFORMATION_MESSAGE);
                 friendRequests.remove(i);
                 return;
             }
         }
-        System.out.println("There is no friend request from this person");
+        JOptionPane.showMessageDialog(null,"There is no friend request from this person","Error",JOptionPane.ERROR_MESSAGE);
     }
 
     public void declineRequest(String username) {
@@ -77,11 +67,11 @@ public class FriendManagment {
             FriendRequests traversed = friendRequests.get(i);
             if (traversed.getSender().getUsername().equals(username) && traversed.getStatus().equals("Pending")) {
                 traversed.setStatus("Declined");
-                System.out.println("You declined " + username + " as a friend");
+                JOptionPane.showMessageDialog(null,"You declined " + username + " as a friend","Success",JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
         }
-        System.out.println("There is no friend request from this person");
+        JOptionPane.showMessageDialog(null,"There is no friend request from this person","Error",JOptionPane.ERROR_MESSAGE);
     }
 
     public void showFriendRequests() {
@@ -96,30 +86,18 @@ public class FriendManagment {
         }
     }
 
-    public void removeFriend(UserAccount removed) {
-        if(friends.size() <= 0)
-        {
-            System.out.println("No friends");
-            return;
+    public void removeFriend(String removed) {
+        for (UserAccount friend : database.getUsers()) {
+            if (friend.getUsername().equals(removed)) {
+                this.friends.remove(friend);
+                friend.friends.remove(this.current);
+                return;
+            }
         }
-    Iterator<UserAccount> iterator = friends.iterator();
-    while (iterator.hasNext()) {
-        UserAccount friend = iterator.next();
-        if (friend.getUserID().equals(removed.getUserID())) {
-            iterator.remove();
-            System.out.println("Removed " + removed.getUsername() + " from friends");
-            return;
-        }
-    }
-    System.out.println("Not in your friends list");
+        System.out.println("Not already in your Friends ");
     }
 
     public ArrayList<String> getFriendsWithStatus() {
-        if(friends.size() <= 0)
-        {
-            System.out.println("No friends");
-            return null;
-        }
         ArrayList<String> friendsWithStatus = new ArrayList();
         for (UserAccount friend : friends) {
             friendsWithStatus.add(friend.getUsername() + "," + friend.getStatus());
@@ -128,25 +106,25 @@ public class FriendManagment {
         return friendsWithStatus;
     }
 
-    public void blockUser(UserAccount blocked) {
-        if (isBlocked(blocked.getUserID())) {
-        System.out.println(blocked.getUsername() + " is already blocked.");
-        return;
-        }
+    public boolean blockUser(String blocked) {
 
-        for (UserAccount user : data.getUsers()) {
-            if (user.getUserID().equals(blocked.getUserID())) {
-                this.blockedUsers.add(blocked);
+        for (UserAccount user : database.getUsers()) {
+            if (user.getUsername().equals(blocked)) {
+                this.blockedUsers.add(user);
+                if(isFriends(blocked))
+                    this.removeFriend(blocked);
+                System.out.println("Blocked Successfully");
+                return true;
             }
         }
-
+        return false;
     }
 
     public ArrayList<UserAccount> getFriendSuggestions() {
         ArrayList<UserAccount> friendSuggestions = new ArrayList<>();
 
-        for (UserAccount user : data.getUsers()) {
-            if (!user.getUserID().equals(current.getUserID()) && !isFriends(user.getUserID()) && !isBlocked(user.getUserID())) {
+        for (UserAccount user : database.getUsers()) {
+            if (!user.getUserID().equals(current.getUserID()) && !isFriends(user.getUsername()) && !isBlocked(user.getUsername())) {
                 if (!friendSuggestions.contains(user)) {
                     friendSuggestions.add(user);
                 }
@@ -157,28 +135,23 @@ public class FriendManagment {
     }
 
     public void showFriends() {
-        if(friends.size() <= 0)
-        {
-            System.out.println("No friends");
-            return;
-        }
         for (UserAccount friend : friends) {
             System.out.println(friend.getUsername());
         }
     }
 
-    private boolean isFriends(String userId) {
+    public boolean isFriends(String username) {
         for (UserAccount friend : friends) {
-            if (userId.equals(friend.getUserID())) {
+            if (username.equals(friend.getUsername())) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isBlocked(String userId) {
+    public boolean isBlocked(String username) {
         for (UserAccount blocked : blockedUsers) {
-            if (userId.equals(blocked.getUserID())) {
+            if (username.equals(blocked.getUsername())) {
                 return true;
             }
         }

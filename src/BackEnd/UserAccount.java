@@ -27,7 +27,10 @@ public class UserAccount {
     private String password;
     private String date;
     private String status;
-    private ArrayList <UserAccount> friends;
+    
+    protected ArrayList <UserAccount> friends;
+    protected ArrayList <UserAccount> blocked;
+    protected ArrayList <FriendRequests> requests;
     private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username,String Gender, String password, LocalDate date) {
@@ -43,6 +46,7 @@ public class UserAccount {
         }
         this.date = date.format(DATE_FORMAT);
         this.makeOnline();
+        
         
     }
     
@@ -121,6 +125,23 @@ public class UserAccount {
     public ProfileManagement getProfile() {
         return profile;
     }
+
+    public ArrayList<UserAccount> getBlocked() {
+        return blocked;
+    }
+
+    public ArrayList<FriendRequests> getRequests() {
+        return requests;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
