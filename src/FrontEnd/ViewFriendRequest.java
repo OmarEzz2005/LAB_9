@@ -5,7 +5,6 @@
 package frontend;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
-import frontend.FriendManagementInterface;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -126,7 +125,7 @@ public class ViewFriendRequest extends javax.swing.JFrame implements Node{
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-             int selectedRow = jTable1.getSelectedRow();
+       /* int selectedRow = jTable1.getSelectedRow();
         if (selectedRow >= 0) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
             ((FriendManagementInterface) getParentNode()).current.approveRequest(username);
@@ -134,11 +133,11 @@ public class ViewFriendRequest extends javax.swing.JFrame implements Node{
             JOptionPane.showMessageDialog(this, " You are now friends with "+username);
         } else {
             JOptionPane.showMessageDialog(this, "Please select a request to accept.");
-        }
+        }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                int selectedRow = jTable1.getSelectedRow();
+      /*          int selectedRow = jTable1.getSelectedRow();
         if (selectedRow >= 0) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
             ((FriendManagementInterface) getParentNode()).current.declineRequest(username);
@@ -146,7 +145,7 @@ public class ViewFriendRequest extends javax.swing.JFrame implements Node{
             JOptionPane.showMessageDialog(this, " You declined friend request from "+username);
         } else {
             JOptionPane.showMessageDialog(this, "Please select a request to decline.");
-        }
+        }*/
     
     }//GEN-LAST:event_jButton2ActionPerformed
      
