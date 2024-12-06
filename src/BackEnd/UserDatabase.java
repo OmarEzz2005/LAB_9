@@ -75,7 +75,7 @@ public class UserDatabase {
      
      public UserAccount getCurrentUser() {
          UserAccount user = this.getRecord(LOGIN.logged);
-         System.out.println(""+user.getEmail());
+         //System.out.println(""+user.getEmail());
          return user;
      }
      

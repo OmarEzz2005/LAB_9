@@ -7,7 +7,10 @@ package BackEnd;
 import java.time.LocalDate;
 import java.security.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Random;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,10 +23,12 @@ public class UserAccount {
     private String userID;
     private String email;
     private String username;
-     private String Gender;
+    private String Gender;
     private String password;
     private String date;
     private String status;
+    private ArrayList <UserAccount> friends;
+    private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username,String Gender, String password, LocalDate date) {
         this.userID = "User" + String.format("%03d", count++);
@@ -38,6 +43,7 @@ public class UserAccount {
         }
         this.date = date.format(DATE_FORMAT);
         this.makeOnline();
+        
     }
     
     
@@ -52,7 +58,76 @@ public class UserAccount {
             return null;
         }
     }
-    /*
+    
+
+    public String getUsername() {
+        return username;
+    }
+    
+    
+    public void makeOnline()
+    {
+        this.status = "online";
+    }
+    
+    public void makeOffline()
+    {
+        this.status = "offline";
+    }
+    
+    public String getSearchKey()
+    {
+        return this.userID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = hashPassword(password);
+    }
+
+    public void setFriends(ArrayList<UserAccount> friends) {
+        this.friends = friends;
+    }
+ 
+    
+    public LocalDate getDate() {
+        return LocalDate.parse(this.date, DATE_FORMAT); 
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date.format(DATE_FORMAT);
+    } 
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+
+    public ArrayList<UserAccount> getFriends() {
+        return friends;
+    }
+
+    public ProfileManagement getProfile() {
+        return profile;
+    }
+    
+    
+    
+    
+    
+    
+    
     public ArrayList<UserAccount> MutualFriends()
     {
         Random random=new Random();
@@ -105,49 +180,7 @@ public class UserAccount {
         }
         return suggestedFriends;
 
-    }*/
-
-    public String getUsername() {
-        return username;
     }
-    
-    
-    public void makeOnline()
-    {
-        this.status = "online";
-    }
-    
-    public void makeOffline()
-    {
-        this.status = "offline";
-    }
-    
-    public String getSearchKey()
-    {
-        return this.userID;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = hashPassword(password);
-    }
- 
-    
-    
-    public LocalDate getDate() {
-        return LocalDate.parse(this.date, DATE_FORMAT); 
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date.format(DATE_FORMAT);
-    } 
     
     
     

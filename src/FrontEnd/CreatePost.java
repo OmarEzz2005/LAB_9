@@ -155,6 +155,7 @@ public class CreatePost extends javax.swing.JPanel {
         jLabel2.setText("");
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                                  
         // TODO add your handling code here:
         
         String ImgPath;
@@ -199,6 +200,7 @@ public class CreatePost extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextField2FocusLost
 
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Newsfeed page = new Newsfeed();
@@ -212,6 +214,7 @@ public class CreatePost extends javax.swing.JPanel {
             parentFrame.pack();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

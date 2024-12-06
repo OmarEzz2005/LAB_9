@@ -31,7 +31,7 @@ public class CreateStorie extends javax.swing.JPanel {
     private UserAccount user = database.getCurrentUser();
     private ContentDatabase contentdatabase;
     public CreateStorie() {
-        initComponents();
+         initComponents();
         jTextField2.setText("tell us story ! ");
         jTextField2.setForeground(Color.GRAY);
         contentdatabase = new ContentDatabase("Content.json");
