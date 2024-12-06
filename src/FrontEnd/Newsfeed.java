@@ -4,11 +4,13 @@
  */
 package FrontEnd;
 
+import BackEnd.UserAccount;
 import BackEnd.UserDatabase;
 import static FrontEnd.profileManagementPage.bio;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -25,6 +27,7 @@ public class Newsfeed extends javax.swing.JPanel {
     
     
     UserDatabase users;
+    
     
     public Newsfeed() {
         initComponents();
@@ -78,11 +81,22 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel1.setText("Contacts");
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = {"hello"};
-            /* for(Friend friend:friends)
+
+            UserAccount current = LOGIN.database.getCurrentUser();
+            String[] strings;
+
             {
-                strings[i] = friend+"  "+friend.getStatus();
-            }*/
+                ArrayList<UserAccount> friends = current.getFriends();
+                if (current.getFriends() == null) {
+                    strings = new String[]{"No friends"};
+                } else {
+                    strings = new String[friends.size()];
+                    for (int i = 0; i < friends.size(); i++) {
+                        strings[i] = friends.get(i).getUsername() + " " + friends.get(i).getStatus();
+                    }
+                }
+            }
+
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -204,11 +218,10 @@ public class Newsfeed extends javax.swing.JPanel {
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton4))
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );

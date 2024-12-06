@@ -23,7 +23,7 @@ public class UserAccount {
     private String userID;
     private String email;
     private String username;
-     private String Gender;
+    private String Gender;
     private String password;
     private String date;
     private String status;
@@ -91,8 +91,11 @@ public class UserAccount {
     public void setPassword(String password) {
         this.password = hashPassword(password);
     }
+
+    public void setFriends(ArrayList<UserAccount> friends) {
+        this.friends = friends;
+    }
  
-    
     
     public LocalDate getDate() {
         return LocalDate.parse(this.date, DATE_FORMAT); 
