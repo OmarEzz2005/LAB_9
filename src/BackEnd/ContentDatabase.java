@@ -25,6 +25,7 @@ import java.util.Iterator;
  */
 public class ContentDatabase {
 
+    
     private final String FileName;
     private final ArrayList<Content> contentList = new ArrayList<>();
 
@@ -116,5 +117,12 @@ public class ContentDatabase {
                   return;
         }
     }}
+     
+     public int getSize()
+     {
+         return this.contentList.size();
+     }
+     
+     
      
 }

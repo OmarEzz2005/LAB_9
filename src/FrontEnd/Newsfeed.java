@@ -11,6 +11,7 @@ import BackEnd.UserAccount;
 import BackEnd.UserDatabase;
 import static FrontEnd.profileManagementPage.bio;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -39,15 +41,19 @@ public class Newsfeed extends javax.swing.JPanel {
     
     
     UserDatabase users;
-    static ContentDatabase contents = new ContentDatabase("Content.json");
+    public static ContentDatabase contents = new ContentDatabase("Content.json");
+    private JPanel jPanel3;
     
     
     public Newsfeed() {
+        jPanel3 = new JPanel();
+        jPanel3.setLayout(new BoxLayout(jPanel3, BoxLayout.Y_AXIS));
         initComponents();
         users = LOGIN.database;
         ImageIcon icon = new ImageIcon(getClass().getResource("/FrontEnd/image.png"));
         Image image = icon.getImage();
         contents.readFromFile();
+        
         
 
      if (image != null && image.getWidth(null) > 0 && image.getHeight(null) > 0) {
@@ -86,8 +92,7 @@ public class Newsfeed extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane(jPanel3);
+        jScrollPane2 = new javax.swing.JScrollPane(new javax.swing.JScrollPane(jPanel3));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -136,7 +141,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
@@ -144,6 +149,12 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 255));
         jLabel2.setText("Connect HUB");
+
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -173,7 +184,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addComponent(jLabel3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(111, 111, 111)
                 .addComponent(jButton3)
@@ -200,25 +211,9 @@ public class Newsfeed extends javax.swing.JPanel {
 
         jButton5.setText("Log out");
 
-        jScrollPane3.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane3.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3)
-                .addContainerGap())
-        );
+        jScrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setViewportView(jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -234,11 +229,11 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(141, 141, 141)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,11 +252,9 @@ public class Newsfeed extends javax.swing.JPanel {
                             .addComponent(jButton5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(jButton4)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -324,22 +317,29 @@ public class Newsfeed extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.loadPosts();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     
-    public void displayPosts(ArrayList<Post> posts) {
-    jPanel3.removeAll(); 
+   public void displayPosts(ArrayList<Post> posts) {
+    jPanel3.removeAll();
+    jPanel3.setLayout(new BoxLayout(jPanel3, BoxLayout.Y_AXIS)); 
 
+    
     for (Post post : posts) {
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
-        postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
+        postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         
-        // Add post title
-        JLabel titleLabel = new JLabel(post.getContentId());
+        JLabel titleLabel = new JLabel(users.getRecord(post.getAutherId()).getUsername());
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         postPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Add post content
+        
         JTextArea contentArea = new JTextArea(post.getContenText());
         contentArea.setWrapStyleWord(true);
         contentArea.setLineWrap(true);
@@ -347,22 +347,24 @@ public class Newsfeed extends javax.swing.JPanel {
         contentArea.setOpaque(false); // Transparent background
         postPanel.add(contentArea, BorderLayout.CENTER);
 
-        // Add buttons (e.g., Like, Comment)
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton likeButton = new JButton("Like");
-        JButton commentButton = new JButton("Comment");
-        buttonPanel.add(likeButton);
-        buttonPanel.add(commentButton);
-        postPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        // Add post panel to the main posts panel
+       
         jPanel3.add(postPanel);
-        System.out.println("DONE");
+        System.out.println("Added post: " + post.getContentId());
     }
 
-    jPanel3.revalidate(); 
+    
+    int totalHeight = posts.size() * 200; 
+    jPanel3.setPreferredSize(new Dimension(jPanel3.getWidth(), totalHeight));
+
+    
+    jPanel3.revalidate();
     jPanel3.repaint();
-    }
+    jScrollPane1.revalidate();
+    jScrollPane1.repaint();
+}
+
+
+
     
     
     public void loadPosts() {
@@ -373,9 +375,11 @@ public class Newsfeed extends javax.swing.JPanel {
         if(c instanceof Post)
         {
             posts.add((Post) c);
+            System.out.println("Post Found" + ((Post) c).getContentId());
         }
         
     }
+    
     displayPosts(posts);          
     }
     
@@ -396,8 +400,7 @@ public class Newsfeed extends javax.swing.JPanel {
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
