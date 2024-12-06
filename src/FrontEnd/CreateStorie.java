@@ -23,13 +23,13 @@ import javax.swing.SwingUtilities;
  */
 public class CreateStorie extends javax.swing.JPanel {
 
-    private UserDatabase database = LOGIN.database;
+private String selectedImgPath=null;
+    private final UserDatabase database = LOGIN.database;
 
-    /**
-     * Creates new form CreateStorie
-     */
-    private UserAccount user = database.getCurrentUser();
-    private ContentDatabase contentdatabase;
+    
+    private final UserAccount user = database.getCurrentUser();
+    
+    ContentDatabase contentdatabase;
     public CreateStorie() {
          initComponents();
         jTextField2.setText("tell us story !");
@@ -136,35 +136,33 @@ public class CreateStorie extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Please enter a story text !", "Warning", JOptionPane.WARNING_MESSAGE);
         return;
     }
-         String ImgPath;
-        if(jLabel2.getIcon()!=null)
-        {
-            ImgPath=((ImageIcon)jLabel2.getIcon()).toString();
-        }
-        else
-        {
-            ImgPath=null;
-        }
+         String ImgPath=selectedImgPath;
+         Storie storie = new Storie(user, ContentText, ImgPath, "Storie");
+    contentdatabase.getContentList().add(storie);
+    contentdatabase.saveToFile();
+    JOptionPane.showMessageDialog(this, "Storie Added Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+    jTextField2.setText("");
+    jLabel2.setIcon(null);
+    selectedImgPath = null;
         
-        Storie storie=new Storie(user,ContentText,ImgPath,"Storie") ;
-        contentdatabase.getContentList().add(storie);
-        contentdatabase.saveToFile();
-        JOptionPane.showMessageDialog(this, "Story added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        JFileChooser fileChooser2 = new JFileChooser();
-        fileChooser2.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int result=fileChooser2.showOpenDialog(this);
-        if(result==JFileChooser.APPROVE_OPTION)
-        {
-            File SelectedFile=fileChooser2.getSelectedFile();
-            String ImagePath=SelectedFile.getAbsolutePath();
-            setIImageToJlabel2(ImagePath);
-        }
+        JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Select an Image");
+    fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    fileChooser.setAcceptAllFileFilterUsed(false);
+    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "gif"));
+
+    int result = fileChooser.showOpenDialog(this);
+    if (result == JFileChooser.APPROVE_OPTION) {
+        File selectedFile = fileChooser.getSelectedFile();
+        selectedImgPath = selectedFile.getAbsolutePath(); 
+        jLabel2.setIcon(new ImageIcon(selectedImgPath)); 
+    }  
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void setIImageToJlabel2(String ImagePath)

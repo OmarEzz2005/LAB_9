@@ -23,18 +23,17 @@ import javax.swing.SwingUtilities;
  */
 public class CreatePost extends javax.swing.JPanel {
 
-    private UserDatabase database = LOGIN.database;
-    
-    private ContentDatabase contentdatabase;
-
+    private final UserDatabase database = LOGIN.database;
+    private String selectedImgPath = null;
     /**
      * Creates new form CreatePost
      */
-    private UserAccount user = database.getCurrentUser();
+    private final UserAccount user = database.getCurrentUser();
+    ContentDatabase contentdatabase;
 
     public CreatePost() {
-
         initComponents();
+
         jTextField2.setText("What's on Your mind ?");
         jTextField2.setForeground(Color.GRAY);
         contentdatabase = Newsfeed.contents;
@@ -110,8 +109,8 @@ public class CreatePost extends javax.swing.JPanel {
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2))
+                    .addComponent(jTextField2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -137,43 +136,37 @@ public class CreatePost extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select an Image");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "gif"));
+
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
-            File SelectedFile = fileChooser.getSelectedFile();
-            String ImagePath = SelectedFile.getAbsolutePath();
-            setIImageToJlabel2(ImagePath);
+            File selectedFile = fileChooser.getSelectedFile();
+            selectedImgPath = selectedFile.getAbsolutePath();
+            jLabel2.setIcon(new ImageIcon(selectedImgPath));
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void setIImageToJlabel2(String ImagePath) {
-        ImageIcon imageicon = new ImageIcon(ImagePath);
-        Image ScaleImage = imageicon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
-        jLabel2.setIcon(new ImageIcon(ScaleImage));
-        jLabel2.setText("");
-    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                                  
         // TODO add your handling code here:
-        
-        String ImgPath;
+
         String ContentText = jTextField2.getText();
         if (ContentText.equals("What's on Your mind ?") || ContentText.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a post text!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (jLabel2.getIcon() != null) {
-            ImgPath = ((ImageIcon) jLabel2.getIcon()).toString();
-        } else {
-            ImgPath = null;
-        }
-        
-        Post post = new Post(user, ContentText,ImgPath,"Storie");
+        String ImgPath = selectedImgPath;
+        Post post = new Post(user, ContentText, ImgPath, "Post");
         contentdatabase.getContentList().add(post);
         contentdatabase.saveToFile();
-        JOptionPane.showMessageDialog(null, "Post Added Successfully !","Success",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Post Added Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        jTextField2.setText("");
+        jLabel2.setIcon(null);
+        selectedImgPath = null;
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -199,13 +192,17 @@ public class CreatePost extends javax.swing.JPanel {
             jTextField2.setForeground(Color.GRAY);
         }
     }//GEN-LAST:event_jTextField2FocusLost
-
-
+    private void setIImageToJlabel2(String ImagePath) {
+        ImageIcon imageicon = new ImageIcon(ImagePath);
+        Image ScaleImage = imageicon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
+        jLabel2.setIcon(new ImageIcon(ScaleImage));
+        jLabel2.setText("");
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Newsfeed page = new Newsfeed();
         page.setVisible(true);
-        
+
         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
         if (parentFrame != null) {
             parentFrame.setContentPane(page);
@@ -214,7 +211,6 @@ public class CreatePost extends javax.swing.JPanel {
             parentFrame.pack();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,7 +10,7 @@ package BackEnd;
  */
 public class Storie extends Content{
     
-    private final long time=24;
+    private final long time=24*60*60*1000;
 
     public Storie(UserAccount User, String ContenText, String ImgPath, String type) {
         super(User, ContenText, ImgPath, "Storie");
