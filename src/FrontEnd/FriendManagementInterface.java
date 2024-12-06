@@ -6,6 +6,8 @@ package frontend;
 
 
 import BackEnd.UserAccount;
+import BackEnd.UserDatabase;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -16,7 +18,8 @@ import javax.swing.WindowConstants;
  */
 public class FriendManagementInterface extends javax.swing.JFrame implements Node {
 
-    public UserAccount current;
+    UserDatabase userdatabase;
+    public UserAccount current=userdatabase.getCurrentUser();
     private ViewFriendRequest requestsViewer;
     private ViewFriendStatus FriendStatusViewer;
     private ViewFriendSuggestions FriendSuggestionViewer;
@@ -272,21 +275,21 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (FriendSuggestionViewer == null || !FriendSuggestionViewer.isDisplayable())  {
-            FriendSuggestionViewer = new ViewFriendSuggestions(new String[]{"UserName"});
-            FriendSuggestionViewer.setTitle("View Friend Suggestions");
-            FriendSuggestionViewer.setParentNode(this);
-            FriendSuggestionViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            String[] data = getSuggestionData();
-            String[][] tabledata = new String[data.length][1];
-            for (int i = 0; i < data.length; i++) {
-                tabledata[i] = data[i].split(",");
-            }
-            FriendSuggestionViewer.setdata(tabledata);
-            FriendSuggestionViewer.setVisible(true);
-
+           
+    if (FriendSuggestionViewer == null || !FriendSuggestionViewer.isDisplayable()) {
+        FriendSuggestionViewer = new ViewFriendSuggestions(new String[]{"Suggested Friend"});
+        FriendSuggestionViewer.setTitle("Friend Suggestions");
+        FriendSuggestionViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        ArrayList<UserAccount> suggestions = current.getFriendSuggestions();
+        String[][] tableData = new String[suggestions.size()][1];
+        for (int i = 0; i < suggestions.size(); i++) {
+            tableData[i][0] = suggestions.get(i).getUsername();
         }
+        FriendSuggestionViewer.setdata(tableData);
+        FriendSuggestionViewer.setVisible(true);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
     public String[] getSuggestionData() {
 

@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Mostafa
  */
-public class ViewFriendSuggestions extends javax.swing.JFrame implements Node{
+public class ViewFriendSuggestions extends javax.swing.JFrame {
         private Node parent;
         private final String[] columnsnames;
     
@@ -135,13 +135,5 @@ public class ViewFriendSuggestions extends javax.swing.JFrame implements Node{
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-     @Override
-    public Node getParentNode() {
-      return parent;
-    }
-
-    public void setParentNode(Node n) {
-    this.parent= n ;
-    }
 
 }

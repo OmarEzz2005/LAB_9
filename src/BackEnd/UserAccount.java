@@ -10,6 +10,7 @@ import java.security.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -201,52 +202,50 @@ public class UserAccount {
     }*/
     
     
-    public ArrayList<UserAccount> MutualFriends() {
-        Random random = new Random();
-        int count = 0;
+    public ArrayList<UserAccount> getFriendSuggestions() {
+    ArrayList<UserAccount> suggestedFriends = new ArrayList<>();
+    ArrayList<UserAccount> mutualFriends = new ArrayList<>();
+    ArrayList<UserAccount> UserFriendList = this.getFriends();
+    ArrayList<UserAccount> DataBaseusers = new ArrayList<>();
 
-        ArrayList<UserAccount> UserFriendList = this.getFriends();
-        ArrayList<UserAccount> UserFriendFriendList = new ArrayList<>();
-        ArrayList<UserAccount> mutualFriends = new ArrayList<>();
 
-        int x;
-
-        for (UserAccount friend : UserFriendList) {
-            UserFriendFriendList = friend.getFriends();
-            x = random.nextInt(UserFriendFriendList.size());
-            for (UserAccount FofF : UserFriendFriendList) {
-
-                do {
-                    count++;
-                    if (!UserFriendList.contains(FofF) && !FofF.equals(this) && mutualFriends.contains(FofF)) {
-                        mutualFriends.add(UserFriendFriendList.get(x));
-                    }
-                } while (count < 3);
-
-            }
-
+    if (UserFriendList == null || UserFriendList.isEmpty()) {
+        Collections.shuffle(DataBaseusers);
+        for (int i = 0; i < Math.min(2, DataBaseusers.size()); i++) {
+            suggestedFriends.add(DataBaseusers.get(i));
         }
-        return mutualFriends;
+    } else {
+        for (UserAccount friend : UserFriendList) {
+            for (UserAccount FofF : friend.getFriends()) {
+                if (!UserFriendList.contains(FofF) && !FofF.equals(this) && !mutualFriends.contains(FofF)) {
+                    mutualFriends.add(FofF);
+                }
+            }
+        }
+        for (int i = 0; i < Math.min(2, mutualFriends.size()); i++) {
+            suggestedFriends.add(mutualFriends.get(i));
+        }
     }
 
-    public ArrayList<UserAccount> getFriendSuggestions() {
-        DefaultListModel<String> model = new DefaultListModel<>();
-        ArrayList<UserAccount> suggestedFriends = new ArrayList<>();
-        ArrayList<UserAccount> DataBaseusers = new ArrayList<>();
-        if (this.getFriends() == null || this.getFriends().isEmpty()) {
-            Random random = new Random();
-            int count = 0;
-            int x = random.nextInt(DataBaseusers.size());
-            do {
-                count++;
-                suggestedFriends.add(DataBaseusers.get(x));
-            } while (count < 5);
-        } else {
-            suggestedFriends = this.MutualFriends();
-        }
-        return suggestedFriends;
+    return suggestedFriends;
+}
 
-   }
+public ArrayList<UserAccount> MutualFriends() {
+    ArrayList<UserAccount> mutualFriends = new ArrayList<>();
+    ArrayList<UserAccount> UserFriendList = this.getFriends();
+
+    if (UserFriendList != null) {
+        for (UserAccount friend : UserFriendList) {
+            for (UserAccount FofF : friend.getFriends()) {
+                if (!UserFriendList.contains(FofF) && !FofF.equals(this) && !mutualFriends.contains(FofF)) {
+                    mutualFriends.add(FofF);
+                }
+            }
+        }
+    }
+
+    return new ArrayList<>(mutualFriends.subList(0, Math.min(2, mutualFriends.size())));
+}
     
     
 
