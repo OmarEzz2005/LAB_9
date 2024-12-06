@@ -15,6 +15,7 @@ import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -53,6 +54,7 @@ public class CreatePost extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         jLabel1.setText(user.getUsername());
         jLabel1.setToolTipText("");
@@ -86,21 +88,30 @@ public class CreatePost extends javax.swing.JPanel {
             }
         });
 
+        jButton3.setText("Back");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(141, 141, 141)
+                        .addGap(121, 121, 121)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -110,7 +121,8 @@ public class CreatePost extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -125,6 +137,7 @@ public class CreatePost extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
+        
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int result = fileChooser.showOpenDialog(this);
@@ -144,43 +157,21 @@ public class CreatePost extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
                                   
         // TODO add your handling code here:
-        String ContentText = jButton1.getText();
+        
+        String ImgPath;
+        String ContentText = jTextField2.getText();
         if (ContentText.equals("What's on Your mind ?") || ContentText.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a post text!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String ImgPath;
         if (jLabel2.getIcon() != null) {
             ImgPath = ((ImageIcon) jLabel2.getIcon()).toString();
         } else {
             ImgPath = null;
         }
-        if (ImgPath != null && !ImgPath.isEmpty()) {
-            String fixedDir = "img";
-            File dir = new File(fixedDir);
-            if (!dir.exists()) 
-            {
-                dir.mkdir();
-            }
-            
-             String fileExtension = ImgPath.substring(ImgPath.lastIndexOf('.'));
-             String newImgPath = fixedDir + File.separator + new File(ImgPath).getName().split("\\.")[0] + fileExtension;
-             
-            try {
-                Files.copy((Paths.get(ImgPath)),Paths.get(newImgPath),StandardCopyOption.REPLACE_EXISTING);
-                ImgPath=newImgPath;
-                
-            }
-            catch(IOException e)
-            {
-                JOptionPane.showMessageDialog(null, "failed to save image: "+e .getMessage());
-            }
-        }
-        Post post = new Post(user, ContentText);
-        if (ImgPath != null) {
-            post.setImgPath(ImgPath);
-        }
-        contentdatabase.getContent().add(post);
+        
+        Post post = new Post(user, ContentText,ImgPath,"Storie");
+        contentdatabase.getContentList().add(post);
         contentdatabase.saveToFile();
         JOptionPane.showMessageDialog(null, "Post Added Successfully !","Success",JOptionPane.INFORMATION_MESSAGE);
 
@@ -209,9 +200,27 @@ public class CreatePost extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextField2FocusLost
 
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Newsfeed page = new Newsfeed();
+        page.setVisible(true);
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField2;
