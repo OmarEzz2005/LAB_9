@@ -381,6 +381,7 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        
         FriendManagementInterface page = new FriendManagementInterface(this.currentUser);
         page.setSize(1000, 500);  // Adjust the size of the new window
         page.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

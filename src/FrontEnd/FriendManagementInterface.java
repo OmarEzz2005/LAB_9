@@ -217,11 +217,19 @@ public class FriendManagementInterface extends javax.swing.JFrame implements Nod
         return Data;
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      
+
+        if(this.current == null)
+        {
+            System.out.println("WTF");
+        }
+        
         int option = JOptionPane.showConfirmDialog(null, jPanel1, "Send Friend Request ", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String user = jTextField1.getText();
             if(user == null || user.isEmpty())
+            {
+                return;
+            }
             if (current.isFriends(user)) {
                 JOptionPane.showMessageDialog(this, "You are already friends");
             } else {
