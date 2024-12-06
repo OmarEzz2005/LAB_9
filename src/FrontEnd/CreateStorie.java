@@ -23,13 +23,12 @@ import javax.swing.SwingUtilities;
  */
 public class CreateStorie extends javax.swing.JPanel {
 
-    private UserDatabase database = LOGIN.database;
+    private final UserDatabase database = LOGIN.database;
 
-    /**
-     * Creates new form CreateStorie
-     */
-    private UserAccount user = database.getCurrentUser();
-    private ContentDatabase contentdatabase;
+    
+    private final UserAccount user = database.getCurrentUser();
+    
+    ContentDatabase contentdatabase;
     public CreateStorie() {
          initComponents();
         jTextField2.setText("tell us story !");

@@ -80,9 +80,7 @@ public abstract class Content
       public void deleteContent(String fileName) 
       {
     RuntimeTypeAdapterFactory<Content> runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of(Content.class, "type").registerSubtype(Storie.class, "Storie"); 
-    Gson gson = new GsonBuilder()
-            .registerTypeAdapterFactory(runtimeTypeAdapterFactory)
-            .create();
+    Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
 
     try (FileReader reader = new FileReader(fileName)) {
         

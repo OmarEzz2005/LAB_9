@@ -49,6 +49,7 @@ public class Newsfeed extends javax.swing.JPanel {
         jPanel3 = new JPanel();
         jPanel3.setLayout(new BoxLayout(jPanel3, BoxLayout.Y_AXIS));
         initComponents();
+        
         users = LOGIN.database;
         ImageIcon icon = new ImageIcon(getClass().getResource("/FrontEnd/image.png"));
         Image image = icon.getImage();
