@@ -66,7 +66,7 @@ public class UserAccount {
         for (UserAccount user : LOGIN.database.getUsers()) {
             if (user.getUserID().equals(receiver))
             {
-               // this.requests.add(new FriendRequests(this,  LOGIN.database.getRecord(user.getUserID())));
+                this.requests.add(user.getUserID());
                 JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
                 LOGIN.database.saveToFile();
                 return true;
@@ -126,10 +126,9 @@ public class UserAccount {
     
     
     public void showFriendRequests() {
-        ArrayList<FriendRequests> pendingRequests = this.requests;
-        if (pendingRequests.size() != 0) {
-            for (int i = 0; i < pendingRequests.size(); i++) {
-                System.out.println("You have friend Request from " + pendingRequests.get(i).getSender().getUsername());
+        if (requests.size() != 0) {
+            for (int i = 0; i < requests.size(); i++) {
+                System.out.println("You have friend Request from " + requests.get(i));
             }
 
         } else {
