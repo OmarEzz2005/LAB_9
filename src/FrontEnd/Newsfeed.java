@@ -97,7 +97,27 @@ public class Newsfeed extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.AbstractListModel<String>() {
+
+            UserAccount current = LOGIN.database.getCurrentUser();
+            String[] strings;
+
+            {
+                ArrayList<UserAccount> friends = current.getFriends();
+                if (current.getFriends() == null) {
+                    strings = new String[]{"No friends"};
+                } else {
+                    strings = new String[friends.size()];
+                    for (int i = 0; i < friends.size(); i++) {
+                        strings[i] = friends.get(i).getUsername() + " " + friends.get(i).getStatus();
+                    }
+                }
+            }
+
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        }
+        ;
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
