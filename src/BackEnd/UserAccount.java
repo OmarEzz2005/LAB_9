@@ -30,9 +30,9 @@ public class UserAccount {
     private String password;
     private String date;
     private String status;
-    protected ArrayList <String> friends = new ArrayList<>();
-    protected ArrayList <String> blocked  = new ArrayList<>();
-    protected ArrayList <String> requests  = new ArrayList<>();
+    private ArrayList <String> friends; 
+    private ArrayList <String> blocked; 
+    private ArrayList <String> requests;
     private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username, String Gender, String password, LocalDate date) {
@@ -47,6 +47,9 @@ public class UserAccount {
         }
         this.date = date.format(DATE_FORMAT);
         this.makeOnline();
+        friends = new ArrayList<>();
+        blocked = new ArrayList<>();
+        requests  = new ArrayList<>();
 
     }
 
@@ -64,38 +67,61 @@ public class UserAccount {
     
     public boolean sendFriendRequest(String receiver)
     {
+        try{
+        
         for (UserAccount user : LOGIN.database.getUsers()) {
-            if (user.getUserID().equals(receiver))
+            if (user.getUsername().equals(receiver))
             {
-                this.requests.add(user.getUserID());
-                JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
+                for(int j = 0; j < user.requests.size(); j++)
+                {
+                    if(user.requests.get(j).equals(this.getUsername()+"_"+user.getUsername()+"pending"))
+                    {
+                        JOptionPane.showMessageDialog(null,"You have already sent friend request to "+user.getUsername());
+                        return false;
+                    }
+                }
+                
+                this.requests.add(new FriendRequests(this,user).getId()+"pending");
+                user.requests.add(new FriendRequests(this,user).getId() + "pending");
+                //JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
                 LOGIN.database.saveToFile();
                 return true;
             }
         }
-         JOptionPane.showMessageDialog(null,"No User found !");         
+        
+         //JOptionPane.showMessageDialog(null,"No User found !");         
         return false;
+        
+        }catch(IllegalArgumentException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
     
     public void approveRequest(String username) {
         
         for (int i = 0; i < this.requests.size(); i++) {
             String traversed = requests.get(i);
-            if (traversed.equals(username)) {
-                this.friends.add(this.getUserID());
+            UserAccount user;
+            if (traversed.equals(username+"_"+this.getUsername()+ "pending")) {
+                user = LOGIN.database.getRecord(username); 
+                this.friends.add(user.getUsername());
+                user.friends.add(this.getUsername());
                 requests.remove(i);
-                LOGIN.database.saveToFile();
-                JOptionPane.showMessageDialog(null,"You are now friends with " + username,"Success",JOptionPane.INFORMATION_MESSAGE);
-                for (UserAccount user : LOGIN.database.getUsers()) {
-            if (user.getUsername().equals(username))
-            {
-                user.friends.add(this.getUserID());
-                LOGIN.database.saveToFile();
-            }
+                for(int j = 0; j < user.requests.size(); j++)
+                {
+                    if(user.requests.get(j).equals(username+"_"+this.getUsername()+"pending"))
+                    {
+                        user.requests.remove(j);
+                        break;
+                    }
                 }
+                LOGIN.database.saveToFile();
+                JOptionPane.showMessageDialog(null,"You are now friends with " + username,"Success",JOptionPane.INFORMATION_MESSAGE);     
                 return;
-            
-        }}
+             }
+        }
         JOptionPane.showMessageDialog(null,"There is no friend request from this person","Error",JOptionPane.ERROR_MESSAGE);
 
     }
@@ -105,16 +131,19 @@ public class UserAccount {
     {
         for (int i = 0; i < this.requests.size(); i++) {
             String traversed = requests.get(i);
-            if (traversed.equals(username)) {
+            UserAccount user;
+            if (traversed.equals(username+"_"+this.getUsername()+"pending")) {
+                user = LOGIN.database.getRecord(username); 
                 requests.remove(i);
-                LOGIN.database.saveToFile();
                 JOptionPane.showMessageDialog(null,"You declined " + username,"Success",JOptionPane.INFORMATION_MESSAGE);
-                for (UserAccount user : LOGIN.database.getUsers()) {
-            if (user.getUsername().equals(username))
-            {
-                LOGIN.database.saveToFile();
-            }
+                for (int j = 0; j < user.requests.size(); j++) {
+                    if(user.requests.get(j).equals(username+"_"+this.getUsername()+"pending"))
+                    {
+                        user.requests.set(j,username+"_"+this.getUsername()+"declined");
+                        break;
+                    }
                 }
+                LOGIN.database.saveToFile();
                 return;
             
         }}
@@ -140,32 +169,26 @@ public class UserAccount {
     
     
     public void showFriends() {
-        ArrayList <UserAccount> friendlist=LOGIN.database.getUsers();
-        for (UserAccount user:friendlist)
+        for (String s : this.friends)
         {  
-            System.out.println(user.getUsername());
+            System.out.println(s);
         }
     }
     
     
     public boolean isFriends(String username) {
-        ArrayList <UserAccount> friendlist=LOGIN.database.getUsers();
-        for (UserAccount user:friendlist)
-        {  if(username.equals(user.getUsername()))
-                {
-                    return true;
-                }
-             else 
-              {
-                  return false;
-               }
+        for(String s:this.friends)
+        {
+            if(s.equals(username)){
+                return true;
+            }
         }
         return false;
     }
 
     public boolean isBlocked(String username) {
-        for (String user: blocked) {
-            if (user.equals(blocked)) {
+        for (String user: this.blocked) {
+            if (user.equals(username)) {
                 return true;
             }
         }
@@ -175,16 +198,20 @@ public class UserAccount {
     
     public boolean blockUser(String blocked) {
 
-        for (UserAccount user : LOGIN.database.getUsers()) {
-           if(blocked.contains(user.getUsername()))
+        for (String user : this.blocked) {
+           if(blocked.equals(user))
            {
+               System.out.println("Already blocked");
                return false;
            }
-            if (user.getUsername().equals(blocked)) {
-                this.blocked.add(blocked);
-                if(isFriends(blocked))
-                    this.removeFriend(blocked);
-                System.out.println("Blocked Successfully");
+        }
+        
+        for(UserAccount user : LOGIN.database.getUsers())
+        {
+            if(blocked.equals(user.getUsername()))
+            {
+                this.removeFriend(blocked);
+                System.out.println("Blocked successfully");
                 return true;
             }
         }
@@ -197,18 +224,44 @@ public class UserAccount {
     
     
     public void removeFriend(String removed) {
-        for (UserAccount friend : LOGIN.database.getUsers()) {
-            if (friend.getUsername().equals(removed)) {
-                this.friends.remove(friend);
-                friend.friends.remove(this);
+        for (int i = 0; i < this.friends.size(); i++) {
+            String s = friends.get(i);
+            UserAccount user;
+            if (s.equals(removed)) {
+                this.friends.remove(i);
+                user = LOGIN.database.getRecord(removed);
+                for(int j = 0; j < user.friends.size();j++)
+                {
+                    if(user.friends.get(j).equals(this.username))
+                    {
+                        user.friends.remove(j);
+                        this.blocked.add(removed);
+                        LOGIN.database.saveToFile();
+                        break;
+                    }
+                }
+                System.out.println("Removed");
                 return;
             }
         }
+        
+        
+        for(UserAccount user: LOGIN.database.getUsers())
+        {
+            if(user.getUsername().equals(removed))
+            {
+                this.blocked.add(removed);
+                LOGIN.database.saveToFile();
+                return;
+            }
+        }
+        
+        
         System.out.println("Not already in your Friends ");
     }
     
     
-   /* public ArrayList<UserAccount> getFriendSuggestions() {
+    public ArrayList<UserAccount> getFriendSuggestions() {
         ArrayList<UserAccount> friendSuggestions = new ArrayList<>();
 
         for (UserAccount user : LOGIN.database.getUsers()) {
@@ -220,55 +273,8 @@ public class UserAccount {
         }
 
         return friendSuggestions;
-    }*/
-    
-    
-    public ArrayList<UserAccount> getFriendSuggestions() {
-    ArrayList<UserAccount> suggestedFriends = new ArrayList<>();
-    ArrayList<UserAccount> mutualFriends = new ArrayList<>();
-    ArrayList<UserAccount> UserFriendList = this.getFriends();
-    ArrayList<UserAccount> DataBaseusers = new ArrayList<>();
-
-
-    if (UserFriendList == null || UserFriendList.isEmpty()) {
-        Collections.shuffle(DataBaseusers);
-        for (int i = 0; i < Math.min(2, DataBaseusers.size()); i++) {
-            suggestedFriends.add(DataBaseusers.get(i));
-        }
-    } else {
-        for (UserAccount friend : UserFriendList) {
-            for (UserAccount FofF : friend.getFriends()) {
-                if (!UserFriendList.contains(FofF) && !FofF.equals(this) && !mutualFriends.contains(FofF)) {
-                    mutualFriends.add(FofF);
-                }
-            }
-        }
-        for (int i = 0; i < Math.min(2, mutualFriends.size()); i++) {
-            suggestedFriends.add(mutualFriends.get(i));
-        }
     }
-
-    return suggestedFriends;
-}
-
-public ArrayList<UserAccount> MutualFriends() {
-    ArrayList<UserAccount> mutualFriends = new ArrayList<>();
-    ArrayList<UserAccount> UserFriendList = this.getFriends();
-
-    if (UserFriendList != null) {
-        for (UserAccount friend : UserFriendList) {
-            for (UserAccount FofF : friend.getFriends()) {
-                if (!UserFriendList.contains(FofF) && !FofF.equals(this) && !mutualFriends.contains(FofF)) {
-                    mutualFriends.add(FofF);
-                }
-            }
-        }
-    }
-
-    return new ArrayList<>(mutualFriends.subList(0, Math.min(2, mutualFriends.size())));
-}
-    
-    
+      
 
     public String getUsername() {
         return username;
@@ -298,9 +304,7 @@ public ArrayList<UserAccount> MutualFriends() {
         this.password = hashPassword(password);
     }
 
-    public void setFriends(ArrayList<String> friends) {
-        this.friends = friends;
-    }
+    
 
     public LocalDate getDate() {
         return LocalDate.parse(this.date, DATE_FORMAT);

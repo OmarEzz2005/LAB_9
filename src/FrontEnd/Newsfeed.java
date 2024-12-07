@@ -349,6 +349,7 @@ public class Newsfeed extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         currentUser.makeOffline();
+        LOGIN.database.saveToFile();
         LOGIN log = new LOGIN();
         log.setVisible(true);     
         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton5);
@@ -371,6 +372,7 @@ public class Newsfeed extends javax.swing.JPanel {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
             parentFrame.repaint();
+            parentFrame.pack();
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
