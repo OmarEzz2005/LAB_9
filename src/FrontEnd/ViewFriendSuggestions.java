@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Mostafa
  */
-public class ViewFriendSuggestions extends javax.swing.JFrame implements Node{
+public class ViewFriendSuggestions extends javax.swing.JFrame {
         private Node parent;
         private final String[] columnsnames;
     
@@ -20,16 +20,13 @@ public class ViewFriendSuggestions extends javax.swing.JFrame implements Node{
         this.columnsnames=columnsnames;
         
     }
-    public void setdata(String[][] data){
-        jTable1.setModel(new DefaultTableModel(data,columnsnames){
-        @Override
-        public boolean isCellEditable (int row,int column){
-            return false;
-        } 
-        
-        });
-        
-    }
+    
+public void setdata(String[][] data) {
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        data,
+        new String[] {"Suggested Friend"}
+    ));
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,8 +81,7 @@ public class ViewFriendSuggestions extends javax.swing.JFrame implements Node{
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        this.setVisible(false);
-        ((JFrame)getParentNode()).setVisible(true);
+        
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -135,13 +131,5 @@ public class ViewFriendSuggestions extends javax.swing.JFrame implements Node{
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-     @Override
-    public Node getParentNode() {
-      return parent;
-    }
-
-    public void setParentNode(Node n) {
-    this.parent= n ;
-    }
 
 }
