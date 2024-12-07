@@ -81,7 +81,7 @@ public class UserAccount {
                     }
                 }
                 
-                this.requests.add(new FriendRequests(this,user).getId()+"pending");
+              //  this.requests.add(new FriendRequests(this,user).getId()+"pending");
                 user.requests.add(new FriendRequests(this,user).getId() + "pending");
                 //JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
                 LOGIN.database.saveToFile();
@@ -105,7 +105,7 @@ public class UserAccount {
             String traversed = requests.get(i);
             UserAccount user;
             if (traversed.equals(username+"_"+this.getUsername()+ "pending")) {
-                user = LOGIN.database.getRecord(username); 
+                user = LOGIN.database.getRecordWithName(username); 
                 this.friends.add(user.getUsername());
                 user.friends.add(this.getUsername());
                 requests.remove(i);
@@ -118,7 +118,7 @@ public class UserAccount {
                     }
                 }
                 LOGIN.database.saveToFile();
-                JOptionPane.showMessageDialog(null,"You are now friends with " + username,"Success",JOptionPane.INFORMATION_MESSAGE);     
+                //JOptionPane.showMessageDialog(null,"You are now friends with " + username,"Success",JOptionPane.INFORMATION_MESSAGE);     
                 return;
              }
         }
@@ -133,7 +133,7 @@ public class UserAccount {
             String traversed = requests.get(i);
             UserAccount user;
             if (traversed.equals(username+"_"+this.getUsername()+"pending")) {
-                user = LOGIN.database.getRecord(username); 
+                user = LOGIN.database.getRecordWithName(username); 
                 requests.remove(i);
                 JOptionPane.showMessageDialog(null,"You declined " + username,"Success",JOptionPane.INFORMATION_MESSAGE);
                 for (int j = 0; j < user.requests.size(); j++) {
@@ -210,8 +210,13 @@ public class UserAccount {
         {
             if(blocked.equals(user.getUsername()))
             {
-                this.removeFriend(blocked);
+                this.blocked.add(blocked);              
+                if(isFriends(blocked))
+                {
+                    this.removeFriend(blocked);
+                }   
                 System.out.println("Blocked successfully");
+                LOGIN.database.saveToFile(); 
                 return true;
             }
         }
@@ -229,13 +234,13 @@ public class UserAccount {
             UserAccount user;
             if (s.equals(removed)) {
                 this.friends.remove(i);
-                user = LOGIN.database.getRecord(removed);
+                user = LOGIN.database.getRecordWithName(removed);
                 for(int j = 0; j < user.friends.size();j++)
                 {
                     if(user.friends.get(j).equals(this.username))
                     {
                         user.friends.remove(j);
-                        this.blocked.add(removed);
+                        //this.blocked.add(removed);
                         LOGIN.database.saveToFile();
                         break;
                     }
@@ -246,15 +251,7 @@ public class UserAccount {
         }
         
         
-        for(UserAccount user: LOGIN.database.getUsers())
-        {
-            if(user.getUsername().equals(removed))
-            {
-                this.blocked.add(removed);
-                LOGIN.database.saveToFile();
-                return;
-            }
-        }
+        
         
         
         System.out.println("Not already in your Friends ");
@@ -262,7 +259,13 @@ public class UserAccount {
     
     
     public ArrayList<UserAccount> getFriendSuggestions() {
-        ArrayList<UserAccount> friendSuggestions = new ArrayList<>();
+         ArrayList<UserAccount> friendSuggestions = new ArrayList<>();
+        
+        if (LOGIN.database.getUsers() == null || LOGIN.database.getUsers().isEmpty()) {
+        return friendSuggestions;  
+        }
+  
+       
 
         for (UserAccount user : LOGIN.database.getUsers()) {
             if (!user.getUserID().equals(this.getUserID()) && !isFriends(user.getUsername()) && !isBlocked(user.getUsername())) {
@@ -322,8 +325,16 @@ public class UserAccount {
         return userID;
     }
 
-    public ArrayList<String> getFriends() {
-        return friends;
+    public ArrayList<UserAccount> getFriends() {
+        ArrayList <UserAccount> users = new ArrayList<>();
+        if (this.friends == null || this.friends.isEmpty()) {
+        return users;  
+        }
+        for(int i = 0; i < this.friends.size(); i++)
+        {
+            users.add(LOGIN.database.getRecordWithName(friends.get(i)));
+        }
+        return users;
     }
 
     public ProfileManagement getProfile() {
@@ -334,8 +345,21 @@ public class UserAccount {
         return blocked;
     }
 
-    public ArrayList<String> getRequests() {
-        return requests;
+    public ArrayList<UserAccount> getRequests() {
+        ArrayList <UserAccount> users = new ArrayList<>();
+        if (this.requests == null || this.requests.isEmpty()) {
+        return users;  
+        }
+        for(int i = 0; i < this.requests.size(); i++)
+        {
+            String s = requests.get(i);
+            int index = s.indexOf('_');
+            int target = s.indexOf('_', index+1);
+            System.out.println("Test   "+LOGIN.database.getRecordWithName(s.substring(0, target)));
+            users.add(LOGIN.database.getRecordWithName(s.substring(0, target)));
+        }
+        //System.out.println("users"+users.get(0));
+        return users;
     }
 
 }

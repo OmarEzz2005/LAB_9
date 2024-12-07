@@ -7,9 +7,6 @@ package FrontEnd;
 import BackEnd.UserAccount;
 
 
-import frontend.ViewFriendRequest;
-import frontend.ViewFriendStatus;
-import frontend.ViewFriendSuggestions;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -26,10 +23,7 @@ public class FriendManagement extends javax.swing.JPanel{
      */
     
     public UserAccount current;
-    private ViewFriendRequest requestsViewer;
-    private ViewFriendStatus FriendStatusViewer;
-    private ViewFriendSuggestions FriendSuggestionViewer;
-    
+  
     
     
     
@@ -225,19 +219,18 @@ public class FriendManagement extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-/*        if (FriendSuggestionViewer == null || !FriendSuggestionViewer.isDisplayable())  {
-            FriendSuggestionViewer = new ViewFriendSuggestions(new String[]{"UserName"});
-            FriendSuggestionViewer.setTitle("View Friend Suggestions");
-            FriendSuggestionViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            String[] data = getSuggestionData();
-            String[][] tabledata = new String[data.length][1];
-            for (int i = 0; i < data.length; i++) {
-                tabledata[i] = data[i].split(",");
-            }
-            FriendSuggestionViewer.setdata(tabledata);
-            FriendSuggestionViewer.setVisible(true);
+        
+        ViewFriendSuggestion page = new ViewFriendSuggestion();
+        page.setVisible(true);
 
-        }*/
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -281,19 +274,16 @@ public class FriendManagement extends javax.swing.JPanel{
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      /*  if (requestsViewer == null || !requestsViewer.isDisplayable())  {
-            requestsViewer = new ViewFriendRequest(new String[]{"Username", "Status"});
-            requestsViewer.setTitle("View Friend Requests");
-            requestsViewer.setParentNode(this);
-            requestsViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            String[] data = getRequestsData();
-            String[][] tabledata = new String[data.length][2];
-            for (int i = 0; i < data.length; i++) {
-                tabledata[i] = data[i].split(",");
-            }
-            requestsViewer.setdata(tabledata);
-            requestsViewer.setVisible(true);
-        }*/
+        ViewFriendRequests page = new ViewFriendRequests();
+        page.setVisible(true);
+
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
