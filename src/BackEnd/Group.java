@@ -16,8 +16,8 @@ public class Group
     private String ID;
     public static int count =0;
     private String name;
-    private String Discription=	"/Users/yaseen/Downloads/WhatsApp Image 2023-07-13 at 4.43.29 PM.jpeg";
-    private String GroupPhotoPath;
+    private String Discription	;
+    private String GroupPhotoPath="/Users/yaseen/Downloads/WhatsApp Image 2023-07-13 at 4.43.29 PM.jpeg";
     private String PrimaryAdmin;
     private ArrayList<String> OtherAdmins=new ArrayList<>();
     private ArrayList<String> Users=new ArrayList<>();
