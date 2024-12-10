@@ -22,6 +22,10 @@ public class Group
     private ArrayList<String> OtherAdmins=new ArrayList<>();
     private ArrayList<String> Users=new ArrayList<>();
     private ArrayList<String> Posts=new ArrayList<>();
+    private ArrayList<String> newAdminsreq=new ArrayList<>();
+    private ArrayList<String> newUserreq=new ArrayList<>();
+    
+    
 
     public Group(String name, String Discription, String PrimaryAdmin) {
         this.ID="Group"+String.format("%.3d", count++);
@@ -36,7 +40,6 @@ public class Group
         this.Users=new ArrayList<>();
         this.Posts=new ArrayList<>();
         this.newAdminsreq=new ArrayList<>();
-        this.newPostreq=new ArrayList<>();
         this.newUserreq=new ArrayList<>();
     }
 
@@ -58,13 +61,6 @@ public class Group
         this.Posts = Posts;
     }
 
-    public ArrayList<String> getNewPostsreq() {
-        return newPostreq;
-    }
-
-    public void setNewPostsreq(ArrayList<String> newPostsreq) {
-        this.newPostreq = newPostsreq;
-    }
 
     public ArrayList<String> getNewAdminsreq() {
         return newAdminsreq;
@@ -141,24 +137,7 @@ public class Group
         return null;
     }
 
-    public ArrayList<Post> getObjectPost() {
-        ArrayList<Post> postList = new ArrayList<>();
-        if (Posts != null) {
-            for (String postS : Posts) {
-                for (Content postO : Newsfeed.contents.getContentList()) {
-                    
-                    if (postO.getContentId().equals(postS));
-                    {
-                        postList.add((Post) postO);
-                    }
-
-                }
-
-            }
-            return postList;
-        }
-        return null;
-    }
+    
     
     public ArrayList<UserAccount> getObjectAdmins() 
     {
