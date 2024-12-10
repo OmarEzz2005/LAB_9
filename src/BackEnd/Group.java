@@ -16,7 +16,7 @@ public class Group
     private String ID;
     public static int count =0;
     private String name;
-    private String Discription=	"/Users/yaseen/Downloads/WhatsApp Image 2023-07-13 at 4.43.29 PM.jpeg";
+    private String Discription;
     private String GroupPhotoPath;
     private String PrimaryAdmin;
     private ArrayList<String> OtherAdmins=new ArrayList<>();
@@ -32,7 +32,7 @@ public class Group
         }
         this.GroupPhotoPath = GroupPhotoPath;
         this.PrimaryAdmin = PrimaryAdmin;
-        
+        this.GroupPhotoPath = "R.png";
         this.OtherAdmins=new ArrayList<>();
         this.Users=new ArrayList<>();
         this.Posts=new ArrayList<>();

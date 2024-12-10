@@ -27,6 +27,13 @@ public class GroupUser extends javax.swing.JPanel {
      */
     public GroupUser() {
         initComponents();
+        try {
+            // Load the image from the src folder
+            profileImage = ImageIO.read(new File("src/FrontEnd/R.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        jPanel1.getGraphics().drawImage(profileImage, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(), this);
         
     }
 
