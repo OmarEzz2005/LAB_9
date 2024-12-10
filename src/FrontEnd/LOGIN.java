@@ -5,6 +5,7 @@
 package FrontEnd;
 
 import BackEnd.EmailVerification;
+import BackEnd.GroupDatabase;
 import BackEnd.UserAccount;
 import BackEnd.UserDatabase;
 import java.awt.Color;
@@ -27,6 +28,7 @@ public class LOGIN extends javax.swing.JFrame {
 
     
     public static UserDatabase database;
+    public static GroupDatabase groupdatabase;
     public static String logged;
     
     
@@ -50,6 +52,8 @@ public class LOGIN extends javax.swing.JFrame {
         jPasswordField1.setForeground(Color.GRAY);
         database = new UserDatabase("Users.json");   
         database.readFromFile();
+        groupdatabase = new GroupDatabase("Group.json");   
+        groupdatabase.readFromFile();
         
         
     }
