@@ -4,7 +4,7 @@
  */
 package FrontEnd;
 
-import frontend.FriendManagementInterface;
+
 import BackEnd.Content;
 import BackEnd.ContentDatabase;
 import BackEnd.Post;
@@ -96,8 +96,8 @@ public class Newsfeed extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -116,14 +116,14 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Contacts");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
 
             UserAccount current = LOGIN.database.getCurrentUser();
             String[] strings;
 
             {
                 ArrayList<UserAccount> friends = current.getFriends();
-                if (current.getFriends() == null) {
+                if (current.getFriends() == null || current.getFriends().isEmpty()) {
                     strings = new String[]{"No friends"};
                 } else {
                     strings = new String[friends.size()];
@@ -136,7 +136,7 @@ public class Newsfeed extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane4.setViewportView(jList2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,11 +144,13 @@ public class Newsfeed extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(192, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 178, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -157,7 +159,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane4)
                 .addContainerGap())
         );
 
@@ -263,7 +265,7 @@ public class Newsfeed extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane3)
@@ -369,6 +371,7 @@ public class Newsfeed extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         currentUser.makeOffline();
+        LOGIN.database.saveToFile();
         LOGIN log = new LOGIN();
         log.setVisible(true);     
         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton5);
@@ -382,15 +385,16 @@ public class Newsfeed extends javax.swing.JPanel {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         
-        FriendManagementInterface page = new FriendManagementInterface(this.currentUser);
-        page.setSize(1000, 500);  // Adjust the size of the new window
-        page.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        page.setVisible(true);  // Show the page as a new frame
-
-       // Optionally, close the current frame or minimize it
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+        FriendManagement create = new FriendManagement(this.currentUser);
+        create.setVisible(true);
+        
+        
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
         if (parentFrame != null) {
-            parentFrame.setVisible(false);  // Hide the current frame if necessary
+            parentFrame.setContentPane(create);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -445,8 +449,8 @@ public class Newsfeed extends javax.swing.JPanel {
     
     jPanel3.revalidate();
     jPanel3.repaint();
-    jScrollPane1.revalidate();
-    jScrollPane1.repaint();
+    jScrollPane2.revalidate();
+    jScrollPane2.repaint();
 }
    
     public void loadPosts() {
@@ -569,11 +573,11 @@ public class Newsfeed extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     // End of variables declaration//GEN-END:variables
 }

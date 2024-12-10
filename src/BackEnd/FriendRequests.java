@@ -4,17 +4,26 @@
  */
 package BackEnd;
 
+import FrontEnd.LOGIN;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Mostafa
  */
 public class FriendRequests {
 
+    private String id;
     private UserAccount receiver;
     private UserAccount sender;
     private String status;
 
     public FriendRequests(UserAccount sender, UserAccount receiver) {
+        if(sender.getUsername().equals(receiver.getUsername()))
+        {
+            throw new IllegalArgumentException("Cannot send a friend request to the same account.");
+        }
+        this.id = sender.getUsername()+"_"+receiver.getUsername();
         this.receiver = receiver;
         this.sender = sender;
         this.status = "Pending";
@@ -43,6 +52,12 @@ public class FriendRequests {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getId() {
+        return id;
+    }
+    
+    
     
     public String LineRepresentation(){
     String line = this.sender.getUsername()+","+this.status;
