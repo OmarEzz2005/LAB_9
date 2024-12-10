@@ -6,10 +6,7 @@ package FrontEnd;
 
 import BackEnd.UserAccount;
 
-import frontend.Node;
-import frontend.ViewFriendRequest;
-import frontend.ViewFriendStatus;
-import frontend.ViewFriendSuggestions;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -26,10 +23,7 @@ public class FriendManagement extends javax.swing.JPanel{
      */
     
     public UserAccount current;
-    private ViewFriendRequest requestsViewer;
-    private ViewFriendStatus FriendStatusViewer;
-    private ViewFriendSuggestions FriendSuggestionViewer;
-    
+  
     
     
     
@@ -40,7 +34,7 @@ public class FriendManagement extends javax.swing.JPanel{
     
     
     
-    
+    /*
     public String[] getRequestsData() {
 
         String[] Data = new String[current.getRequests().toArray().length];
@@ -48,7 +42,7 @@ public class FriendManagement extends javax.swing.JPanel{
             Data[i] = current.getRequests().get(i).LineRepresentation();
         }
         return Data;
-    }
+    }*/
     
     public String[] getSuggestionData() {
 
@@ -179,24 +173,27 @@ public class FriendManagement extends javax.swing.JPanel{
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton7)
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jButton7)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(101, 101, 101)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(73, 73, 73)))))
                 .addContainerGap(103, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(190, 190, 190))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,19 +219,18 @@ public class FriendManagement extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-/*        if (FriendSuggestionViewer == null || !FriendSuggestionViewer.isDisplayable())  {
-            FriendSuggestionViewer = new ViewFriendSuggestions(new String[]{"UserName"});
-            FriendSuggestionViewer.setTitle("View Friend Suggestions");
-            FriendSuggestionViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            String[] data = getSuggestionData();
-            String[][] tabledata = new String[data.length][1];
-            for (int i = 0; i < data.length; i++) {
-                tabledata[i] = data[i].split(",");
-            }
-            FriendSuggestionViewer.setdata(tabledata);
-            FriendSuggestionViewer.setVisible(true);
+        
+        ViewFriendSuggestion page = new ViewFriendSuggestion();
+        page.setVisible(true);
 
-        }*/
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -278,19 +274,16 @@ public class FriendManagement extends javax.swing.JPanel{
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      /*  if (requestsViewer == null || !requestsViewer.isDisplayable())  {
-            requestsViewer = new ViewFriendRequest(new String[]{"Username", "Status"});
-            requestsViewer.setTitle("View Friend Requests");
-            requestsViewer.setParentNode(this);
-            requestsViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            String[] data = getRequestsData();
-            String[][] tabledata = new String[data.length][2];
-            for (int i = 0; i < data.length; i++) {
-                tabledata[i] = data[i].split(",");
-            }
-            requestsViewer.setdata(tabledata);
-            requestsViewer.setVisible(true);
-        }*/
+        ViewFriendRequests page = new ViewFriendRequests();
+        page.setVisible(true);
+
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -301,6 +294,8 @@ public class FriendManagement extends javax.swing.JPanel{
         int option = JOptionPane.showConfirmDialog(this, message, "Block User ", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String user = name.getText();
+            System.out.println(user);
+            System.out.println(current.getUsername());
             if (!current.isBlocked(user)) {
                 boolean done = current.blockUser(user);
                 if (done){
@@ -324,6 +319,7 @@ public class FriendManagement extends javax.swing.JPanel{
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
             parentFrame.repaint();
+            parentFrame.pack();
         }
 
     }//GEN-LAST:event_jButton7ActionPerformed

@@ -408,6 +408,11 @@ public class SignUp extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null,"Email already exists, Try to Login !", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if(user.getUsername().equals(first+"_"+last))
+            {
+                JOptionPane.showMessageDialog(null,"username already exists, Try another one !", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
         
         

@@ -73,6 +73,24 @@ public class UserDatabase {
     }
     
      
+     
+     
+     public UserAccount getRecordWithName(String name) {
+        for (UserAccount c : users) {
+            if (c.getUsername().equals(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
+     
+     
+     
+     
+     
+     
+     
+     
      public UserAccount getCurrentUser() {
          UserAccount user = this.getRecord(LOGIN.logged);
          //System.out.println(""+user.getEmail());
