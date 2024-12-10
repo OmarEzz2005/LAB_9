@@ -306,7 +306,7 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        CreatePost create = new CreatePost();
+        CreatePost create = new CreatePost(null);
         create.setVisible(true);
         
         

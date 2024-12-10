@@ -4,13 +4,31 @@
  */
 package FrontEnd;
 
+import BackEnd.Content;
+import BackEnd.Group;
+import BackEnd.GroupDatabase;
+import BackEnd.Post;
+import BackEnd.UserDatabase;
+import static FrontEnd.Newsfeed.contents;
 import static FrontEnd.profileManagementPage.profilePhotoJPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 /**
@@ -19,21 +37,41 @@ import javax.swing.SwingUtilities;
  */
 public class GroupUser extends javax.swing.JPanel {
 
-    
+    UserDatabase users = LOGIN.database;
+    private GroupDatabase groups = LOGIN.groupdatabase;
     private BufferedImage profileImage;
+    Group g;
+    private JPanel jPanel5;
     
     /**
      * Creates new form GroupUser
      */
-    public GroupUser() {
+    public GroupUser(Group group) {
         initComponents();
+        g = group;
         try {
-            // Load the image from the src folder
-            profileImage = ImageIO.read(new File("src/FrontEnd/R.png"));
+            if (group.getGroupPhotoPath() == null || group.getGroupPhotoPath().isEmpty()) {
+                // Load default image
+                profileImage = ImageIO.read(new File("src/FrontEnd/R.png"));
+            } else {
+                // Load image from group photo path
+                ImageIcon imageIcon = new ImageIcon(group.getGroupPhotoPath());
+                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+                profileImage = new BufferedImage(200, 150, BufferedImage.TYPE_INT_ARGB);
+                Graphics g = profileImage.getGraphics();
+                g.drawImage(image, 0, 0, null);
+                g.dispose();
+            }
+            // Repaint panel to display the image
+            jPanel1.repaint();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        jPanel1.getGraphics().drawImage(profileImage, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(), this);
+        jLabel2.setText("Group By "+group.getPrimaryAdmin());
+        jTextArea1.setText(group.getDiscription());
+        jPanel5 = new JPanel();
+        jPanel5.setLayout(new BoxLayout(jPanel5, BoxLayout.X_AXIS));
+        this.loadPosts();
         
     }
 
@@ -46,7 +84,16 @@ public class GroupUser extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (profileImage != null) {
+                    g.drawImage(profileImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        }
+        ;
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -185,7 +232,7 @@ public class GroupUser extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        CreatePost create = new CreatePost();
+        CreatePost create = new CreatePost(g);
         create.setVisible(true);
 
         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton2);
@@ -225,8 +272,8 @@ public class GroupUser extends javax.swing.JPanel {
             File selectedFile = fileChooser.getSelectedFile();//capture selected file
             try {
                 profileImage = ImageIO.read(selectedFile);//read and capture image file 
-                //profilemanager.updateProfilePhoto(selectedFile.getAbsolutePath());
-                profilePhotoJPanel.getGraphics().drawImage(profileImage, 0, 0, profilePhotoJPanel.getWidth(), profilePhotoJPanel.getHeight(), this);
+                g.UpdatePhoto(selectedFile.getAbsolutePath());
+                jPanel1.getGraphics().drawImage(profileImage, 0, 0, jPanel1.getWidth(), jPanel1.getHeight(), this);
                 //display photo on profile photo JPanel
             } catch (IOException e) {
                 e.printStackTrace();  // Handle file not found, etc..
@@ -244,6 +291,76 @@ public class GroupUser extends javax.swing.JPanel {
         System.out.println("Error loading profile photo");
     }
    }
+    
+    
+    
+    
+    
+    
+    public void displayPosts(ArrayList<Post> posts) {
+    jPanel5.removeAll();
+    jPanel5.setLayout(new BoxLayout(jPanel5, BoxLayout.Y_AXIS)); 
+
+    
+    for (Post post : posts) {
+        JPanel postPanel = new JPanel();
+        postPanel.setLayout(new BorderLayout());
+        postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        
+        JLabel titleLabel = new JLabel(users.getRecord(post.getAutherId()).getUsername());
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        postPanel.add(titleLabel, BorderLayout.NORTH);
+
+        
+        JTextArea contentArea = new JTextArea(post.getContenText());
+        contentArea.setWrapStyleWord(true);
+        contentArea.setLineWrap(true);
+        contentArea.setEditable(false);
+        contentArea.setOpaque(false); 
+        postPanel.add(contentArea, BorderLayout.CENTER);
+        
+        //Adding Image 
+        if (post.getImgPath() != null && !post.getImgPath().isEmpty()) {
+            try {
+                // Load the image from the path
+                ImageIcon imageIcon = new ImageIcon(post.getImgPath());
+                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH); // Resize the image
+                JLabel imageLabel = new JLabel(new ImageIcon(image));
+                postPanel.add(imageLabel, BorderLayout.SOUTH); // Add image below the text
+                
+            } catch (Exception e) {
+                System.err.println("Error loading image from path: " + post.getImgPath());
+                e.printStackTrace();
+            }
+        }
+        jPanel5.add(postPanel);
+        System.out.println("Added post: " + post.getContentId());
+    }
+    
+
+    
+    int totalHeight = posts.size() * 200; 
+    jPanel5.setPreferredSize(new Dimension(jPanel5.getWidth(), totalHeight));
+   
+    
+    jPanel5.revalidate();
+    jPanel5.repaint();
+    jScrollPane2.revalidate();
+    jScrollPane2.repaint();
+}
+   
+    public void loadPosts() {
+    displayPosts(g.getObjectPost());          
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 

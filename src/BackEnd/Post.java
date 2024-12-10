@@ -10,6 +10,8 @@ package BackEnd;
  */
 public class Post extends Content{ 
 
+    
+    
     public Post(UserAccount User, String ContenText, String ImgPath, String type) {
         super(User, ContenText, ImgPath, "Post");
     }
@@ -17,4 +19,10 @@ public class Post extends Content{
     public String getType() {
         return "Post";
     }
+
+    
+    
+    
+    
+    
 }

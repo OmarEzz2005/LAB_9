@@ -23,14 +23,13 @@ public class Group
     private ArrayList<String> Users=new ArrayList<>();
     private ArrayList<String> Posts=new ArrayList<>();
 
-    public Group(String name, String Discription, String GroupPhotoPath, String PrimaryAdmin) {
+    public Group(String name, String Discription, String PrimaryAdmin) {
         this.ID="Group"+String.format("%.3d", count++);
         this.name = name;
         if(PrimaryAdmin!=null)
         {
             this.Discription = Discription;
         }
-        this.GroupPhotoPath = GroupPhotoPath;
         this.PrimaryAdmin = PrimaryAdmin;
         this.GroupPhotoPath = "R.png";
         this.OtherAdmins=new ArrayList<>();
@@ -95,6 +94,26 @@ public class Group
 
     public ArrayList<String> getUsers() {
         return Users;
+    }
+    
+    
+    public ArrayList<Post> getObjectPost() {
+        ArrayList<Post> postList = new ArrayList<>();
+        if (Posts != null) {
+            for (String postS : Posts) {
+                for (Content post : Newsfeed.contents.getContentList()) {
+                    
+                    if (post.getContentId().equals(postS));
+                    {
+                        postList.add((Post) post);
+                    }
+
+                }
+
+            }
+            return postList;
+        }
+        return null;
     }
     
 }
