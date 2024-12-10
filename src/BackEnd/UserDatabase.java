@@ -71,8 +71,6 @@ public class UserDatabase {
         }
         return null;
     }
-    
-     
      
      
      public UserAccount getRecordWithName(String name) {
@@ -84,13 +82,6 @@ public class UserDatabase {
         return null;
     }
      
-     
-     
-     
-     
-     
-     
-     
      public UserAccount getCurrentUser() {
          UserAccount user = this.getRecord(LOGIN.logged);
          //System.out.println(""+user.getEmail());
@@ -99,7 +90,7 @@ public class UserDatabase {
      
     
      
-     public void insertRecord(UserAccount record) {
+    public void insertRecord(UserAccount record) {
         if (contains(record.getSearchKey())) {
             JOptionPane.showMessageDialog(null, "Error, There is a User with the same ID !!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
