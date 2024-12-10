@@ -35,7 +35,19 @@ public class Group
         this.OtherAdmins=new ArrayList<>();
         this.Users=new ArrayList<>();
         this.Posts=new ArrayList<>();
+        this.newAdminsreq=new ArrayList<>();
+        this.newPostreq=new ArrayList<>();
+        this.newUserreq=new ArrayList<>();
     }
+
+    public ArrayList<String> getNewUserreq() {
+        return newUserreq;
+    }
+
+    public void setNewUserreq(ArrayList<String> newUserreq) {
+        this.newUserreq = newUserreq;
+    }
+    
 
     public void UpdatePhoto(String GroupPhotoPath) {
         this.GroupPhotoPath = GroupPhotoPath;
@@ -45,6 +57,23 @@ public class Group
     public void setPosts(ArrayList<String> Posts) {
         this.Posts = Posts;
     }
+
+    public ArrayList<String> getNewPostsreq() {
+        return newPostreq;
+    }
+
+    public void setNewPostsreq(ArrayList<String> newPostsreq) {
+        this.newPostreq = newPostsreq;
+    }
+
+    public ArrayList<String> getNewAdminsreq() {
+        return newAdminsreq;
+    }
+
+    public void setNewAdminsreq(ArrayList<String> newAdminsreq) {
+        this.newAdminsreq = newAdminsreq;
+    }
+    
     
     public void setOtherAdmins(ArrayList<String> OtherAdmins) {
         this.OtherAdmins = OtherAdmins;
@@ -94,6 +123,59 @@ public class Group
 
     public ArrayList<String> getUsers() {
         return Users;
+    }
+    public ArrayList<UserAccount> getObjectUser() {
+        ArrayList<UserAccount> userList = new ArrayList<>();
+        if (newUserreq != null) {
+            for (String userS : newUserreq) {
+                for (UserAccount userO : LOGIN.database.getUsers()) {
+                    if (userO.getUsername().equals(userS)) {
+                        userList.add(userO);
+                    }
+
+                }
+
+            }
+            return userList;
+        }
+        return null;
+    }
+
+    public ArrayList<Post> getObjectPost() {
+        ArrayList<Post> postList = new ArrayList<>();
+        if (Posts != null) {
+            for (String postS : Posts) {
+                for (Content postO : Newsfeed.contents.getContentList()) {
+                    
+                    if (postO.getContentId().equals(postS));
+                    {
+                        postList.add((Post) postO);
+                    }
+
+                }
+
+            }
+            return postList;
+        }
+        return null;
+    }
+    
+    public ArrayList<UserAccount> getObjectAdmins() 
+    {
+        ArrayList<UserAccount> userList = new ArrayList<>();
+        if (newAdminsreq != null) {
+            for (String userS : newAdminsreq) {
+                for (UserAccount userO : LOGIN.database.getUsers()) {
+                    if (userO.getUsername().equals(userS)) {
+                        userList.add(userO);
+                    }
+
+                }
+
+            }
+            return userList;
+        }
+        return null;
     }
     
     
