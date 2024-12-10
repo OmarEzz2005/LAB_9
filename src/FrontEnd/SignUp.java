@@ -69,6 +69,7 @@ public class SignUp extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -167,6 +168,13 @@ public class SignUp extends javax.swing.JPanel {
             }
         });
 
+        jCheckBox1.setText("Show password");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -184,25 +192,26 @@ public class SignUp extends javax.swing.JPanel {
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addGap(6, 6, 6)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jComboBox1, 0, 80, Short.MAX_VALUE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jTextField3)
-                                        .addComponent(jPasswordField1)
-                                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jCheckBox1)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jComboBox1, 0, 80, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jTextField3)
+                                            .addComponent(jPasswordField1)
+                                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
+                        .addGap(86, 86, 86)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(84, 84, 84))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,11 +235,13 @@ public class SignUp extends javax.swing.JPanel {
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
+                .addGap(4, 4, 4)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -353,7 +364,7 @@ public class SignUp extends javax.swing.JPanel {
         // TODO add your handling code here:
        try{
         
-        
+        ArrayList <UserAccount> users = database.getUsers();
         String first = jTextField1.getText();
         String last = jTextField2.getText();
         String Gender = (String)jComboBox4.getSelectedItem();
@@ -378,6 +389,53 @@ public class SignUp extends javax.swing.JPanel {
         if(date.isAfter(LocalDate.now().minusYears(16)))
         {
             JOptionPane.showMessageDialog(null,"Must be greater than 16 years", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+        if(!email.contains("@") || !email.contains(".")  || email.indexOf("@") > email.lastIndexOf(".") 
+            || email.startsWith("@") || email.endsWith(".") )
+        {
+            JOptionPane.showMessageDialog(null,"Invalid Email", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+        for(UserAccount user : users)
+        {
+            if(user.getEmail().equals(email))
+            {
+                JOptionPane.showMessageDialog(null,"Email already exists, Try to Login !", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(user.getUsername().equals(first+"_"+last))
+            {
+                JOptionPane.showMessageDialog(null,"username already exists, Try another one !", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        
+        
+        if(pass.length() < 8)
+        {
+            JOptionPane.showMessageDialog(null,"Invalid Password (Must be greater than or equal to 8 characters)", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!pass.matches(".*[A-Z].*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one uppercase letter.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!pass.matches(".*[a-z].*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one lowercase letter.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!pass.matches(".*\\d.*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one digit.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!pass.matches(".*[@#$%^&+=!].*")) {
+            JOptionPane.showMessageDialog(null, "Password must include at least one special character.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -426,9 +484,23 @@ public class SignUp extends javax.swing.JPanel {
        }
     }//GEN-LAST:event_jPasswordField1FocusLost
 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        if(jCheckBox1.isSelected())
+        {
+            jPasswordField1.setEchoChar('\0');
+        }
+        else
+        {
+            jPasswordField1.setEchoChar('*');
+        }
+        
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;

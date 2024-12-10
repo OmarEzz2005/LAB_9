@@ -4,6 +4,7 @@
  */
 package BackEnd;
 
+import FrontEnd.LOGIN;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.FileWriter;
@@ -71,6 +72,31 @@ public class UserDatabase {
         return null;
     }
     
+     
+     
+     
+     public UserAccount getRecordWithName(String name) {
+        for (UserAccount c : users) {
+            if (c.getUsername().equals(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
+     
+     
+     
+     
+     
+     
+     
+     
+     public UserAccount getCurrentUser() {
+         UserAccount user = this.getRecord(LOGIN.logged);
+         //System.out.println(""+user.getEmail());
+         return user;
+     }
+     
     
      
      public void insertRecord(UserAccount record) {
@@ -114,8 +140,4 @@ public class UserDatabase {
         }
     }
      
-     
-    
-    
-    
 }
