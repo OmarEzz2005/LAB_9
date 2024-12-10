@@ -249,11 +249,6 @@ public class UserAccount {
                 return;
             }
         }
-        
-        
-        
-        
-        
         System.out.println("Not already in your Friends ");
     }
     
