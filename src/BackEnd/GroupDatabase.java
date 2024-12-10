@@ -4,6 +4,7 @@
  */
 package BackEnd;
 
+import FrontEnd.LOGIN;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.File;
@@ -20,20 +21,20 @@ import javax.swing.JOptionPane;
  *
  * @author yaseen
  */
-public class GroupDatabase 
-{
+public class GroupDatabase {
+
     private String filename;
     private ArrayList<Group> groupList = new ArrayList<>();
-    
+
     public GroupDatabase(String file) {
         this.filename = file;
-        
+
     }
 
     public ArrayList<Group> getgroups() {
         return groupList;
     }
-    
+
     public void saveToFile() {
         Path filepath = Paths.get(filename);
         try (FileWriter writer = new FileWriter(filepath.toFile())) {
@@ -44,16 +45,17 @@ public class GroupDatabase
             System.out.println("Error while writing to the file!");
         }
     }
-    
+
     public void readFromFile() {
         Path filepath = Paths.get(filename);
         try {
             if (Files.exists(filepath)) {
                 String jsonContent = new String(Files.readAllBytes(filepath));
                 Gson gson = new Gson();
-                groupList = gson.fromJson(jsonContent, new TypeToken<List<Group>>(){}.getType());
+                groupList = gson.fromJson(jsonContent, new TypeToken<List<Group>>() {
+                }.getType());
                 if (groupList == null) {
-                    groupList = new ArrayList<>(); 
+                    groupList = new ArrayList<>();
                 }
             }
             Group.count = groupList.size();
@@ -61,7 +63,7 @@ public class GroupDatabase
             System.out.println("Error while reading the file!");
         }
     }
-    
+
     public boolean contains(String key) {
         for (Group c : groupList) {
             if (c.getSearchKey().equals(key)) {
@@ -70,10 +72,8 @@ public class GroupDatabase
         }
         return false;
     }
-    
-    
-    
-     public Group getRecord(String key) {
+
+    public Group getRecord(String key) {
         for (Group c : groupList) {
             if (c.getSearchKey().equals(key)) {
                 return c;
@@ -81,8 +81,8 @@ public class GroupDatabase
         }
         return null;
     }
-     
-     public void insertRecord(Group record) {
+
+    public void insertRecord(Group record) {
         if (contains(record.getSearchKey())) {
             JOptionPane.showMessageDialog(null, "Error, There is a Group with the same Name !!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -91,11 +91,10 @@ public class GroupDatabase
         groupList.add(record);
         saveToFile();
         JOptionPane.showMessageDialog(null, "Group with Name " + record.getSearchKey() + " was successfully added", "Message", JOptionPane.INFORMATION_MESSAGE);
- 
+
     }
-     
-     
-     public void deleteRecord(String key) {
+
+    public void deleteRecord(String key) {
         if (!contains(key)) {
             JOptionPane.showMessageDialog(null, "Group not found !!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -110,4 +109,6 @@ public class GroupDatabase
             }
         }
     }
+
+    
 }
