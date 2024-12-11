@@ -99,11 +99,11 @@ public class GroupUser extends javax.swing.JPanel {
         jTextArea1 = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        CreatePost = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane(new javax.swing.JScrollPane(jPanel5));
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        Back = new javax.swing.JButton();
+        ChangePhoto = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setName(""); // NOI18N
@@ -131,10 +131,10 @@ public class GroupUser extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("What's on your mind ?");
 
-        jButton2.setText("Create Post");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        CreatePost.setText("Create Post");
+        CreatePost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                CreatePostActionPerformed(evt);
             }
         });
 
@@ -148,7 +148,7 @@ public class GroupUser extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(243, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(CreatePost)
                 .addGap(224, 224, 224))
         );
         jPanel2Layout.setVerticalGroup(
@@ -157,7 +157,7 @@ public class GroupUser extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(CreatePost)
                 .addContainerGap())
         );
 
@@ -167,17 +167,17 @@ public class GroupUser extends javax.swing.JPanel {
 
         jLabel2.setText("jLabel2");
 
-        jButton1.setText("Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BackActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Change photo");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        ChangePhoto.setText("Change photo");
+        ChangePhoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                ChangePhotoActionPerformed(evt);
             }
         });
 
@@ -187,7 +187,7 @@ public class GroupUser extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(Back)
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -202,7 +202,7 @@ public class GroupUser extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3))
+                            .addComponent(ChangePhoto))
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
@@ -212,11 +212,11 @@ public class GroupUser extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(Back))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3))
+                    .addComponent(ChangePhoto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -230,12 +230,12 @@ public class GroupUser extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
         CreatePost create = new CreatePost(g);
         create.setVisible(true);
 
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton2);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(CreatePost);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
@@ -243,14 +243,14 @@ public class GroupUser extends javax.swing.JPanel {
             parentFrame.pack();
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_CreatePostActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
         // TODO add your handling code here:
         Newsfeed create = new Newsfeed();
         create.setVisible(true);
 
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Back);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
@@ -260,9 +260,9 @@ public class GroupUser extends javax.swing.JPanel {
         
         
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BackActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void ChangePhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangePhotoActionPerformed
         // TODO add your handling code here:
          JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png"));
@@ -280,7 +280,7 @@ public class GroupUser extends javax.swing.JPanel {
             }
         }
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_ChangePhotoActionPerformed
 
     
     public void setProfileImage(String profilePath) {
@@ -365,9 +365,9 @@ public class GroupUser extends javax.swing.JPanel {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton Back;
+    private javax.swing.JButton ChangePhoto;
+    private javax.swing.JButton CreatePost;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

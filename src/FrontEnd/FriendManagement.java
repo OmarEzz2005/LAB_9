@@ -68,13 +68,13 @@ public class FriendManagement extends javax.swing.JPanel{
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        ShowSuggestions = new javax.swing.JButton();
+        SendFriendRequest = new javax.swing.JButton();
+        RemoveFriend = new javax.swing.JButton();
+        ShowRequests = new javax.swing.JButton();
+        Block = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
+        Back = new javax.swing.JButton();
 
         jLabel2.setText("Username");
 
@@ -99,58 +99,58 @@ public class FriendManagement extends javax.swing.JPanel{
                 .addGap(65, 65, 65))
         );
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Show Friend Suggestions");
-        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton1.setOpaque(true);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ShowSuggestions.setBackground(new java.awt.Color(0, 153, 102));
+        ShowSuggestions.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ShowSuggestions.setText("Show Friend Suggestions");
+        ShowSuggestions.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ShowSuggestions.setOpaque(true);
+        ShowSuggestions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ShowSuggestionsActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 102));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setText("Send Friend Request");
-        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton3.setOpaque(true);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        SendFriendRequest.setBackground(new java.awt.Color(0, 153, 102));
+        SendFriendRequest.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        SendFriendRequest.setText("Send Friend Request");
+        SendFriendRequest.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        SendFriendRequest.setOpaque(true);
+        SendFriendRequest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                SendFriendRequestActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(0, 153, 102));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton5.setText("Remove Friend");
-        jButton5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton5.setOpaque(true);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        RemoveFriend.setBackground(new java.awt.Color(0, 153, 102));
+        RemoveFriend.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        RemoveFriend.setText("Remove Friend");
+        RemoveFriend.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        RemoveFriend.setOpaque(true);
+        RemoveFriend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                RemoveFriendActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 102));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setText("Show Friend Requests");
-        jButton2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton2.setOpaque(true);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ShowRequests.setBackground(new java.awt.Color(0, 153, 102));
+        ShowRequests.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ShowRequests.setText("Show Friend Requests");
+        ShowRequests.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ShowRequests.setOpaque(true);
+        ShowRequests.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ShowRequestsActionPerformed(evt);
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(0, 153, 102));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton6.setText("Block User");
-        jButton6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton6.setOpaque(true);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        Block.setBackground(new java.awt.Color(0, 153, 102));
+        Block.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Block.setText("Block User");
+        Block.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Block.setOpaque(true);
+        Block.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                BlockActionPerformed(evt);
             }
         });
 
@@ -161,10 +161,10 @@ public class FriendManagement extends javax.swing.JPanel{
         jLabel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabel1.setOpaque(true);
 
-        jButton7.setText("Back");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                BackActionPerformed(evt);
             }
         });
 
@@ -176,22 +176,22 @@ public class FriendManagement extends javax.swing.JPanel{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton7)
+                        .addComponent(Back)
                         .addGap(34, 34, 34)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(SendFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(RemoveFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(38, 38, 38)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Block, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ShowSuggestions, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(101, 101, 101)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ShowRequests, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(73, 73, 73)))))
                 .addContainerGap(103, Short.MAX_VALUE))
         );
@@ -204,26 +204,26 @@ public class FriendManagement extends javax.swing.JPanel{
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(jButton7)))
+                        .addComponent(Back)))
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SendFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RemoveFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Block, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ShowRequests, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ShowSuggestions, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(116, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void ShowSuggestionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowSuggestionsActionPerformed
         
         ViewFriendSuggestion page = new ViewFriendSuggestion();
         page.setVisible(true);
 
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Back);
         if (parentFrame != null) {
             parentFrame.setContentPane(page);
             parentFrame.revalidate();
@@ -231,9 +231,9 @@ public class FriendManagement extends javax.swing.JPanel{
             parentFrame.pack();
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_ShowSuggestionsActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void SendFriendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendFriendRequestActionPerformed
 
         int option = JOptionPane.showConfirmDialog(null, jPanel1, "Send Friend Request ", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
@@ -254,9 +254,9 @@ public class FriendManagement extends javax.swing.JPanel{
             }
 
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_SendFriendRequestActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void RemoveFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveFriendActionPerformed
         JTextField name = new JTextField();
         Object[] message = {
             "Enter Username:", name
@@ -271,22 +271,22 @@ public class FriendManagement extends javax.swing.JPanel{
                 JOptionPane.showMessageDialog(this, user + " Removed Successfully ");
             }
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_RemoveFriendActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void ShowRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowRequestsActionPerformed
         ViewFriendRequests page = new ViewFriendRequests();
         page.setVisible(true);
 
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Back);
         if (parentFrame != null) {
             parentFrame.setContentPane(page);
             parentFrame.revalidate();
             parentFrame.repaint();
             parentFrame.pack();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_ShowRequestsActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void BlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlockActionPerformed
         JTextField name = new JTextField();
         Object[] message = {
             "Enter Username:", name
@@ -307,14 +307,14 @@ public class FriendManagement extends javax.swing.JPanel{
             else
             JOptionPane.showMessageDialog(this, user + " Already blocked ");
         }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_BlockActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
         // TODO add your handling code here:
         Newsfeed create = new Newsfeed();
         create.setVisible(true);
 
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Back);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
@@ -322,16 +322,16 @@ public class FriendManagement extends javax.swing.JPanel{
             parentFrame.pack();
         }
 
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_BackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton Back;
+    private javax.swing.JButton Block;
+    private javax.swing.JButton RemoveFriend;
+    private javax.swing.JButton SendFriendRequest;
+    private javax.swing.JButton ShowRequests;
+    private javax.swing.JButton ShowSuggestions;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
