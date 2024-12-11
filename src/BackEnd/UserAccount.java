@@ -46,7 +46,7 @@ public class UserAccount {
             throw new IllegalArgumentException("Password hashing failed. User account cannot be created.");
         }
         this.date = date.format(DATE_FORMAT);
-        this.makeOnline();
+        this.makeOffline();
         friends = new ArrayList<>();
         blocked = new ArrayList<>();
         requests  = new ArrayList<>();
