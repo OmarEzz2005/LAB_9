@@ -77,9 +77,9 @@ public class ViewFriendRequests extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        Back = new javax.swing.JButton();
+        Accept = new javax.swing.JButton();
+        Decline = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,24 +100,24 @@ public class ViewFriendRequests extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BackActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Accept");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Accept.setText("Accept");
+        Accept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                AcceptActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Decline");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        Decline.setText("Decline");
+        Decline.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                DeclineActionPerformed(evt);
             }
         });
 
@@ -129,14 +129,14 @@ public class ViewFriendRequests extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(jButton1)
+                        .addComponent(Back)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(224, 224, 224)
-                        .addComponent(jButton2)
+                        .addComponent(Accept)
                         .addGap(100, 100, 100)
-                        .addComponent(jButton3)))
+                        .addComponent(Decline)))
                 .addContainerGap(100, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -144,32 +144,32 @@ public class ViewFriendRequests extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(Back)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(Accept)
+                    .addComponent(Decline))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
         // TODO add your handling code here:
         Newsfeed admin = new Newsfeed();
         admin.setVisible(true);
         
         
-         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Back);
         if (parentFrame != null) {
             parentFrame.setContentPane(admin);
             parentFrame.revalidate(); 
             parentFrame.repaint();
             parentFrame.pack();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BackActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void AcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptActionPerformed
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
@@ -193,9 +193,9 @@ public class ViewFriendRequests extends javax.swing.JPanel {
         
         
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_AcceptActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void DeclineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeclineActionPerformed
         // TODO add your handling code here:
     int selectedRow = jTable1.getSelectedRow();
     if (selectedRow != -1) {
@@ -225,13 +225,13 @@ public class ViewFriendRequests extends javax.swing.JPanel {
     JOptionPane.showMessageDialog(null, "You have declined the request", "Success", JOptionPane.INFORMATION_MESSAGE);
    }
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_DeclineActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton Accept;
+    private javax.swing.JButton Back;
+    private javax.swing.JButton Decline;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
