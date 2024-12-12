@@ -414,6 +414,11 @@ public class Newsfeed extends javax.swing.JPanel {
         });
 
         Join.setText("Join");
+        Join.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JoinActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -644,6 +649,7 @@ public class Newsfeed extends javax.swing.JPanel {
                     return;
                 }
                 LOGIN.database.getCurrentUser().getJoinedGroups().remove(LOGIN.groupdatabase.getRecord(groupname));
+                LOGIN.database.saveToFile();
                 DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                 model.removeRow(selectedRow);
                 if (model.getRowCount() == 0) {
@@ -657,9 +663,9 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void ShowOthersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowOthersActionPerformed
         // TODO add your handling code here:
-        int selectedRow = jTable2.getSelectedRow();
+        int selectedRow = jTable3.getSelectedRow();
         if (selectedRow != -1) {
-                String groupName = (String) jTable2.getValueAt(selectedRow, 0);
+                String groupName = (String) jTable3.getValueAt(selectedRow, 0);
                 if(groupName.equals("No Groups"))
                 {
                     JOptionPane.showMessageDialog(null,"No Groups to show !!","Error",JOptionPane.ERROR_MESSAGE);
@@ -682,6 +688,29 @@ public class Newsfeed extends javax.swing.JPanel {
         
         
     }//GEN-LAST:event_ShowOthersActionPerformed
+
+    private void JoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JoinActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable3.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupname = (String) jTable3.getValueAt(selectedRow, 0);
+                if(groupname.equals("No requests"))
+                {
+                    JOptionPane.showMessageDialog(null,"No groups to leave !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                LOGIN.database.getCurrentUser().getJoinedGroups().add(LOGIN.groupdatabase.getRecord(groupname));
+                LOGIN.database.saveToFile();
+                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                model.removeRow(selectedRow);
+                if (model.getRowCount() == 0) {
+                Object[] row = new Object[1];
+                row[0] = "No Groups";
+                model.addRow(row);
+                }
+                JOptionPane.showMessageDialog(null, "You left the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
+        }
+    }//GEN-LAST:event_JoinActionPerformed
 
 
     
