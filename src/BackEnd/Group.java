@@ -25,16 +25,17 @@ public class Group
     private ArrayList<String> newAdminsreq=new ArrayList<>();
     private ArrayList<String> newUserreq=new ArrayList<>();
     
-    public Group(String name, String Discription, String GroupPhotoPath, String PrimaryAdmin) {
+    
+
+    public Group(String name, String Discription, String PrimaryAdmin) {
         this.ID="Group"+String.format("%.3d", count++);
         this.name = name;
         if(PrimaryAdmin!=null)
         {
             this.Discription = Discription;
         }
-        this.GroupPhotoPath = GroupPhotoPath;
         this.PrimaryAdmin = PrimaryAdmin;
-        
+        this.GroupPhotoPath = "R.png";
         this.OtherAdmins=new ArrayList<>();
         this.Users=new ArrayList<>();
         this.Posts=new ArrayList<>();
@@ -135,24 +136,7 @@ public class Group
         return null;
     }
 
-    public ArrayList<Post> getObjectPost() {
-        ArrayList<Post> postList = new ArrayList<>();
-        if (Posts != null) {
-            for (String postS : Posts) {
-                for (Content postO : Newsfeed.contents.getContentList()) {
-                    
-                    if (postO.getContentId().equals(postS));
-                    {
-                        postList.add((Post) postO);
-                    }
-
-                }
-
-            }
-            return postList;
-        }
-        return null;
-    }
+    
     
     public ArrayList<UserAccount> getObjectAdmins() 
     {
@@ -168,6 +152,26 @@ public class Group
 
             }
             return userList;
+        }
+        return null;
+    }
+    
+    
+    public ArrayList<Post> getObjectPost() {
+        ArrayList<Post> postList = new ArrayList<>();
+        if (Posts != null) {
+            for (String postS : Posts) {
+                for (Content post : Newsfeed.contents.getContentList()) {
+                    
+                    if (post.getContentId().equals(postS));
+                    {
+                        postList.add((Post) post);
+                    }
+
+                }
+
+            }
+            return postList;
         }
         return null;
     }

@@ -24,16 +24,23 @@ import javax.swing.SwingUtilities;
 public class CreatePost extends javax.swing.JPanel {
 
     private final UserDatabase database = LOGIN.database;
+    private final GroupDatabase groups = LOGIN.groupdatabase;
     private String selectedImgPath = null;
+    Group group;
+    
     /**
      * Creates new form CreatePost
      */
     private final UserAccount user = database.getCurrentUser();
     ContentDatabase contentdatabase;
 
-    public CreatePost() {
+    public CreatePost(Group fromGroup) {
         initComponents();
-
+        if(fromGroup != null)
+        {
+            group = fromGroup;
+        }
+        
         jTextField2.setText("What's on Your mind ?");
         jTextField2.setForeground(Color.GRAY);
         contentdatabase = Newsfeed.contents;
@@ -167,6 +174,11 @@ public class CreatePost extends javax.swing.JPanel {
         jTextField2.setText("");
         jLabel2.setIcon(null);
         selectedImgPath = null;
+        if(group != null)
+        {
+            group.getPosts().add(post.getContentId());
+            groups.saveToFile();
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

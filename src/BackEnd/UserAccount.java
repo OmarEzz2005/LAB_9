@@ -46,7 +46,7 @@ public class UserAccount {
             throw new IllegalArgumentException("Password hashing failed. User account cannot be created.");
         }
         this.date = date.format(DATE_FORMAT);
-        this.makeOnline();
+        this.makeOffline();
         friends = new ArrayList<>();
         blocked = new ArrayList<>();
         requests  = new ArrayList<>();
@@ -357,4 +357,33 @@ public class UserAccount {
         return users;
     }
 
+    
+    public ArrayList<Group> getJoinedGroups() {
+        ArrayList<Group> groups = LOGIN.groupdatabase.getgroups();
+        ArrayList <Group> joinedGroups = new ArrayList<>();
+        if (groups == null || groups.isEmpty()) {
+        return joinedGroups;  
+        }
+        for(Group g : groups)
+        {
+            for(UserAccount user : g.getObjectUser())
+            {
+                if(user.userID.equals(this.userID))
+                {
+                    joinedGroups.add(g);
+                    break;
+                }
+            }
+            
+        }
+        //System.out.println("users"+users.get(0));
+        return joinedGroups;
+    }
+    
+    
+    
+    
+    
+    
+    
 }
