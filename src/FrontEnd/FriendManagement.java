@@ -306,7 +306,10 @@ public class FriendManagement extends javax.swing.JPanel{
                 }
             }
             else
-            JOptionPane.showMessageDialog(this, user + " Already blocked ");
+            {
+                JOptionPane.showMessageDialog(this, user + " Already blocked ");
+            }
+            
         }
     }//GEN-LAST:event_BlockActionPerformed
 

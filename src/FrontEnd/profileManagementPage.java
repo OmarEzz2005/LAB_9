@@ -29,7 +29,7 @@ public class profileManagementPage extends javax.swing.JPanel {
     
     private BufferedImage coverImage;
     private BufferedImage profileImage;
-    ProfileManagement profilemanager = LOGIN.database.getCurrentUser().getProfile();
+    ProfileManagement profilemanager; 
     
     
     
@@ -37,8 +37,10 @@ public class profileManagementPage extends javax.swing.JPanel {
     /**
      * Creates new form profileManagementPage
      */
-    public profileManagementPage() {
+    public profileManagementPage(UserAccount user) {
+        profilemanager = user.getProfile();
         initComponents();
+        
         //this.setProfileImage("C:\\Users\\lenovo\\OneDrive\\Desktop\\39eb6215-3133-4a70-85dd-fc18da0467f0.JPG");
     }
 
