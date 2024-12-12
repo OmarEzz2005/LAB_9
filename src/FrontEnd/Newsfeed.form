@@ -35,7 +35,7 @@
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jPanel6" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jButton5" min="-2" pref="145" max="-2" attributes="0"/>
+                  <Component id="CreateGroup" min="-2" pref="145" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -65,7 +65,7 @@
                               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                               <Component id="FriendManagement" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                              <Component id="CreateGroup" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -463,10 +463,13 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="CreateGroup">
       <Properties>
         <Property name="text" type="java.lang.String" value="Create Group"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateGroupActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

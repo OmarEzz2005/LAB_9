@@ -363,8 +363,8 @@ public class UserAccount {
     public ArrayList<Group> getJoinedGroups() {
         
         
-        return this.joinedGroups;
-      /*  ArrayList<Group> groups = LOGIN.groupdatabase.getgroups();
+       // return this.joinedGroups;
+        ArrayList<Group> groups = LOGIN.groupdatabase.getgroups();
         ArrayList <Group> joinedGroups = new ArrayList<>();
         if (groups == null || groups.isEmpty()) {
         return joinedGroups;  
@@ -382,7 +382,7 @@ public class UserAccount {
             
         }
         //System.out.println("users"+users.get(0));
-        return joinedGroups;*/
+        return joinedGroups;
     }
     
     
