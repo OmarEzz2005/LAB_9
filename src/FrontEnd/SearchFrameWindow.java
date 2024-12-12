@@ -1,6 +1,7 @@
 package FrontEnd;
 import java.util.*;
 import BackEnd.*;
+import static FrontEnd.profileManagementPage.bio;
 import javax.swing.*;
 /**
  *
@@ -15,11 +16,15 @@ public class SearchFrameWindow extends javax.swing.JFrame {
     private UserDatabase userDatabase;
     private GroupDatabase groupDatase;
     private UserAccount currentUser;
-    searchManager = new SearchFunctionality(UserDatabase userDatabase, GroupDatabase groupDatabase, UserAccount currentUser);
+    
     
 
     public SearchFrameWindow() {
         initComponents();
+        userDatabase = LOGIN.database;
+        groupDatase = LOGIN.groupdatabase;
+        currentUser = LOGIN.database.getCurrentUser();
+        searchManager = new SearchFunctionality(userDatabase, groupDatase, currentUser);
     }
 
     /**
@@ -44,6 +49,7 @@ public class SearchFrameWindow extends javax.swing.JFrame {
         viewGroupButton = new javax.swing.JButton();
         joinGroupButton = new javax.swing.JButton();
         leaveGroupButton = new javax.swing.JButton();
+        Back = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,8 +110,18 @@ public class SearchFrameWindow extends javax.swing.JFrame {
         });
 
         viewProfileButton.setText("View Profile");
+        viewProfileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewProfileButtonActionPerformed(evt);
+            }
+        });
 
         viewGroupButton.setText("View Group");
+        viewGroupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewGroupButtonActionPerformed(evt);
+            }
+        });
 
         joinGroupButton.setText("Join Group");
         joinGroupButton.addActionListener(new java.awt.event.ActionListener() {
@@ -121,68 +137,76 @@ public class SearchFrameWindow extends javax.swing.JFrame {
             }
         });
 
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(Back)
+                .addGap(18, 18, 18)
+                .addComponent(searchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(searchButton)
+                .addGap(85, 85, 85))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchField)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(removeFriendButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(viewProfileButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(addFriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(blockUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(49, 49, 49)
+                        .addComponent(joinGroupButton, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(searchButton)
-                        .addGap(85, 85, 85))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addFriendButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(blockUserButton)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(removeFriendButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(viewProfileButton)
-                        .addGap(43, 43, 43)
-                        .addComponent(joinGroupButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(leaveGroupButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addComponent(viewGroupButton)
-                        .addGap(56, 56, 56))))
+                        .addGap(18, 18, 18)
+                        .addComponent(leaveGroupButton))
+                    .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(57, 57, 57))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchLabel)
-                    .addComponent(searchButton)
-                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addFriendButton)
-                            .addComponent(blockUserButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(removeFriendButton)
-                            .addComponent(viewProfileButton)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(viewGroupButton)
-                            .addComponent(joinGroupButton)
-                            .addComponent(leaveGroupButton))
-                        .addContainerGap())))
+                            .addComponent(searchLabel)
+                            .addComponent(searchButton)
+                            .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Back)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addFriendButton)
+                    .addComponent(blockUserButton)
+                    .addComponent(joinGroupButton)
+                    .addComponent(viewGroupButton)
+                    .addComponent(leaveGroupButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewProfileButton)
+                    .addComponent(removeFriendButton))
+                .addContainerGap())
         );
 
         pack();
@@ -212,23 +236,40 @@ public class SearchFrameWindow extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Please enter a search query.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void addFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendButtonActionPerformed
         // TODO add your handling code here:
             String username = JOptionPane.showInputDialog("Enter username to send friend request:");
-            if (currentUser.sendFriendRequest(username)) {
-                JOptionPane.showMessageDialog(null, "Friend request sent to " + username);
+             if (currentUser.isFriends(username)) {
+                JOptionPane.showMessageDialog(this, "You are already friends");
+            } else {
+                boolean done = currentUser.sendFriendRequest(username);
+                if (done) {
+                    JOptionPane.showMessageDialog(this, "Friend Request sent to " + username + " Successfully ");
+                } else {
+                    JOptionPane.showMessageDialog(this, " User not found ");
+                }
             }
     }//GEN-LAST:event_addFriendButtonActionPerformed
 
     private void blockUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockUserButtonActionPerformed
         // TODO add your handling code here:
             String username = JOptionPane.showInputDialog("Enter username to block:");
-            if (currentUser.blockUser(username)) {
-                JOptionPane.showMessageDialog(null, "User " + username + " has been blocked.");
+            if (!currentUser.isBlocked(username)) {
+                boolean done = currentUser.blockUser(username);
+                if (done){
+                    JOptionPane.showMessageDialog(this, username + " Blocked Successfully ");}
+                if(!done) {
+                    JOptionPane.showMessageDialog(this, username + " could not be found ");
+                }
             }
+            else
+            {
+                JOptionPane.showMessageDialog(this, username + " Already blocked ");
+            }
+            
     }//GEN-LAST:event_blockUserButtonActionPerformed
 
     private void joinGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinGroupButtonActionPerformed
@@ -241,6 +282,7 @@ public class SearchFrameWindow extends javax.swing.JFrame {
                     break;
                 }
             }
+            LOGIN.groupdatabase.saveToFile();
     }//GEN-LAST:event_joinGroupButtonActionPerformed
 
     private void leaveGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveGroupButtonActionPerformed
@@ -249,6 +291,11 @@ public class SearchFrameWindow extends javax.swing.JFrame {
             for (Group group : searchManager.searchGroups(groupName)) {
                 if (group.getUsers().contains(currentUser.getUsername())) {
                     group.getUsers().remove(currentUser.getUsername());
+                    if(LOGIN.database.getCurrentUser().isAdminGroup(groupName))
+                    {
+                        LOGIN.groupdatabase.deleteRecord(groupName);
+                    }
+                    LOGIN.groupdatabase.saveToFile();
                     JOptionPane.showMessageDialog(null, "You left the group: " + groupName);
                     break;
                 }
@@ -258,12 +305,69 @@ public class SearchFrameWindow extends javax.swing.JFrame {
     private void removeFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFriendButtonActionPerformed
         // TODO add your handling code here:
         String username = JOptionPane.showInputDialog("Enter username to remove from friends:");
-        if (currentUser.removeFriend(username)) {
-            JOptionPane.showMessageDialog(null, "Friend " + username + " has been removed.");
-        } else {
-            JOptionPane.showMessageDialog(null, "User " + username + " is not in your friends list.");
-        }
+        if (!currentUser.isFriends(username)) {
+                JOptionPane.showMessageDialog(this, "User is not one of your friends");
+            } else {
+                currentUser.removeFriend(username);
+                LOGIN.database.saveToFile();
+                JOptionPane.showMessageDialog(this, username + " Removed Successfully ");
+            }
+        
+         //   JOptionPane.showMessageDialog(null, "User " + username + " is not in your friends list.");
+        
     }//GEN-LAST:event_removeFriendButtonActionPerformed
+
+    private void viewGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewGroupButtonActionPerformed
+        // TODO add your handling code here:
+        String groupName = JOptionPane.showInputDialog("Enter group name to show:");
+        GroupUser create = new GroupUser(LOGIN.groupdatabase.getRecord(groupName));
+        create.setVisible(true);
+        
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(viewGroupButton);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(create);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+        
+        
+    }//GEN-LAST:event_viewGroupButtonActionPerformed
+
+    private void viewProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewProfileButtonActionPerformed
+        // TODO add your handling code here:
+        
+        String username = JOptionPane.showInputDialog("Enter username to view it's profile:");
+        UserAccount user = LOGIN.database.getRecord(username);
+        profileManagementPage page = new profileManagementPage(user);
+        page.setVisible(true);
+        String BIO;
+            if(user.getProfile().getBio() != null && !user.getProfile().getBio().isEmpty()){
+            BIO = user.getProfile().getBio();
+            System.out.println(BIO);
+            bio.setText(BIO);
+            }
+        
+        
+        
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(viewProfileButton);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+        
+        
+        
+    }//GEN-LAST:event_viewProfileButtonActionPerformed
+
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_BackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,6 +405,7 @@ public class SearchFrameWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Back;
     private javax.swing.JButton addFriendButton;
     private javax.swing.JButton blockUserButton;
     private javax.swing.JScrollPane jScrollPane1;
