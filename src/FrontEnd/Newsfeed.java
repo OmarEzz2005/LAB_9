@@ -138,7 +138,10 @@ public class Newsfeed extends javax.swing.JPanel {
         
         //System.out.println("Requests"+requests.get(0).getUsername());
         for (Group c : groups) {
-            
+            if(LOGIN.database.getCurrentUser().isJoinedGroup(c.getName()))
+            {
+                continue;
+            }
             Object[] row = new Object[1];
             row[0] = c.getName();
             model.addRow(row);
@@ -353,6 +356,11 @@ public class Newsfeed extends javax.swing.JPanel {
         });
 
         Leave.setText("Leave");
+        Leave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -399,6 +407,11 @@ public class Newsfeed extends javax.swing.JPanel {
         jScrollPane6.setViewportView(jTable3);
 
         ShowOthers.setText("Show");
+        ShowOthers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShowOthersActionPerformed(evt);
+            }
+        });
 
         Join.setText("Join");
 
@@ -585,7 +598,7 @@ public class Newsfeed extends javax.swing.JPanel {
         create.setVisible(true);
         
         
-         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Refresh);
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(FriendManagement);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
@@ -608,7 +621,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 create.setVisible(true);
         
         
-                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Refresh);
+                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Show);
                 if (parentFrame != null) {
                 parentFrame.setContentPane(create);
                 parentFrame.revalidate();
@@ -619,6 +632,56 @@ public class Newsfeed extends javax.swing.JPanel {
                       
         }
     }//GEN-LAST:event_ShowActionPerformed
+
+    private void LeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveActionPerformed
+        // TODO add your handling code here:
+         int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupname = (String) jTable2.getValueAt(selectedRow, 0);
+                if(groupname.equals("No requests"))
+                {
+                    JOptionPane.showMessageDialog(null,"No groups to leave !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                LOGIN.database.getCurrentUser().getJoinedGroups().remove(LOGIN.groupdatabase.getRecord(groupname));
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                model.removeRow(selectedRow);
+                if (model.getRowCount() == 0) {
+                Object[] row = new Object[1];
+                row[0] = "No Groups";
+                model.addRow(row);
+                }
+                JOptionPane.showMessageDialog(null, "You left the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
+        }
+    }//GEN-LAST:event_LeaveActionPerformed
+
+    private void ShowOthersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowOthersActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupName = (String) jTable2.getValueAt(selectedRow, 0);
+                if(groupName.equals("No Groups"))
+                {
+                    JOptionPane.showMessageDialog(null,"No Groups to show !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                GroupUser create = new GroupUser(LOGIN.groupdatabase.getRecord(groupName));
+                create.setVisible(true);
+        
+        
+                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Show);
+                if (parentFrame != null) {
+                parentFrame.setContentPane(create);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+                parentFrame.pack();
+                }
+                
+                      
+        }
+        
+        
+    }//GEN-LAST:event_ShowOthersActionPerformed
 
 
     

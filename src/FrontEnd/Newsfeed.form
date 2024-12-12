@@ -375,6 +375,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Leave"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LeaveActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -446,6 +449,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Show"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ShowOthersActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Join">
           <Properties>

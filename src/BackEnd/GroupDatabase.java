@@ -103,7 +103,7 @@ public class GroupDatabase {
         for (Group c : groupList) {
             if (c.getSearchKey().equals(key)) {
                 groupList.remove(c);
-                JOptionPane.showMessageDialog(null, "User with ID " + key + " was successfully removed", "Message", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Group with ID " + key + " was successfully removed", "Message", JOptionPane.INFORMATION_MESSAGE);
                 saveToFile();
                 return;
             }

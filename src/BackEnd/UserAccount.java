@@ -382,7 +382,24 @@ public class UserAccount {
     
     
     
-    
+    public boolean isJoinedGroup(String groupname)
+    {
+        ArrayList<Group> joinedgroups = LOGIN.database.getCurrentUser().getJoinedGroups();
+      //  ArrayList <Group> joinedGroups = new ArrayList<>();
+        if (joinedgroups == null || joinedgroups.isEmpty()) {
+        return false;  
+        }
+        for(Group g : joinedgroups)
+        {
+            if(g.getName().equals(groupname))
+            {
+                return true;
+            }
+            
+        }
+        //System.out.println("users"+users.get(0));
+        return false;
+    }
     
     
     
