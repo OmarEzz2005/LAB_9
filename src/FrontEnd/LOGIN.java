@@ -4,7 +4,9 @@
  */
 package FrontEnd;
 
+import BackEnd.ContentDatabase;
 import BackEnd.EmailVerification;
+import BackEnd.GroupDatabase;
 import BackEnd.UserAccount;
 import BackEnd.UserDatabase;
 import java.awt.Color;
@@ -27,6 +29,8 @@ public class LOGIN extends javax.swing.JFrame {
 
     
     public static UserDatabase database;
+    public static GroupDatabase groupdatabase;
+    
     public static String logged;
     
     
@@ -38,7 +42,7 @@ public class LOGIN extends javax.swing.JFrame {
         @Override
         public void windowOpened(java.awt.event.WindowEvent evt) {
             // Set focus to another component
-            jButton1.requestFocus();
+            Login.requestFocus();
         }
         });
                 
@@ -50,8 +54,8 @@ public class LOGIN extends javax.swing.JFrame {
         jPasswordField1.setForeground(Color.GRAY);
         database = new UserDatabase("Users.json");   
         database.readFromFile();
-        
-        
+        groupdatabase = new GroupDatabase("Group.json");   
+        groupdatabase.readFromFile();
     }
 
     /**
@@ -80,8 +84,8 @@ public class LOGIN extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        Login = new javax.swing.JButton();
+        createAccount = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -226,23 +230,23 @@ public class LOGIN extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("LOG IN");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Login.setBackground(new java.awt.Color(51, 51, 255));
+        Login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Login.setForeground(new java.awt.Color(255, 255, 255));
+        Login.setText("LOG IN");
+        Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                LoginActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(153, 255, 153));
-        jButton3.setText("Create New Account");
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        createAccount.setBackground(new java.awt.Color(153, 255, 153));
+        createAccount.setText("Create New Account");
+        createAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        createAccount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                createAccountActionPerformed(evt);
             }
         });
 
@@ -286,11 +290,11 @@ public class LOGIN extends javax.swing.JFrame {
                         .addGap(51, 51, 51)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField1)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(Login, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                             .addComponent(jPasswordField1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(80, 80, 80)
-                        .addComponent(jButton3))
+                        .addComponent(createAccount))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(jLabel3))
@@ -309,11 +313,11 @@ public class LOGIN extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(Login)
                 .addGap(1, 1, 1)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(createAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
@@ -481,16 +485,16 @@ public class LOGIN extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void createAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountActionPerformed
         // TODO add your handling code here:
-         jButton3.addActionListener(new ActionListener() {
+         createAccount.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
         SignUp create = new SignUp();
         create.setVisible(true);
         
         
-         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Login);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
@@ -500,12 +504,12 @@ public class LOGIN extends javax.swing.JFrame {
         
     }
 });       
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_createAccountActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         // TODO add your handling code here:
         
-     try{
+   try{
             
        
         String password =  jPasswordField1.getText();
@@ -513,7 +517,7 @@ public class LOGIN extends javax.swing.JFrame {
         
         if(jPasswordField1.getText().isEmpty() || jTextField1.getText().isEmpty() || email.equals("Email address") || password.equals("Enter Password"))
         {
-           throw new Exception();
+            throw new Exception();
         }
         
         ArrayList <UserAccount> users = database.getUsers();
@@ -528,7 +532,7 @@ public class LOGIN extends javax.swing.JFrame {
                 page.setVisible(true);
         
         
-                 LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+                 LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Login);
                  if (parentFrame != null) {
                   parentFrame.setContentPane(page);
                  parentFrame.revalidate();
@@ -548,7 +552,7 @@ public class LOGIN extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Invalid Input", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_LoginActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
@@ -649,8 +653,8 @@ public class LOGIN extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton Login;
+    private javax.swing.JButton createAccount;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;

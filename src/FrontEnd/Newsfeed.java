@@ -7,6 +7,7 @@ package FrontEnd;
 
 import BackEnd.Content;
 import BackEnd.ContentDatabase;
+import BackEnd.Group;
 import BackEnd.Post;
 import BackEnd.Storie;
 import BackEnd.UserAccount;
@@ -29,10 +30,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -48,8 +51,8 @@ public class Newsfeed extends javax.swing.JPanel {
     UserDatabase users;
     
     public static ContentDatabase contents = new ContentDatabase("Content.json");
-    private JPanel jPanel3;
-    private JPanel jPanel4;
+    public static JPanel jPanel3;
+    public static JPanel jPanel4;
     private UserAccount currentUser;
     
     
@@ -75,16 +78,87 @@ public class Newsfeed extends javax.swing.JPanel {
     ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     // Set the icon to the button
-    jButton1.setIcon(scaledIcon);
+    Refresh.setIcon(scaledIcon);
     } else {
     System.out.println("Error: Image not found or invalid dimensions.");
     }
      
-     this.loadPosts();
-     this.loadStories();
-        
+     contents.loadPosts();
+     contents.loadStories();
+     this.addToTable();
+     addOtherToTable();
     }
 
+    
+    
+    
+    
+    public void addToTable()
+    {
+        
+        ArrayList<Group> groups = LOGIN.database.getCurrentUser().getJoinedGroups();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        
+        if( groups == null || groups.isEmpty())
+        {
+            System.out.println("Here");
+            Object[] row = new Object[1];
+            row[0] = "No Groups";
+            model.addRow(row);
+            return;
+        }
+        
+        //System.out.println("Requests"+requests.get(0).getUsername());
+        for (Group c : groups) {
+            
+            Object[] row = new Object[1];
+            row[0] = c.getName();
+            model.addRow(row);
+        }
+    
+    
+    }
+    
+    public void addOtherToTable()
+    {
+        
+        ArrayList<Group> groups = LOGIN.groupdatabase.getgroups();
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+        
+        if( groups == null || groups.isEmpty())
+        {
+           // System.out.println("Here");
+            Object[] row = new Object[1];
+            row[0] = "No Groups";
+            model.addRow(row);
+            return;
+        }
+        
+        //System.out.println("Requests"+requests.get(0).getUsername());
+        for (Group c : groups) {
+            if(LOGIN.database.getCurrentUser().isJoinedGroup(c.getName()))
+            {
+                continue;
+            }
+            Object[] row = new Object[1];
+            row[0] = c.getName();
+            model.addRow(row);
+        }
+    
+        if (model.getRowCount() == 0) {
+            Object[] row = new Object[1];
+            row[0] = "No Groups";
+            model.addRow(row);
+        }
+        
+    
+    }
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -96,19 +170,32 @@ public class Newsfeed extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        Refresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        CreatePost = new javax.swing.JButton();
+        CreateStory = new javax.swing.JButton();
+        Profile = new javax.swing.JButton();
+        LogOut = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane(new javax.swing.JScrollPane(jPanel3));
         jScrollPane3 = new javax.swing.JScrollPane(jPanel4);
-        jButton6 = new javax.swing.JButton();
+        FriendManagement = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        Show = new javax.swing.JButton();
+        Leave = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        ShowOthers = new javax.swing.JButton();
+        Join = new javax.swing.JButton();
+        CreateGroup = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -116,7 +203,27 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Contacts");
 
-        jScrollPane1.setViewportView(jList1);
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+
+            UserAccount current = LOGIN.database.getCurrentUser();
+            String[] strings;
+
+            {
+                ArrayList<UserAccount> friends = current.getFriends();
+                if (current.getFriends() == null || current.getFriends().isEmpty()) {
+                    strings = new String[]{"No friends"};
+                } else {
+                    strings = new String[friends.size()];
+                    for (int i = 0; i < friends.size(); i++) {
+                        strings[i] = friends.get(i).getUsername() + " " + friends.get(i).getStatus();
+                    }
+                }
+            }
+
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(jList2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,11 +231,13 @@ public class Newsfeed extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(192, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 178, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,7 +246,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane4)
                 .addContainerGap())
         );
 
@@ -146,9 +255,9 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(51, 51, 255));
         jLabel2.setText("Connect HUB");
 
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                RefreshActionPerformed(evt);
             }
         });
 
@@ -157,17 +266,17 @@ public class Newsfeed extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("What's on your mind ?");
 
-        jButton2.setText("Create Post");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        CreatePost.setText("Create Post");
+        CreatePost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                CreatePostActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Create story");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        CreateStory.setText("Create story");
+        CreateStory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                CreateStoryActionPerformed(evt);
             }
         });
 
@@ -181,9 +290,9 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(130, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(CreatePost)
                 .addGap(41, 41, 41)
-                .addComponent(jButton3)
+                .addComponent(CreateStory)
                 .addGap(124, 124, 124))
         );
         jPanel2Layout.setVerticalGroup(
@@ -193,22 +302,22 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(CreatePost)
+                    .addComponent(CreateStory))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jButton4.setText("Profile");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        Profile.setText("Profile");
+        Profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                ProfileActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Log out");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        LogOut.setText("Log out");
+        LogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                LogOutActionPerformed(evt);
             }
         });
 
@@ -221,10 +330,133 @@ public class Newsfeed extends javax.swing.JPanel {
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jButton6.setText("Friend management");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        FriendManagement.setText("Friend management");
+        FriendManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                FriendManagementActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Your Groups");
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Group Name"
+            }
+        ));
+        jScrollPane5.setViewportView(jTable2);
+
+        Show.setText("Show");
+        Show.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShowActionPerformed(evt);
+            }
+        });
+
+        Leave.setText("Leave");
+        Leave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeaveActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(Show)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Leave)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Show)
+                    .addComponent(Leave))
+                .addContainerGap())
+        );
+
+        jLabel5.setText("Other Groups");
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Group Name"
+            }
+        ));
+        jScrollPane6.setViewportView(jTable3);
+
+        ShowOthers.setText("Show");
+        ShowOthers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShowOthersActionPerformed(evt);
+            }
+        });
+
+        Join.setText("Join");
+        Join.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JoinActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ShowOthers)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Join)))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ShowOthers)
+                    .addComponent(Join))
+                .addGap(13, 13, 13))
+        );
+
+        CreateGroup.setText("Create Group");
+        CreateGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateGroupActionPerformed(evt);
             }
         });
 
@@ -235,60 +467,75 @@ public class Newsfeed extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(134, 134, 134)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Profile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(FriendManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(CreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)
-                        .addGap(53, 53, 53)
-                        .addComponent(jButton6)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
+                                .addComponent(LogOut)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Profile)
+                                .addGap(35, 35, 35)
+                                .addComponent(FriendManagement)
+                                .addGap(27, 27, 27)
+                                .addComponent(CreateGroup)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void CreatePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreatePostActionPerformed
         // TODO add your handling code here:
-        CreatePost create = new CreatePost();
+        CreatePost create = new CreatePost(null);
         create.setVisible(true);
         
         
-         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton2);
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(CreatePost);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
@@ -297,23 +544,23 @@ public class Newsfeed extends javax.swing.JPanel {
         }
         
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_CreatePostActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void CreateStoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateStoryActionPerformed
         // TODO add your handling code here:
         CreateStorie create = new CreateStorie();
         create.setVisible(true);
         
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(CreateStory);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
             parentFrame.repaint();
             parentFrame.pack();
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_CreateStoryActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void ProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfileActionPerformed
         // TODO add your handling code here:
         
         String BIO;
@@ -330,7 +577,7 @@ public class Newsfeed extends javax.swing.JPanel {
         
         
         
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(CreateStory);
         if (parentFrame != null) {
             parentFrame.setContentPane(page);
             parentFrame.revalidate();
@@ -339,200 +586,178 @@ public class Newsfeed extends javax.swing.JPanel {
         }
         
         
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_ProfileActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
-        this.loadPosts();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        Newsfeed page = new Newsfeed();
+        page.setVisible(true);
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Refresh);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+    }//GEN-LAST:event_RefreshActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
         // TODO add your handling code here:
         currentUser.makeOffline();
+        LOGIN.database.saveToFile();
         LOGIN log = new LOGIN();
         log.setVisible(true);     
-        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton5);
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(LogOut);
         if (parentFrame != null) {
             this.setVisible(false);   
             parentFrame.dispose(); 
             log.setVisible(true);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_LogOutActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void FriendManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FriendManagementActionPerformed
         // TODO add your handling code here:
         
         FriendManagement create = new FriendManagement(this.currentUser);
         create.setVisible(true);
         
         
-         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(FriendManagement);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
             parentFrame.repaint();
+            parentFrame.pack();
         }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_FriendManagementActionPerformed
 
-
-    
-   public void displayPosts(ArrayList<Post> posts) {
-    jPanel3.removeAll();
-    jPanel3.setLayout(new BoxLayout(jPanel3, BoxLayout.Y_AXIS)); 
-
-    
-    for (Post post : posts) {
-        JPanel postPanel = new JPanel();
-        postPanel.setLayout(new BorderLayout());
-        postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+    private void ShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupName = (String) jTable2.getValueAt(selectedRow, 0);
+                if(groupName.equals("No Groups"))
+                {
+                    JOptionPane.showMessageDialog(null,"No Groups to show !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                GroupUser create = new GroupUser(LOGIN.groupdatabase.getRecord(groupName));
+                create.setVisible(true);
         
-        JLabel titleLabel = new JLabel(users.getRecord(post.getAutherId()).getUsername());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        postPanel.add(titleLabel, BorderLayout.NORTH);
-
         
-        JTextArea contentArea = new JTextArea(post.getContenText());
-        contentArea.setWrapStyleWord(true);
-        contentArea.setLineWrap(true);
-        contentArea.setEditable(false);
-        contentArea.setOpaque(false); 
-        postPanel.add(contentArea, BorderLayout.CENTER);
-        
-        //Adding Image 
-        if (post.getImgPath() != null && !post.getImgPath().isEmpty()) {
-            try {
-                // Load the image from the path
-                ImageIcon imageIcon = new ImageIcon(post.getImgPath());
-                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH); // Resize the image
-                JLabel imageLabel = new JLabel(new ImageIcon(image));
-                postPanel.add(imageLabel, BorderLayout.SOUTH); // Add image below the text
+                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Show);
+                if (parentFrame != null) {
+                parentFrame.setContentPane(create);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+                parentFrame.pack();
+                }
                 
-            } catch (Exception e) {
-                System.err.println("Error loading image from path: " + post.getImgPath());
-                e.printStackTrace();
-            }
+                      
         }
-        jPanel3.add(postPanel);
-        System.out.println("Added post: " + post.getContentId());
-    }
-    
+    }//GEN-LAST:event_ShowActionPerformed
 
-    
-    int totalHeight = posts.size() * 200; 
-    jPanel3.setPreferredSize(new Dimension(jPanel3.getWidth(), totalHeight));
-   
-    
-    jPanel3.revalidate();
-    jPanel3.repaint();
-    jScrollPane1.revalidate();
-    jScrollPane1.repaint();
-}
-   
-    public void loadPosts() {
-    ArrayList<Post> posts = new ArrayList<>();
-    ArrayList<Content> content = contents.getContentList();
-    for(Content c : content)
-    {
-        if(c instanceof Post)
-        {
-            posts.add((Post) c);
-            System.out.println("Post Found" + ((Post) c).getContentId());
+    private void LeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveActionPerformed
+        // TODO add your handling code here:
+         int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupname = (String) jTable2.getValueAt(selectedRow, 0);
+                if(groupname.equals("No requests"))
+                {
+                    JOptionPane.showMessageDialog(null,"No groups to leave !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                   
+                LOGIN.groupdatabase.getRecord(groupname).getUsers().remove(LOGIN.database.getCurrentUser().getUsername());
+                if(LOGIN.database.getCurrentUser().isAdminGroup(groupname))
+                {
+                    LOGIN.groupdatabase.deleteRecord(groupname);
+                }
+                LOGIN.groupdatabase.saveToFile();
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                model.removeRow(selectedRow);
+                if (model.getRowCount() == 0) {
+                Object[] row = new Object[1];
+                row[0] = "No Groups";
+                model.addRow(row);
+                }
+                JOptionPane.showMessageDialog(null, "You left the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
         }
-        
-    }
-    
-    displayPosts(posts);          
-    }
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    public void displayStorie(ArrayList<Storie> stories) {
-    jPanel4.removeAll();
-    jPanel4.setLayout(new BoxLayout(jPanel4, BoxLayout.Y_AXIS)); 
+    }//GEN-LAST:event_LeaveActionPerformed
 
-   
-    for (Storie storie : stories) {
-        JPanel postPanel = new JPanel();
-        postPanel.setLayout(new BorderLayout());
-        postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        postPanel.setPreferredSize(new Dimension(250,150));
+    private void ShowOthersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowOthersActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable3.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupName = (String) jTable3.getValueAt(selectedRow, 0);
+                if(groupName.equals("No Groups"))
+                {
+                    JOptionPane.showMessageDialog(null,"No Groups to show !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                GroupUser create = new GroupUser(LOGIN.groupdatabase.getRecord(groupName));
+                create.setVisible(true);
         
-        JLabel titleLabel = new JLabel(users.getRecord(storie.getAutherId()).getUsername());
-        titleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
-        postPanel.add(titleLabel, BorderLayout.NORTH);
-
         
-        JTextArea contentArea = new JTextArea(storie.getContenText());
-        contentArea.setWrapStyleWord(true);
-        contentArea.setLineWrap(true);
-        contentArea.setEditable(false);
-        contentArea.setOpaque(false); 
-        postPanel.add(contentArea, BorderLayout.CENTER);
-
-        //Adding Image 
-        if (storie.getImgPath() != null && !storie.getImgPath().isEmpty()) {
-            try {
-                // Load the image from the path
-                ImageIcon imageIcon = new ImageIcon(storie.getImgPath());
-                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH); // Resize the image
-                JLabel imageLabel = new JLabel(new ImageIcon(image));
-                postPanel.add(imageLabel, BorderLayout.SOUTH); // Add image below the text
+                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Show);
+                if (parentFrame != null) {
+                parentFrame.setContentPane(create);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+                parentFrame.pack();
+                }
                 
-            } catch (Exception e) {
-                System.err.println("Error loading image from path: " + storie.getImgPath());
-                e.printStackTrace();
-            }
-        }
-       
-        jPanel4.add(postPanel);
-        jPanel4.add(Box.createRigidArea(new Dimension(30,20)));
-        System.out.println("Added post: " + storie.getContentId());
-    }
-
-    
-    int totalHeight = stories.size() * 200;  
-    System.out.println("TOTAL height: " + totalHeight);
-
-    
-    jPanel4.setPreferredSize(new Dimension(jPanel4.getWidth(), totalHeight));
-
-    
-    jPanel4.revalidate();
-    jPanel4.repaint();
-    jScrollPane3.revalidate();  
-    jScrollPane3.repaint();     
-
-   
-}
-
-
-
-
-
-
-    
-    
-    public void loadStories() {
-    ArrayList<Storie> stories = new ArrayList<>();
-    ArrayList<Content> content = contents.getContentList();
-    for(Content c : content)
-    {
-        if(c instanceof Storie)
-        {
-            stories.add((Storie) c);
-            System.out.println("Story Found" + ((Storie) c).getContentId());
+                      
         }
         
-    }
-    displayStorie(stories);
-    }
+        
+    }//GEN-LAST:event_ShowOthersActionPerformed
+
+    private void JoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JoinActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable3.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupname = (String) jTable3.getValueAt(selectedRow, 0);
+                if(groupname.equals("No Groups"))
+                {
+                    JOptionPane.showMessageDialog(null,"No groups to join !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                LOGIN.groupdatabase.getRecord(groupname).getUsers().add(LOGIN.database.getCurrentUser().getUsername());
+                LOGIN.groupdatabase.saveToFile();
+                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                model.removeRow(selectedRow);
+                if (model.getRowCount() == 0) {
+                Object[] row = new Object[1];
+                row[0] = "No Groups";
+                model.addRow(row);
+                }
+                JOptionPane.showMessageDialog(null, "You joined the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
+        }
+    }//GEN-LAST:event_JoinActionPerformed
+
+    private void CreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateGroupActionPerformed
+        // TODO add your handling code here:
+        CreateGroup create = new CreateGroup();
+        create.setVisible(true);
+        
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(CreateGroup);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(create);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+        
+        
+        
+    }//GEN-LAST:event_CreateGroupActionPerformed
+
+
+    
+   
     
     
     
@@ -540,20 +765,33 @@ public class Newsfeed extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton CreateGroup;
+    private javax.swing.JButton CreatePost;
+    private javax.swing.JButton CreateStory;
+    private javax.swing.JButton FriendManagement;
+    private javax.swing.JButton Join;
+    private javax.swing.JButton Leave;
+    private javax.swing.JButton LogOut;
+    private javax.swing.JButton Profile;
+    private javax.swing.JButton Refresh;
+    private javax.swing.JButton Show;
+    private javax.swing.JButton ShowOthers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    public static javax.swing.JScrollPane jScrollPane2;
+    public static javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }
