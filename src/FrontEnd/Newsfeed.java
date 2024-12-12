@@ -668,7 +668,12 @@ public class Newsfeed extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null,"No groups to leave !!","Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                   
                 LOGIN.groupdatabase.getRecord(groupname).getUsers().remove(LOGIN.database.getCurrentUser().getUsername());
+                if(LOGIN.database.getCurrentUser().isAdminGroup(groupname))
+                {
+                    LOGIN.groupdatabase.deleteRecord(groupname);
+                }
                 LOGIN.groupdatabase.saveToFile();
                 DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                 model.removeRow(selectedRow);

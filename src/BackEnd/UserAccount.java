@@ -407,5 +407,16 @@ public class UserAccount {
     }
     
     
+    public boolean isAdminGroup(String groupname)
+    {
+        Group group = LOGIN.groupdatabase.getRecord(groupname);
+        if(group.getPrimaryAdmin().equals(this.username))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    
     
 }

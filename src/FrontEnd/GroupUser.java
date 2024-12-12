@@ -19,6 +19,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -64,7 +65,8 @@ public class GroupUser extends javax.swing.JPanel {
         if (group.getGroupPhotoPath() == null || group.getGroupPhotoPath().isEmpty()) {
     // Load default image
             try {
-            profileImage = ImageIO.read(new File("src/FrontEnd/R.png"));
+            URL imageUrl = getClass().getResource("/FrontEnd/R.png");   
+            profileImage = ImageIO.read(imageUrl);
             System.out.println("Default image loaded successfully.");
             } catch (IOException e) {
                 e.printStackTrace();

@@ -35,7 +35,6 @@ public class Group
             this.Discription = Discription;
         }
         this.PrimaryAdmin = PrimaryAdmin;
-        this.GroupPhotoPath = "R.png";
         this.OtherAdmins=new ArrayList<>();
         this.Users=new ArrayList<>();
         this.Posts=new ArrayList<>();
