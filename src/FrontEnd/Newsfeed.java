@@ -196,6 +196,7 @@ public class Newsfeed extends javax.swing.JPanel {
         ShowOthers = new javax.swing.JButton();
         Join = new javax.swing.JButton();
         CreateGroup = new javax.swing.JButton();
+        Search = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -460,6 +461,13 @@ public class Newsfeed extends javax.swing.JPanel {
             }
         });
 
+        Search.setText("Search");
+        Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -480,7 +488,8 @@ public class Newsfeed extends javax.swing.JPanel {
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(CreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -503,13 +512,15 @@ public class Newsfeed extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2)
                                     .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(32, 32, 32)
-                                .addComponent(LogOut)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LogOut)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Search)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Profile)
-                                .addGap(35, 35, 35)
+                                .addGap(53, 53, 53)
                                 .addComponent(FriendManagement)
-                                .addGap(27, 27, 27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CreateGroup)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel4)
@@ -565,7 +576,7 @@ public class Newsfeed extends javax.swing.JPanel {
         
         String BIO;
         
-        profileManagementPage page = new profileManagementPage();
+        profileManagementPage page = new profileManagementPage(LOGIN.database.getCurrentUser());
         page.setVisible(true);
         
             if(users.getCurrentUser().getProfile().getBio() != null && !users.getCurrentUser().getProfile().getBio().isEmpty()){
@@ -755,6 +766,14 @@ public class Newsfeed extends javax.swing.JPanel {
         
     }//GEN-LAST:event_CreateGroupActionPerformed
 
+    private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
+        // TODO add your handling code here:
+        SearchFrameWindow editbiowindow = new SearchFrameWindow();
+        editbiowindow.setVisible(true);
+        
+        
+    }//GEN-LAST:event_SearchActionPerformed
+
 
     
    
@@ -774,6 +793,7 @@ public class Newsfeed extends javax.swing.JPanel {
     private javax.swing.JButton LogOut;
     private javax.swing.JButton Profile;
     private javax.swing.JButton Refresh;
+    private javax.swing.JButton Search;
     private javax.swing.JButton Show;
     private javax.swing.JButton ShowOthers;
     private javax.swing.JLabel jLabel1;
