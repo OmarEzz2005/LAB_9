@@ -129,7 +129,7 @@ public class Newsfeed extends javax.swing.JPanel {
         
         if( groups == null || groups.isEmpty())
         {
-            System.out.println("Here");
+           // System.out.println("Here");
             Object[] row = new Object[1];
             row[0] = "No Groups";
             model.addRow(row);
@@ -147,6 +147,12 @@ public class Newsfeed extends javax.swing.JPanel {
             model.addRow(row);
         }
     
+        if (model.getRowCount() == 0) {
+            Object[] row = new Object[1];
+            row[0] = "No Groups";
+            model.addRow(row);
+        }
+        
     
     }
     
@@ -584,10 +590,16 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
-        contents.loadPosts();
-        contents.loadStories();
-        LOGIN.database.readFromFile();
-        LOGIN.groupdatabase.readFromFile();
+        Newsfeed page = new Newsfeed();
+        page.setVisible(true);
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Refresh);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
     }//GEN-LAST:event_RefreshActionPerformed
 
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
@@ -702,9 +714,9 @@ public class Newsfeed extends javax.swing.JPanel {
         int selectedRow = jTable3.getSelectedRow();
         if (selectedRow != -1) {
                 String groupname = (String) jTable3.getValueAt(selectedRow, 0);
-                if(groupname.equals("No requests"))
+                if(groupname.equals("No Groups"))
                 {
-                    JOptionPane.showMessageDialog(null,"No groups to leave !!","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"No groups to join !!","Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 LOGIN.groupdatabase.getRecord(groupname).getUsers().add(LOGIN.database.getCurrentUser().getUsername());
@@ -716,7 +728,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 row[0] = "No Groups";
                 model.addRow(row);
                 }
-                JOptionPane.showMessageDialog(null, "You left the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
+                JOptionPane.showMessageDialog(null, "You joined the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
         }
     }//GEN-LAST:event_JoinActionPerformed
 

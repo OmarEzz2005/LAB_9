@@ -121,6 +121,7 @@ public class CreateGroup extends javax.swing.JPanel {
             return;
         }
         Group group = new Group(name,description,LOGIN.database.getCurrentUser().getUsername());
+        group.getUsers().add(LOGIN.database.getCurrentUser().getUsername());
         LOGIN.groupdatabase.insertRecord(group);
         LOGIN.groupdatabase.saveToFile();
         

@@ -28,7 +28,7 @@ public class Group
     
 
     public Group(String name, String Discription, String PrimaryAdmin) {
-        this.ID="Group"+String.format("%.3d", count++);
+        this.ID="Group"+String.format("%03d", count++);
         this.name = name;
         if(PrimaryAdmin!=null)
         {
@@ -121,21 +121,23 @@ public class Group
         return Users;
     }
     public ArrayList<UserAccount> getObjectUser() {
-        ArrayList<UserAccount> userList = new ArrayList<>();
-        if (newUserreq != null) {
-            for (String userS : newUserreq) {
-                for (UserAccount userO : LOGIN.database.getUsers()) {
-                    if (userO.getUsername().equals(userS)) {
-                        userList.add(userO);
-                    }
-
+    ArrayList<UserAccount> userList = new ArrayList<>();
+    
+    // Check if there are any users in the group
+    if (Users != null) {
+        // Iterate through each username in the 'Users' list
+        for (String userS : Users) {
+            // Iterate over all users in the database and match the username
+            for (UserAccount userO : LOGIN.database.getUsers()) {
+                if (userO.getUsername().equals(userS)) {
+                    userList.add(userO); // Add matching user to the list
                 }
-
             }
-            return userList;
         }
-        return null;
     }
+        return userList; // Return the list of UserAccount objects
+   }
+
 
     
     

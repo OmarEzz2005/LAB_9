@@ -373,6 +373,7 @@ public class UserAccount {
         {
             for(UserAccount user : g.getObjectUser())
             {
+                System.out.println("Check here !!!!!!!!!"+user.username);
                 if(user.userID.equals(this.userID))
                 {
                     joinedGroups.add(g);

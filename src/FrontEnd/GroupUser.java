@@ -46,35 +46,51 @@ public class GroupUser extends javax.swing.JPanel {
     /**
      * Creates new form GroupUser
      */
+    
+    
+    
+   /* public void setImage(BufferedImage image) {
+        this.profileImage = image;
+        
+     //   jPanel1.repaint(); // Request a repaint whenever the image is updated
+    }
+*/
+    
+    
     public GroupUser(Group group) {
         initComponents();
         g = group;
-        try {
-            if (group.getGroupPhotoPath() == null || group.getGroupPhotoPath().isEmpty()) {
-                // Load default image
-                profileImage = ImageIO.read(new File("src/FrontEnd/R.png"));
-            } else {
-                // Load image from group photo path
-                ImageIcon imageIcon = new ImageIcon(group.getGroupPhotoPath());
-                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
-                profileImage = new BufferedImage(200, 150, BufferedImage.TYPE_INT_ARGB);
-                Graphics g = profileImage.getGraphics();
-                g.drawImage(image, 0, 0, null);
-                g.dispose();
+        
+        if (group.getGroupPhotoPath() == null || group.getGroupPhotoPath().isEmpty()) {
+    // Load default image
+            try {
+            profileImage = ImageIO.read(new File("src/FrontEnd/R.png"));
+            System.out.println("Default image loaded successfully.");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Failed to load default image.");
             }
-            // Repaint panel to display the image
-            jPanel1.repaint();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } else {
+            try {
+            profileImage = ImageIO.read(new File(group.getGroupPhotoPath()));
+            System.out.println("Group photo loaded successfully.");
+            } catch (Exception e) {
+               e.printStackTrace();
+               System.out.println("Failed to load group photo.");
+            } 
+       }
+        
         jLabel2.setText("Group By "+group.getPrimaryAdmin());
+        jLabel1.setText(group.getName());
         jTextArea1.setText(group.getDiscription());
         jPanel5 = new JPanel();
         jPanel5.setLayout(new BoxLayout(jPanel5, BoxLayout.X_AXIS));
         this.loadPosts();
-        
+        jPanel1.repaint();
     }
 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,15 +100,19 @@ public class GroupUser extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel(){
+        jPanel1 =  new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 if (profileImage != null) {
-                    g.drawImage(profileImage, 0, 0, getWidth(), getHeight(), this);
+                    // Draw the image scaled to fit the panel
+                    System.out.println("Drawing image...");
+                    g.drawImage(profileImage, 0, 0, getWidth(), getHeight(), this); // Use 'g' directly
                 }
             }
-        }
+
+        };
+
         ;
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -119,7 +139,8 @@ public class GroupUser extends javax.swing.JPanel {
             .addGap(0, 200, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("Group By");
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -190,20 +211,20 @@ public class GroupUser extends javax.swing.JPanel {
                 .addComponent(Back)
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane2)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ChangePhoto))
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -214,11 +235,11 @@ public class GroupUser extends javax.swing.JPanel {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Back))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ChangePhoto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ChangePhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
