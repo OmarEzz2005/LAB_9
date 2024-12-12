@@ -33,6 +33,7 @@ public class UserAccount {
     private ArrayList <String> friends; 
     private ArrayList <String> blocked; 
     private ArrayList <String> requests;
+    private ArrayList <Group> joinedGroups;
     private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username, String Gender, String password, LocalDate date) {
@@ -50,6 +51,7 @@ public class UserAccount {
         friends = new ArrayList<>();
         blocked = new ArrayList<>();
         requests  = new ArrayList<>();
+        joinedGroups = new ArrayList<>(); 
 
     }
 
@@ -357,4 +359,64 @@ public class UserAccount {
         return users;
     }
 
+    
+    public ArrayList<Group> getJoinedGroups() {
+        
+        
+       // return this.joinedGroups;
+        ArrayList<Group> groups = LOGIN.groupdatabase.getgroups();
+        ArrayList <Group> joinedGroups = new ArrayList<>();
+        if (groups == null || groups.isEmpty()) {
+        return joinedGroups;  
+        }
+        for(Group g : groups)
+        {
+            for(UserAccount user : g.getObjectUser())
+            {
+                System.out.println("Check here !!!!!!!!!"+user.username);
+                if(user.userID.equals(this.userID))
+                {
+                    joinedGroups.add(g);
+                    break;
+                }
+            }
+            
+        }
+        //System.out.println("users"+users.get(0));
+        return joinedGroups;
+    }
+    
+    
+    public boolean isJoinedGroup(String groupname)
+    {
+        ArrayList<Group> joinedgroups = LOGIN.database.getCurrentUser().getJoinedGroups();
+      //  ArrayList <Group> joinedGroups = new ArrayList<>();
+        if (joinedgroups == null || joinedgroups.isEmpty()) {
+        return false;  
+        }
+        for(Group g : joinedgroups)
+        {
+            if(g.getName().equals(groupname))
+            {
+                return true;
+            }
+            
+        }
+        //System.out.println("users"+users.get(0));
+        return false;
+    }
+    
+    
+    public boolean isAdminGroup(String groupname)
+    {
+        Group group = LOGIN.groupdatabase.getRecord(groupname);
+        if(group.getPrimaryAdmin().equals(this.username))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    
 }
