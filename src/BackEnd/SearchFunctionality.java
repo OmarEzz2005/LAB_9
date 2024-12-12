@@ -7,10 +7,12 @@ public class SearchFunctionality {
 
     private UserDatabase userDatabase;
     private GroupDatabase groupDatabase;
+    private UserAccount currentUser;
 
-    public SearchFunctionality(UserDatabase userDatabase, GroupDatabase groupDatabase) {
+    public SearchFunctionality(UserDatabase userDatabase, GroupDatabase groupDatabase, UserAccount currentUser) {
         this.userDatabase = userDatabase;
         this.groupDatabase = groupDatabase;
+        this.currentUser = currentUser;
     }
 
     public ArrayList<UserAccount> searchUsers(String username) {// Search for users by username
