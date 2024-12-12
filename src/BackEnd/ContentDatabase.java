@@ -149,6 +149,10 @@ public class ContentDatabase {
 
     
     for (Post post : posts) {
+        if(!LOGIN.database.getCurrentUser().isFriends(LOGIN.database.getRecord(post.getAutherId()).getUsername()) && !(LOGIN.database.getCurrentUser().getUserID().equals(post.getAutherId())))
+        {
+            continue;
+        }
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -226,6 +230,10 @@ public class ContentDatabase {
 
    
     for (Storie storie : stories) {
+        if(!LOGIN.database.getCurrentUser().isFriends(storie.getAutherId()))
+        {
+            continue;
+        }
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

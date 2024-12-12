@@ -268,6 +268,7 @@ public class FriendManagement extends javax.swing.JPanel{
                 JOptionPane.showMessageDialog(this, "User is not one of your friends");
             } else {
                 current.removeFriend(user);
+                LOGIN.database.saveToFile();
                 JOptionPane.showMessageDialog(this, user + " Removed Successfully ");
             }
         }

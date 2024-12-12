@@ -129,7 +129,7 @@ public class Newsfeed extends javax.swing.JPanel {
         
         if( groups == null || groups.isEmpty())
         {
-            System.out.println("Here");
+           // System.out.println("Here");
             Object[] row = new Object[1];
             row[0] = "No Groups";
             model.addRow(row);
@@ -138,12 +138,21 @@ public class Newsfeed extends javax.swing.JPanel {
         
         //System.out.println("Requests"+requests.get(0).getUsername());
         for (Group c : groups) {
-            
+            if(LOGIN.database.getCurrentUser().isJoinedGroup(c.getName()))
+            {
+                continue;
+            }
             Object[] row = new Object[1];
             row[0] = c.getName();
             model.addRow(row);
         }
     
+        if (model.getRowCount() == 0) {
+            Object[] row = new Object[1];
+            row[0] = "No Groups";
+            model.addRow(row);
+        }
+        
     
     }
     
@@ -186,7 +195,7 @@ public class Newsfeed extends javax.swing.JPanel {
         jTable3 = new javax.swing.JTable();
         ShowOthers = new javax.swing.JButton();
         Join = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        CreateGroup = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -353,6 +362,11 @@ public class Newsfeed extends javax.swing.JPanel {
         });
 
         Leave.setText("Leave");
+        Leave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -399,8 +413,18 @@ public class Newsfeed extends javax.swing.JPanel {
         jScrollPane6.setViewportView(jTable3);
 
         ShowOthers.setText("Show");
+        ShowOthers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShowOthersActionPerformed(evt);
+            }
+        });
 
         Join.setText("Join");
+        Join.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JoinActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -429,7 +453,12 @@ public class Newsfeed extends javax.swing.JPanel {
                 .addGap(13, 13, 13))
         );
 
-        jButton5.setText("Create Group");
+        CreateGroup.setText("Create Group");
+        CreateGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateGroupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -451,7 +480,7 @@ public class Newsfeed extends javax.swing.JPanel {
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CreateGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -470,14 +499,18 @@ public class Newsfeed extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
                                 .addComponent(LogOut)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(Profile)
-                                .addGap(53, 53, 53)
+                                .addGap(35, 35, 35)
                                 .addComponent(FriendManagement)
                                 .addGap(27, 27, 27)
-                                .addComponent(jButton5)
+                                .addComponent(CreateGroup)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -487,11 +520,7 @@ public class Newsfeed extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Refresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -561,7 +590,16 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
-        contents.loadPosts();
+        Newsfeed page = new Newsfeed();
+        page.setVisible(true);
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Refresh);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
     }//GEN-LAST:event_RefreshActionPerformed
 
     private void LogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutActionPerformed
@@ -585,7 +623,7 @@ public class Newsfeed extends javax.swing.JPanel {
         create.setVisible(true);
         
         
-         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Refresh);
+         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(FriendManagement);
         if (parentFrame != null) {
             parentFrame.setContentPane(create);
             parentFrame.revalidate();
@@ -608,7 +646,7 @@ public class Newsfeed extends javax.swing.JPanel {
                 create.setVisible(true);
         
         
-                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Refresh);
+                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Show);
                 if (parentFrame != null) {
                 parentFrame.setContentPane(create);
                 parentFrame.revalidate();
@@ -620,6 +658,103 @@ public class Newsfeed extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_ShowActionPerformed
 
+    private void LeaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveActionPerformed
+        // TODO add your handling code here:
+         int selectedRow = jTable2.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupname = (String) jTable2.getValueAt(selectedRow, 0);
+                if(groupname.equals("No Groups"))
+                {
+                    JOptionPane.showMessageDialog(null,"No groups to leave !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                   
+                LOGIN.groupdatabase.getRecord(groupname).getUsers().remove(LOGIN.database.getCurrentUser().getUsername());
+                if(LOGIN.database.getCurrentUser().isAdminGroup(groupname))
+                {
+                    LOGIN.groupdatabase.deleteRecord(groupname);
+                }
+                LOGIN.groupdatabase.saveToFile();
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                model.removeRow(selectedRow);
+                if (model.getRowCount() == 0) {
+                Object[] row = new Object[1];
+                row[0] = "No Groups";
+                model.addRow(row);
+                }
+                JOptionPane.showMessageDialog(null, "You left the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
+        }
+    }//GEN-LAST:event_LeaveActionPerformed
+
+    private void ShowOthersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowOthersActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable3.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupName = (String) jTable3.getValueAt(selectedRow, 0);
+                if(groupName.equals("No Groups"))
+                {
+                    JOptionPane.showMessageDialog(null,"No Groups to show !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                GroupUser create = new GroupUser(LOGIN.groupdatabase.getRecord(groupName));
+                create.setVisible(true);
+        
+        
+                LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Show);
+                if (parentFrame != null) {
+                parentFrame.setContentPane(create);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+                parentFrame.pack();
+                }
+                
+                      
+        }
+        
+        
+    }//GEN-LAST:event_ShowOthersActionPerformed
+
+    private void JoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JoinActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable3.getSelectedRow();
+        if (selectedRow != -1) {
+                String groupname = (String) jTable3.getValueAt(selectedRow, 0);
+                if(groupname.equals("No Groups"))
+                {
+                    JOptionPane.showMessageDialog(null,"No groups to join !!","Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                LOGIN.groupdatabase.getRecord(groupname).getUsers().add(LOGIN.database.getCurrentUser().getUsername());
+                LOGIN.groupdatabase.saveToFile();
+                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                model.removeRow(selectedRow);
+                if (model.getRowCount() == 0) {
+                Object[] row = new Object[1];
+                row[0] = "No Groups";
+                model.addRow(row);
+                }
+                JOptionPane.showMessageDialog(null, "You joined the group", "Success", JOptionPane.INFORMATION_MESSAGE);       
+        }
+    }//GEN-LAST:event_JoinActionPerformed
+
+    private void CreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateGroupActionPerformed
+        // TODO add your handling code here:
+        CreateGroup create = new CreateGroup();
+        create.setVisible(true);
+        
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(CreateGroup);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(create);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+        
+        
+        
+    }//GEN-LAST:event_CreateGroupActionPerformed
+
 
     
    
@@ -630,6 +765,7 @@ public class Newsfeed extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CreateGroup;
     private javax.swing.JButton CreatePost;
     private javax.swing.JButton CreateStory;
     private javax.swing.JButton FriendManagement;
@@ -640,7 +776,6 @@ public class Newsfeed extends javax.swing.JPanel {
     private javax.swing.JButton Refresh;
     private javax.swing.JButton Show;
     private javax.swing.JButton ShowOthers;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
