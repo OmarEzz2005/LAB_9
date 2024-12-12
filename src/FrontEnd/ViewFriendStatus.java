@@ -5,40 +5,45 @@
 package FrontEnd;
 
 import BackEnd.UserAccount;
+import FrontEnd.LOGIN;
+import static FrontEnd.LOGIN.database;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JPanel;
 
 /**
  *
  * @author lenovo
  */
-public class ViewFriendSuggestion extends javax.swing.JPanel {
+public class ViewFriendStatus extends javax.swing.JPanel {
 
     /**
-     * Creates new form ViewFriends
+     * Creates new form ViewFriendRequests
      */
-    public ViewFriendSuggestion() {
+    public ViewFriendStatus() {
         initComponents();
         addToTable();
-        
     }
 
+    
+    
+    
+    
+    
     
     public void addToTable()
     {
         
-        ArrayList<UserAccount> friends = LOGIN.database.getCurrentUser().getFriendSuggestions();
+        ArrayList<UserAccount> friends = LOGIN.database.getCurrentUser().getFriends();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         
         if( friends == null || friends.isEmpty())
         {
-           // System.out.println("Here");
+            System.out.println("Here");
             Object[] row = new Object[2];
-            row[0] = "No Suggestions";
+            row[0] = "No friends";
             row[1] = "";
             model.addRow(row);
             return;
@@ -61,10 +66,6 @@ public class ViewFriendSuggestion extends javax.swing.JPanel {
     
     
     
-    
-    
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,11 +78,17 @@ public class ViewFriendSuggestion extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        SendRequestButton = new javax.swing.JButton();
-        BlockButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
                 {null, null},
                 {null, null},
                 {null, null},
@@ -100,21 +107,21 @@ public class ViewFriendSuggestion extends javax.swing.JPanel {
             }
         });
 
-        SendRequestButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        SendRequestButton.setText("Send Friend Request");
-        SendRequestButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        SendRequestButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setText("Unfriend");
+        jButton2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SendRequestButtonActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
-        BlockButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BlockButton.setText("Block");
-        BlockButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        BlockButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setText("Block");
+        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BlockButtonActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -123,32 +130,30 @@ public class ViewFriendSuggestion extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(197, 197, 197)
-                .addComponent(SendRequestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(BlockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(267, 267, 267)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(24, 24, 24)
+                    .addComponent(jButton1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SendRequestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BlockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -168,33 +173,37 @@ public class ViewFriendSuggestion extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void SendRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendRequestButtonActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
                 String username = (String) jTable1.getValueAt(selectedRow, 0);
-                if(username.equals("No Suggestions"))
+                if(username.equals("No friends"))
                 {
-                    JOptionPane.showMessageDialog(null,"No friend suggestion selected !!","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"No friend selected to remove !!","Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                LOGIN.database.getCurrentUser().sendFriendRequest(username);
+                LOGIN.database.getCurrentUser().removeFriend(username);
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                 model.removeRow(selectedRow);
                 if (model.getRowCount() == 0) {
                 Object[] row = new Object[2];
-                row[0] = "No Suggestions";
+                row[0] = "No friends";
                 row[1] = "";
                 model.addRow(row);
                 }
-                JOptionPane.showMessageDialog(null, "Friend Request sent to "+ username , "Success", JOptionPane.INFORMATION_MESSAGE);       
+                JOptionPane.showMessageDialog(null, "You have removed " +username +" from your friends ", "Success", JOptionPane.INFORMATION_MESSAGE);       
         }
-    }//GEN-LAST:event_SendRequestButtonActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void BlockButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BlockButtonActionPerformed
-     int selectedRow = jTable1.getSelectedRow();
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+   int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
                 String username = (String) jTable1.getValueAt(selectedRow, 0);
-                if(username.equals("No Suggestions"))
+                if(username.equals("No friends"))
                 {
                     JOptionPane.showMessageDialog(null,"No friend suggestion selected !!","Error",JOptionPane.ERROR_MESSAGE);
                     return;
@@ -204,19 +213,20 @@ public class ViewFriendSuggestion extends javax.swing.JPanel {
                 model.removeRow(selectedRow);
                 if (model.getRowCount() == 0) {
                 Object[] row = new Object[2];
-                row[0] = "No Suggestions";
+                row[0] = "No friends";
                 row[1] = "";
                 model.addRow(row);
                 }
                 JOptionPane.showMessageDialog(null, "You blocked "+ username , "Success", JOptionPane.INFORMATION_MESSAGE);       
         }
-    }//GEN-LAST:event_BlockButtonActionPerformed
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BlockButton;
-    private javax.swing.JButton SendRequestButton;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

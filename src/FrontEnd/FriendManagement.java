@@ -233,29 +233,6 @@ public class FriendManagement extends javax.swing.JPanel{
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        int option = JOptionPane.showConfirmDialog(null, jPanel1, "Send Friend Request ", JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_OPTION) {
-            String user = jTextField1.getText();
-            if(user == null || user.isEmpty())
-            {
-                return;
-            }
-            if (current.isFriends(user)) {
-                JOptionPane.showMessageDialog(this, "You are already friends");
-            } else {
-                boolean done = current.sendFriendRequest(user);
-                if (done) {
-                    JOptionPane.showMessageDialog(this, "Friend Request sent to " + user + " Successfully ");
-                } else {
-                    JOptionPane.showMessageDialog(this, " User not found ");
-                }
-            }
-
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         JTextField name = new JTextField();
         Object[] message = {
@@ -323,6 +300,29 @@ public class FriendManagement extends javax.swing.JPanel{
         }
 
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        int option = JOptionPane.showConfirmDialog(null, jPanel1, "Send Friend Request ", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String user = jTextField1.getText();
+            if(user == null || user.isEmpty())
+            {
+                return;
+            }
+            if (current.isFriends(user)) {
+                JOptionPane.showMessageDialog(this, "You are already friends");
+            } else {
+                boolean done = current.sendFriendRequest(user);
+                if (done) {
+                    JOptionPane.showMessageDialog(this, "Friend Request sent to " + user + " Successfully ");
+                } else {
+                    JOptionPane.showMessageDialog(this, " User not found ");
+                }
+            }
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
