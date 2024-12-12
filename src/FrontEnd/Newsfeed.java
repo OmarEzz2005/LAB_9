@@ -663,7 +663,7 @@ public class Newsfeed extends javax.swing.JPanel {
          int selectedRow = jTable2.getSelectedRow();
         if (selectedRow != -1) {
                 String groupname = (String) jTable2.getValueAt(selectedRow, 0);
-                if(groupname.equals("No requests"))
+                if(groupname.equals("No Groups"))
                 {
                     JOptionPane.showMessageDialog(null,"No groups to leave !!","Error",JOptionPane.ERROR_MESSAGE);
                     return;
