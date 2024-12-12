@@ -22,6 +22,7 @@ public class Group
     private ArrayList<String> OtherAdmins=new ArrayList<>();
     private ArrayList<String> Users=new ArrayList<>();
     private ArrayList<String> Posts=new ArrayList<>();
+    private ArrayList<String> newPostreq=new ArrayList<>();
     private ArrayList<String> newAdminsreq=new ArrayList<>();
     private ArrayList<String> newUserreq=new ArrayList<>();
     
@@ -39,6 +40,7 @@ public class Group
         this.Users=new ArrayList<>();
         this.Posts=new ArrayList<>();
         this.newAdminsreq=new ArrayList<>();
+        this.newPostreq=new ArrayList<>();
         this.newUserreq=new ArrayList<>();
     }
 
@@ -58,6 +60,14 @@ public class Group
 
     public void setPosts(ArrayList<String> Posts) {
         this.Posts = Posts;
+    }
+
+    public ArrayList<String> getNewPostsreq() {
+        return newPostreq;
+    }
+
+    public void setNewPostsreq(ArrayList<String> newPostsreq) {
+        this.newPostreq = newPostsreq;
     }
 
     public ArrayList<String> getNewAdminsreq() {
