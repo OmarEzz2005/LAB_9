@@ -34,6 +34,7 @@ public class UserAccount {
     private ArrayList <String> blocked; 
     private ArrayList <String> requests;
     private ArrayList <Group> joinedGroups;
+    private ArrayList<String> notifications;
     private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username, String Gender, String password, LocalDate date) {
@@ -52,6 +53,7 @@ public class UserAccount {
         blocked = new ArrayList<>();
         requests  = new ArrayList<>();
         joinedGroups = new ArrayList<>(); 
+        notifications = new ArrayList<>(); 
 
     }
 
@@ -428,6 +430,18 @@ public class UserAccount {
     }
     
     
+    public ArrayList<String> getNotifications() {
+        return this.notifications;
+    }
+    
+     public void removeNotification(String removed) {
+        for (String selected : this.notifications) {
+            if( selected.equals(removed) )
+                    {
+                        this.notifications.remove(selected);
+                    }
+        }
+    }
     
     
 }
