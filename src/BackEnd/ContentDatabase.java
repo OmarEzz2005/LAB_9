@@ -37,7 +37,7 @@ import javax.swing.JTextArea;
  *
  * @author yaseen
  */
-public class ContentDatabase {
+public class ContentDatabase implements Database <Content>{
 
     UserDatabase users;
     private final String FileName;
@@ -52,6 +52,7 @@ public class ContentDatabase {
         return contentList;
     }
     
+    @Override
     public void saveToFile() {
     Gson gson = new Gson();
     File file = new File(this.FileName);
@@ -77,6 +78,7 @@ public class ContentDatabase {
     }
 }
 
+    @Override
     public void readFromFile() {
     Gson gson = new GsonBuilder()
         .registerTypeAdapter(Content.class, new ContentDeserializer())
@@ -92,6 +94,7 @@ public class ContentDatabase {
     }
 }
     
+    @Override
     public boolean contains(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
@@ -100,6 +103,7 @@ public class ContentDatabase {
         }
         return false;
     }
+    @Override
     public Content getRecord(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
@@ -109,6 +113,7 @@ public class ContentDatabase {
         return null;
     }
     
+    @Override
      public void deleteRecord(String key) {
         if (!contains(key)) {
             JOptionPane.showMessageDialog(null, "content not found !!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -133,6 +138,7 @@ public class ContentDatabase {
         }
     }}
      
+    
      public int getSize()
      {
          return this.contentList.size();
