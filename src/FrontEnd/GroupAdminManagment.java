@@ -37,9 +37,8 @@ public class GroupAdminManagment extends javax.swing.JPanel {
         if( groupList == null || groupList.isEmpty())
         {
             System.out.println("Here");
-            Object[] row = new Object[2];
-            row[0] = "No requests";
-            row[1] = "";
+            Object[] row = new Object[1];
+            row[0] = "No Groups";
             model.addRow(row);
             return;
         }
@@ -184,7 +183,12 @@ public class GroupAdminManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if(!LOGIN.database.getCurrentUser().isAdminGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Admin", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -205,7 +209,12 @@ public class GroupAdminManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if(!LOGIN.database.getCurrentUser().isAdminGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Admin", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -226,7 +235,12 @@ public class GroupAdminManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if(!LOGIN.database.getCurrentUser().isAdminGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Admin", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }

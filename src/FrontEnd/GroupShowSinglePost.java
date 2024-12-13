@@ -84,8 +84,7 @@ public class GroupShowSinglePost extends javax.swing.JPanel {
         
          Newsfeed page = new Newsfeed();
          page.setVisible(true);
-        
-
+         
         LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
         if (parentFrame != null) {
             parentFrame.setContentPane(page);

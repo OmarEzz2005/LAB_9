@@ -220,6 +220,11 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isCreatorGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Creator", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -241,6 +246,11 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isCreatorGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Creator", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -262,6 +272,12 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isCreatorGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Creator", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Newsfeed.groupC=username;
             if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -284,6 +300,11 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isCreatorGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Creator", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -304,6 +325,11 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isCreatorGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Creator", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -325,7 +351,11 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-
+            if(!LOGIN.database.getCurrentUser().isCreatorGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Creator", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;

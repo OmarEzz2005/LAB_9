@@ -161,19 +161,20 @@ public class Group
     public ArrayList<UserAccount> getObjectAdmins() 
     {
         ArrayList<UserAccount> userList = new ArrayList<>();
-        if (newAdminsreq != null) {
-            for (String userS : newAdminsreq) {
-                for (UserAccount userO : LOGIN.database.getUsers()) {
-                    if (userO.getUsername().equals(userS)) {
-                        userList.add(userO);
-                    }
-
+    
+    // Check if there are any users in the group
+    if (OtherAdmins != null) {
+        // Iterate through each username in the 'Users' list
+        for (String userS : OtherAdmins) {
+            // Iterate over all users in the database and match the username
+            for (UserAccount userO : LOGIN.database.getUsers()) {
+                if (userO.getUsername().equals(userS)) {
+                    userList.add(userO); // Add matching user to the list
                 }
-
             }
-            return userList;
         }
-        return null;
+    }
+        return userList; // Return the list of UserAccount objects
     }
     
     

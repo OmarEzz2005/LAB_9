@@ -7,6 +7,7 @@ package FrontEnd;
 import BackEnd.Group;
 import BackEnd.Post;
 import BackEnd.UserAccount;
+import static FrontEnd.profileManagementPage.bio;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -39,9 +40,9 @@ public class GroupCurrentAdmins extends javax.swing.JPanel {
         if( currentuserslist == null || currentuserslist.isEmpty())
         {
             System.out.println("Here");
-            Object[] row = new Object[2];
-            row[0] = "No requests";
-            row[1] = "";
+            Object[] row = new Object[1];
+            row[0] = "No Admins";
+          
             model.addRow(row);
             return;
         }
@@ -133,7 +134,7 @@ public class GroupCurrentAdmins extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton3)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton1))
@@ -170,20 +171,34 @@ public class GroupCurrentAdmins extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if(username.equals("No requests"))
+            if(username.equals("No Admins"))
             {
-                JOptionPane.showMessageDialog(null,"No Admin !!","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"No Admins to Show it's profile !!","Error",JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            LOGIN.database.getCurrentUser().approveRequest(username);
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             
-            if (model.getRowCount() == 0) {
-                Object[] row = new Object[2];
-                row[0] = "No requests";
-                row[1] = "";
-                model.addRow(row);
+            UserAccount user = LOGIN.database.getRecordWithName(username);
+        if(user!=null)
+        {
+            profileManagementPage page = new profileManagementPage(user);
+            page.setVisible(true);
+            String BIO;
+            if(user.getProfile().getBio() != null && !user.getProfile().getBio().isEmpty()){
+                BIO = user.getProfile().getBio();
+                System.out.println(BIO);
+                bio.setText(BIO);
             }
+
+            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton2);
+            if (parentFrame != null) {
+                parentFrame.setContentPane(page);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+                parentFrame.pack();
+            }
+
+        }
+            
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -194,7 +209,7 @@ public class GroupCurrentAdmins extends javax.swing.JPanel {
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
 
-            if (username.equals("No requests")) {
+            if (username.equals("No Admins")) {
                 JOptionPane.showMessageDialog(null, "No Admin!!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -203,9 +218,9 @@ public class GroupCurrentAdmins extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.removeRow(selectedRow);
             if (model.getRowCount() == 0) {
-                Object[] row = new Object[2];
-                row[0] = "No requests";
-                row[1] = "";
+                Object[] row = new Object[1];
+                row[0] = "No Admins";
+                
                 model.addRow(row);
             }
             JOptionPane.showMessageDialog(null, "You Deleted an Admin ", "Success", JOptionPane.INFORMATION_MESSAGE);
