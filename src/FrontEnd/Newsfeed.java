@@ -58,12 +58,12 @@ public class Newsfeed extends javax.swing.JPanel {
         jPanel4.setLayout(new BoxLayout(jPanel4, BoxLayout.X_AXIS));
         initComponents();
         users = LOGIN.database;
-        ImageIcon icon = new ImageIcon(getClass().getResource("/FrontEnd/image.png"));
-        Image image = icon.getImage();
+        //ImageIcon icon = new ImageIcon(getClass().getResource("/FrontEnd/image.png"));
+        //Image image = icon.getImage();
         contents.readFromFile();
         currentUser = users.getCurrentUser();
 
-        if (image != null && image.getWidth(null) > 0 && image.getHeight(null) > 0) {
+        /*if (image != null && image.getWidth(null) > 0 && image.getHeight(null) > 0) {
 
             Image scaledImage = image.getScaledInstance(25, 30, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -73,7 +73,7 @@ public class Newsfeed extends javax.swing.JPanel {
         } else {
             System.out.println("Error: Image not found or invalid dimensions.");
         }
-
+*/
         this.loadPosts();
         this.loadStories();
 
@@ -118,19 +118,49 @@ public class Newsfeed extends javax.swing.JPanel {
             String[] strings;
 
             {
-                ArrayList<UserAccount> friends = current.getFriends();
-                if (current.getFriends() == null || current.getFriends().isEmpty()) {
-                    strings = new String[]{"No friends"};
+                ArrayList<String> notifications = current.getNotifications();
+
+                if (current.getNotifications() == null || current.getNotifications().isEmpty()) {
+                    strings = new String[]{"No notifications"};
                 } else {
-                    strings = new String[friends.size()];
-                    for (int i = 0; i < friends.size(); i++) {
-                        strings[i] = friends.get(i).getUsername() + " " + friends.get(i).getStatus();
+                    strings = new String[notifications.size()];
+                    for (int i = 0; i < notifications.size(); i++) {
+                        strings[i] = notifications.get(i);
                     }
                 }
             }
 
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
+        });
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    int selectedIndex = jList2.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        String selectedNotification = jList2.getModel().getElementAt(selectedIndex);
+
+                        if (selectedNotification.contains("Friend Request")) {
+                            // Open ViewFriendRequests page
+                            ViewFriendRequests page = new ViewFriendRequests();
+                            page.setVisible(true);
+
+                            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jList2);
+                            if (parentFrame != null) {
+                                parentFrame.setContentPane(page);
+                                parentFrame.revalidate();
+                                parentFrame.repaint();
+                                parentFrame.pack();
+                            }
+
+                            // Remove the notification
+                            UserAccount current = LOGIN.database.getCurrentUser();
+                            current.removeNotification(selectedNotification);
+
+                        }
+                    }
+                }
+            }
         });
         jScrollPane4.setViewportView(jList2);
 
@@ -319,8 +349,7 @@ public class Newsfeed extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jButton4))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
