@@ -555,6 +555,7 @@ public class Newsfeed extends javax.swing.JPanel {
                             // Remove the notification
                             UserAccount current = LOGIN.database.getCurrentUser();
                             current.removeNotification(selectedNotification);
+                            LOGIN.database.saveToFile();
 
                         }
                         else if(selectedNotification.contains("New Post"))
@@ -579,6 +580,7 @@ public class Newsfeed extends javax.swing.JPanel {
                             // Remove the notification
                             UserAccount current = LOGIN.database.getCurrentUser();
                             current.removeNotification(selectedNotification);
+                            LOGIN.database.saveToFile();
                         }
                     }
                 }

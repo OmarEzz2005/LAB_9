@@ -8,23 +8,48 @@ package BackEnd;
  *
  * @author yaseen
  */
-public class Storie extends Content{
-    
-    private final long time=24*60*60*1000;
+public class Storie extends Content {
+    private static final long EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-    public Storie(UserAccount User, String ContenText, String ImgPath, String type) {
-        super(User, ContenText, ImgPath, "Storie");
+    private Storie(UserAccount user, String contentText, String imgPath) {
+        super(user, contentText, imgPath, "Storie");
     }
-    
-    public boolean isExpired() {
-    long currentTime = System.currentTimeMillis(); 
-    return currentTime >= (this.getTimestamp() + time); 
-}
+
     @Override
     public String getType() {
-       return "Storie";
+        return "Storie";
     }
-    
+
+    public boolean isExpired() {
+        long currentTime = System.currentTimeMillis();
+        return currentTime >= (this.getTimestamp() + EXPIRATION_TIME);
     }
+
+    // Static Builder Class
+    public static class Builder {
+        private UserAccount user;
+        private String contentText;
+        private String imgPath;
+
+        public Builder setUser(UserAccount user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder setContentText(String contentText) {
+            this.contentText = contentText;
+            return this;
+        }
+
+        public Builder setImgPath(String imgPath) {
+            this.imgPath = imgPath;
+            return this;
+        }
+
+        public Storie build() {
+            return new Storie(user, contentText, imgPath);
+        }
+    }
+}
 
    

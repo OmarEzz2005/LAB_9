@@ -32,15 +32,14 @@ public abstract class Content
     private final long timestamp;
     private String type;
 
-    public Content( UserAccount User, String ContenText, String ImgPath,String type ) {
-        
+    protected Content(UserAccount user, String contentText, String imgPath, String type) {
         countC = Newsfeed.contents.getSize();
-        this.ContentId = "contant"+String.format("%03d", countC++);
-        this.autherId = User.getSearchKey();
-        this.ContenText = ContenText;
-        this.ImgPath=ImgPath;
+        this.ContentId = "content" + String.format("%03d", countC++);
+        this.autherId = user.getSearchKey();
         this.timestamp = System.currentTimeMillis();
-        this.type=type;
+        this.ContenText = contentText;
+        this.ImgPath = (imgPath == null || imgPath.isEmpty()) ? "Noimage" : imgPath;
+        this.type = type;
     }
 
     public String getContentId() {

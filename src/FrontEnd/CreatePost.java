@@ -167,7 +167,12 @@ public class CreatePost extends javax.swing.JPanel {
             return;
         }
         String ImgPath = selectedImgPath;
-        Post post = new Post(user, ContentText, ImgPath, "Post");
+        Post post = new Post.Builder()
+                .setUser(user)
+                .setContentText(ContentText)
+                .setImgPath(ImgPath)
+                .build();
+     //   Post post = new Post(user, ContentText, ImgPath, "Post");
         contentdatabase.getContentList().add(post);
         contentdatabase.saveToFile();
         JOptionPane.showMessageDialog(null, "Post Added Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
