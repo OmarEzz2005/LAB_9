@@ -546,6 +546,9 @@ public class Newsfeed extends javax.swing.JPanel {
                             String Gname = selectedNotification.substring(14);
                             System.out.println(Gname);
                             Group g = LOGIN.groupdatabase.getRecord(Gname);
+                            if(g== null){
+                                return;
+                            }
                             GroupUser page = new GroupUser(g);
                             page.setVisible(true);
 

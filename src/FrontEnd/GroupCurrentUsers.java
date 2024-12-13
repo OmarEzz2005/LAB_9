@@ -11,6 +11,7 @@ import FrontEnd.GroupAdminManagment;
 import FrontEnd.GroupCreatorManagment;
 import FrontEnd.LOGIN;
 import FrontEnd.Newsfeed;
+import static FrontEnd.profileManagementPage.bio;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -26,9 +27,14 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
      * Creates new form GroupCurrentUsers
      * @param username
      */
+    
+    
+    Group group;
+    
     public GroupCurrentUsers(String username) {
         initComponents();
-        Group group=LOGIN.groupdatabase.getRecord(username);
+        group=LOGIN.groupdatabase.getRecord(username);
+        System.out.println(group.getName());
         ArrayList <UserAccount> currentuserslist=new ArrayList<>();
         currentuserslist=group.getObjectUser();
         addToTable(currentuserslist);
@@ -44,9 +50,9 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
         if( currentuserslist == null || currentuserslist.isEmpty())
         {
             System.out.println("Here");
-            Object[] row = new Object[2];
+            Object[] row = new Object[1];
             row[0] = "No requests";
-            row[1] = "";
+           
             model.addRow(row);
             return;
         }
@@ -74,6 +80,7 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -115,6 +122,13 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
             }
         });
 
+        jButton4.setText("Make Admin");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,12 +138,14 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(363, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,9 +155,10 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton4)))
                     .addComponent(jButton1))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
@@ -179,13 +196,32 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
             if(username.equals("No requests"))
             {
-                JOptionPane.showMessageDialog(null,"No friend request to accept !!","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"No user to Show it's profile !!","Error",JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            LOGIN.database.getCurrentUser().approveRequest(username);
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             
-            JOptionPane.showMessageDialog(null, "You have Accepted the request", "Success", JOptionPane.INFORMATION_MESSAGE);
+            UserAccount user = LOGIN.database.getRecordWithName(username);
+        if(user!=null)
+        {
+            profileManagementPage page = new profileManagementPage(user);
+            page.setVisible(true);
+            String BIO;
+            if(user.getProfile().getBio() != null && !user.getProfile().getBio().isEmpty()){
+                BIO = user.getProfile().getBio();
+                System.out.println(BIO);
+                bio.setText(BIO);
+            }
+
+            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton2);
+            if (parentFrame != null) {
+                parentFrame.setContentPane(page);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+                parentFrame.pack();
+            }
+
+        }
+            
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -199,7 +235,14 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "No User to delete !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            LOGIN.groupdatabase.getRecord(Newsfeed.groupC).getUsers().remove(username);
+            
+            if(LOGIN.database.getRecordWithName(username).isCreatorGroup(group.getName()))
+            {
+                JOptionPane.showMessageDialog(null, "Can't remove the Creator !!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            System.out.println("Watch out");
+            group.getUsers().remove(username);
             LOGIN.groupdatabase.saveToFile();
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.removeRow(selectedRow);
@@ -215,11 +258,42 @@ public class GroupCurrentUsers extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String username = (String) jTable1.getValueAt(selectedRow, 0);
+
+            if (username.equals("No requests")) {
+                JOptionPane.showMessageDialog(null, "No User to make admin !!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            if(LOGIN.database.getRecordWithName(username).isCreatorGroup(group.getName()))
+            {
+                JOptionPane.showMessageDialog(null, "Can't make the Creator as Admin !!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(group.getOtherAdmins().contains(username))
+            {
+                JOptionPane.showMessageDialog(null, username+ " is already an Admin !!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            group.getOtherAdmins().add(username);
+            LOGIN.groupdatabase.saveToFile();
+            // Show success message
+            JOptionPane.showMessageDialog(null, "You made " +username + "As Admin", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -172,7 +172,11 @@ public class GroupCurrentPosts extends javax.swing.JPanel {
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
             Newsfeed.PostC=username;
-            
+            if(username.equals("No requests"))
+            {
+                JOptionPane.showMessageDialog(null,"No post to show !!","Error",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             GroupShowSinglePost page = new GroupShowSinglePost();
             page.setVisible(true);
             System.out.println(username);
@@ -183,11 +187,7 @@ public class GroupCurrentPosts extends javax.swing.JPanel {
             parentFrame.revalidate();
             parentFrame.repaint();
             parentFrame.pack();
-            if(username.equals("No requests"))
-            {
-                JOptionPane.showMessageDialog(null,"No post to show !!","Error",JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            
         }}
     }//GEN-LAST:event_jButton2ActionPerformed
 
