@@ -191,6 +191,13 @@ public class GroupAdminManagment extends javax.swing.JPanel {
             Newsfeed.groupC=username;
             GroupCurrentUsers page = new GroupCurrentUsers(username);
             page.setVisible(true);
+             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -205,6 +212,13 @@ public class GroupAdminManagment extends javax.swing.JPanel {
             Newsfeed.groupC=username;
             GroupCurrentPosts page = new GroupCurrentPosts(username);
             page.setVisible(true);
+             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton8);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
         }         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -219,6 +233,13 @@ public class GroupAdminManagment extends javax.swing.JPanel {
             Newsfeed.groupC=username;
             GroupNewPostRequest page = new GroupNewPostRequest(username);
             page.setVisible(true);
+             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 

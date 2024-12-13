@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -34,6 +35,7 @@ public class UserAccount {
     private ArrayList <String> blocked; 
     private ArrayList <String> requests;
     private ArrayList <Group> joinedGroups;
+    private ArrayList<String> notifications;
     private ProfileManagement profile = new ProfileManagement();
 
     public UserAccount(String email, String username, String Gender, String password, LocalDate date) {
@@ -52,6 +54,7 @@ public class UserAccount {
         blocked = new ArrayList<>();
         requests  = new ArrayList<>();
         joinedGroups = new ArrayList<>(); 
+        notifications = new ArrayList<>(); 
 
     }
 
@@ -85,6 +88,7 @@ public class UserAccount {
                 
               //  this.requests.add(new FriendRequests(this,user).getId()+"pending");
                 user.requests.add(new FriendRequests(this,user).getId() + "pending");
+                user.notifications.add("New Friend Request received from " + this.getUsername());
                 //JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
                 LOGIN.database.saveToFile();
                 return true;
@@ -428,6 +432,20 @@ public class UserAccount {
     }
     
     
+    public ArrayList<String> getNotifications() {
+        return this.notifications;
+    }
+    
+     public void removeNotification(String notification) {
+    Iterator<String> iterator = notifications.iterator();
+    while (iterator.hasNext()) {
+        if (iterator.next().equals(notification)) {
+            iterator.remove(); // Use iterator's remove method
+            break; // Assuming only one notification needs to be removed
+        }
+    }
+}
+
     
     
 }

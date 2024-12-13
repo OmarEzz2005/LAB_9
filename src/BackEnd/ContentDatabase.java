@@ -152,10 +152,15 @@ public class ContentDatabase implements Database <Content>{
      public void displayPosts(ArrayList<Post> posts) {
     Newsfeed.jPanel3.removeAll();
     Newsfeed.jPanel3.setLayout(new BoxLayout(Newsfeed.jPanel3, BoxLayout.Y_AXIS)); 
+   /* if(posts == null || posts.isEmpty())
+    {
+        
+    }*/
 
     for (Post post : posts) {
-        boolean isFriend = LOGIN.database.getCurrentUser()
-                .isFriends(LOGIN.database.getRecord(post.getAutherId()).getUsername());
+        UserAccount author = LOGIN.database.getRecord(post.getAutherId());
+        boolean isFriend = (author != null) && LOGIN.database.getCurrentUser().isFriends(author.getUsername());
+
         boolean isInSharedGroup = false;
 
         // Check if the post author belongs to any group the current user has joined
@@ -266,7 +271,7 @@ public class ContentDatabase implements Database <Content>{
 
    
     for (Storie storie : stories) {
-        if(!LOGIN.database.getCurrentUser().isFriends(storie.getAutherId()))
+        if(!LOGIN.database.getCurrentUser().isFriends(storie.getAutherId()) && !LOGIN.database.getCurrentUser().getUserID().equals(storie.getAutherId()))
         {
             continue;
         }

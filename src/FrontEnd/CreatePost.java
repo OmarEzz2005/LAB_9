@@ -177,6 +177,11 @@ public class CreatePost extends javax.swing.JPanel {
         if(group != null)
         {
             group.getPosts().add(post.getContentId());
+            for(UserAccount user : group.getObjectUser())
+            {
+                user.getNotifications().add("New Post from " + group.getName());
+            }
+            LOGIN.database.saveToFile();
             groups.saveToFile();
         }
 

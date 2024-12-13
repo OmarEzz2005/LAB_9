@@ -517,7 +517,7 @@ public class LOGIN extends javax.swing.JFrame {
         
         if(jPasswordField1.getText().isEmpty() || jTextField1.getText().isEmpty() || email.equals("Email address") || password.equals("Enter Password"))
         {
-            throw new Exception();
+           throw new Exception();
         }
         
         ArrayList <UserAccount> users = database.getUsers();
@@ -547,11 +547,11 @@ public class LOGIN extends javax.swing.JFrame {
         return;
             
         
-       }catch(Exception e)
+         }catch(Exception e)
         {
             JOptionPane.showMessageDialog(null,"Invalid Input", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        }
+        }    
     }//GEN-LAST:event_LoginActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
