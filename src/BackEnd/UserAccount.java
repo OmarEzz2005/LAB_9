@@ -87,6 +87,7 @@ public class UserAccount {
                 
               //  this.requests.add(new FriendRequests(this,user).getId()+"pending");
                 user.requests.add(new FriendRequests(this,user).getId() + "pending");
+                user.notifications.add("New Friend Request received from " + this.getUsername());
                 //JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
                 LOGIN.database.saveToFile();
                 return true;
