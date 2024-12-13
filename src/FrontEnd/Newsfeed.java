@@ -541,6 +541,26 @@ public class Newsfeed extends javax.swing.JPanel {
                             current.removeNotification(selectedNotification);
 
                         }
+                        else if(selectedNotification.contains("New Post"))
+                        {
+                            String Gname = selectedNotification.substring(14);
+                            System.out.println(Gname);
+                            Group g = LOGIN.groupdatabase.getRecord(Gname);
+                            GroupUser page = new GroupUser(g);
+                            page.setVisible(true);
+
+                            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jList2);
+                            if (parentFrame != null) {
+                                parentFrame.setContentPane(page);
+                                parentFrame.revalidate();
+                                parentFrame.repaint();
+                                parentFrame.pack();
+                            }
+
+                            // Remove the notification
+                            UserAccount current = LOGIN.database.getCurrentUser();
+                            current.removeNotification(selectedNotification);
+                        }
                     }
                 }
             }
