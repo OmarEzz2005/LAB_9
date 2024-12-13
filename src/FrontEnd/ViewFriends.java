@@ -93,7 +93,15 @@ public class ViewFriends extends javax.swing.JPanel {
             new String [] {
                 "Friend Name", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         Back.setText("Back");

@@ -357,7 +357,15 @@ public class Newsfeed extends javax.swing.JPanel {
             new String [] {
                 "Group Name"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane5.setViewportView(jTable2);
 
         Show.setText("Show");
@@ -415,7 +423,15 @@ public class Newsfeed extends javax.swing.JPanel {
             new String [] {
                 "Group Name"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane6.setViewportView(jTable3);
 
         ShowOthers.setText("Show");

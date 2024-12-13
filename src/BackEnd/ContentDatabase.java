@@ -275,6 +275,10 @@ public class ContentDatabase implements Database <Content>{
         {
             continue;
         }
+        if(storie.isExpired())
+        {
+            continue;
+        }
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
