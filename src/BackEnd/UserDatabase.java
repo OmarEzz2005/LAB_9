@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  *
  * @author lenovo
  */
-public class UserDatabase {
+public class UserDatabase implements Database <UserAccount>{
     private String filename;
     private ArrayList<UserAccount> users = new ArrayList<>();
 
@@ -34,6 +34,7 @@ public class UserDatabase {
     }
     
     
+    @Override
     public void readFromFile() {
         Path filepath = Paths.get(filename);
         try {
@@ -52,6 +53,7 @@ public class UserDatabase {
     }
     
     
+    @Override
     public boolean contains(String key) {
         for (UserAccount c : users) {
             if (c.getSearchKey().equals(key)) {
@@ -63,6 +65,7 @@ public class UserDatabase {
     
     
     
+    @Override
      public UserAccount getRecord(String key) {
         for (UserAccount c : users) {
             if (c.getSearchKey().equals(key)) {
@@ -103,6 +106,7 @@ public class UserDatabase {
     }
      
      
+    @Override
      public void deleteRecord(String key) {
         if (!contains(key)) {
             JOptionPane.showMessageDialog(null, "User not found !!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -120,6 +124,7 @@ public class UserDatabase {
     }
      
      
+    @Override
      public void saveToFile() {
         Path filepath = Paths.get(filename);
         try (FileWriter writer = new FileWriter(filepath.toFile())) {

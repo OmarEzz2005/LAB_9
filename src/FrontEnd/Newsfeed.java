@@ -602,6 +602,8 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
+        LOGIN.database.readFromFile();
+        LOGIN.groupdatabase.readFromFile();
         Newsfeed page = new Newsfeed();
         page.setVisible(true);
         
@@ -769,8 +771,16 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
         // TODO add your handling code here:
-        SearchFrameWindow editbiowindow = new SearchFrameWindow();
-        editbiowindow.setVisible(true);
+        SearchWindow window = new SearchWindow();
+        window.setVisible(true);
+        
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Search);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(window);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
         
         
     }//GEN-LAST:event_SearchActionPerformed

@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  *
  * @author yaseen
  */
-public class GroupDatabase {
+public class GroupDatabase implements Database <Group>{
 
     private String filename;
     private ArrayList<Group> groupList = new ArrayList<>();
@@ -35,6 +35,7 @@ public class GroupDatabase {
         return groupList;
     }
 
+    @Override
     public void saveToFile() {
         Path filepath = Paths.get(filename);
         try (FileWriter writer = new FileWriter(filepath.toFile())) {
@@ -46,6 +47,7 @@ public class GroupDatabase {
         }
     }
 
+    @Override
     public void readFromFile() {
         Path filepath = Paths.get(filename);
         try {
@@ -64,6 +66,7 @@ public class GroupDatabase {
         }
     }
 
+    @Override
     public boolean contains(String key) {
         for (Group c : groupList) {
             if (c.getSearchKey().equals(key)) {
@@ -73,6 +76,7 @@ public class GroupDatabase {
         return false;
     }
 
+    @Override
     public Group getRecord(String key) {
         for (Group c : groupList) {
             if (c.getSearchKey().equals(key)) {
@@ -94,6 +98,7 @@ public class GroupDatabase {
 
     }
 
+    @Override
     public void deleteRecord(String key) {
         if (!contains(key)) {
             JOptionPane.showMessageDialog(null, "Group not found !!", "Error", JOptionPane.ERROR_MESSAGE);

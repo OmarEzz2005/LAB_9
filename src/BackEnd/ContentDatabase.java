@@ -37,7 +37,7 @@ import javax.swing.JTextArea;
  *
  * @author yaseen
  */
-public class ContentDatabase {
+public class ContentDatabase implements Database <Content>{
 
     UserDatabase users;
     private final String FileName;
@@ -52,6 +52,7 @@ public class ContentDatabase {
         return contentList;
     }
     
+    @Override
     public void saveToFile() {
     Gson gson = new Gson();
     File file = new File(this.FileName);
@@ -77,6 +78,7 @@ public class ContentDatabase {
     }
 }
 
+    @Override
     public void readFromFile() {
     Gson gson = new GsonBuilder()
         .registerTypeAdapter(Content.class, new ContentDeserializer())
@@ -92,6 +94,7 @@ public class ContentDatabase {
     }
 }
     
+    @Override
     public boolean contains(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
@@ -100,6 +103,7 @@ public class ContentDatabase {
         }
         return false;
     }
+    @Override
     public Content getRecord(String key) {
         for (Content c : contentList) {
             if (c.getSearchKey().equals(key)) {
@@ -109,6 +113,7 @@ public class ContentDatabase {
         return null;
     }
     
+    @Override
      public void deleteRecord(String key) {
         if (!contains(key)) {
             JOptionPane.showMessageDialog(null, "content not found !!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -133,6 +138,7 @@ public class ContentDatabase {
         }
     }}
      
+    
      public int getSize()
      {
          return this.contentList.size();
@@ -147,58 +153,88 @@ public class ContentDatabase {
     Newsfeed.jPanel3.removeAll();
     Newsfeed.jPanel3.setLayout(new BoxLayout(Newsfeed.jPanel3, BoxLayout.Y_AXIS)); 
 
-    
     for (Post post : posts) {
-        if(!LOGIN.database.getCurrentUser().isFriends(LOGIN.database.getRecord(post.getAutherId()).getUsername()) && !(LOGIN.database.getCurrentUser().getUserID().equals(post.getAutherId())))
-        {
+        boolean isFriend = LOGIN.database.getCurrentUser()
+                .isFriends(LOGIN.database.getRecord(post.getAutherId()).getUsername());
+        boolean isInSharedGroup = false;
+
+        // Check if the post author belongs to any group the current user has joined
+        for (Group group : LOGIN.groupdatabase.getgroups()) {
+            if (LOGIN.database.getCurrentUser().isJoinedGroup(group.getName()) &&
+                group.getPosts().contains(post.getContentId())) {
+                isInSharedGroup = true;
+                break;
+            }
+        }
+
+        // Skip posts if the author is neither a friend nor in a shared group
+        if (!isFriend && !isInSharedGroup && !LOGIN.database.getCurrentUser().getUserID().equals(post.getAutherId())) {
             continue;
         }
+
+        // Create the main panel for the post
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        
-        JLabel titleLabel = new JLabel(users.getRecord(post.getAutherId()).getUsername());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        postPanel.add(titleLabel, BorderLayout.NORTH);
+        // Create a header panel for group name and username
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
+        headerPanel.setOpaque(false);
 
-        
+        // Add group name if applicable
+        for (Group group : LOGIN.groupdatabase.getgroups()) {
+            if (LOGIN.database.getCurrentUser().isJoinedGroup(group.getName()) &&
+                group.getPosts().contains(post.getContentId())) {
+                JLabel groupLabel = new JLabel(group.getName());
+                groupLabel.setFont(new Font("Arial", Font.BOLD, 18));
+                headerPanel.add(groupLabel);
+                break;
+            }
+        }
+
+        // Add username
+        JLabel usernameLabel = new JLabel(users.getRecord(post.getAutherId()).getUsername());
+        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        headerPanel.add(usernameLabel);
+
+        // Add the header to the top of the post panel
+        postPanel.add(headerPanel, BorderLayout.NORTH);
+
+        // Add post content
         JTextArea contentArea = new JTextArea(post.getContenText());
         contentArea.setWrapStyleWord(true);
         contentArea.setLineWrap(true);
         contentArea.setEditable(false);
-        contentArea.setOpaque(false); 
+        contentArea.setOpaque(false);
         postPanel.add(contentArea, BorderLayout.CENTER);
-        
-        //Adding Image 
+
+        // Add post image if present
         if (post.getImgPath() != null && !post.getImgPath().isEmpty()) {
             try {
-                // Load the image from the path
                 ImageIcon imageIcon = new ImageIcon(post.getImgPath());
-                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH); // Resize the image
+                Image image = imageIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
                 JLabel imageLabel = new JLabel(new ImageIcon(image));
-                postPanel.add(imageLabel, BorderLayout.SOUTH); // Add image below the text
-                
+                postPanel.add(imageLabel, BorderLayout.SOUTH);
             } catch (Exception e) {
                 System.err.println("Error loading image from path: " + post.getImgPath());
                 e.printStackTrace();
             }
         }
-        Newsfeed.jPanel3.add(postPanel);
-        System.out.println("Added post: " + post.getContentId());
-    }
-    
 
-    
-    int totalHeight = posts.size() * 200; 
+        // Add the post panel to the main panel
+        Newsfeed.jPanel3.add(postPanel);
+    }
+
+    // Adjust the size and refresh the view
+    int totalHeight = posts.size() * 200;
     Newsfeed.jPanel3.setPreferredSize(new Dimension(Newsfeed.jPanel3.getWidth(), totalHeight));
-   
-    
     Newsfeed.jPanel3.revalidate();
     Newsfeed.jPanel3.repaint();
     Newsfeed.jScrollPane2.revalidate();
     Newsfeed.jScrollPane2.repaint();
 }
+
    
     public void loadPosts() {
     ArrayList<Post> posts = new ArrayList<>();
@@ -208,7 +244,7 @@ public class ContentDatabase {
         if(c instanceof Post)
         {
             posts.add((Post) c);
-            System.out.println("Post Found" + ((Post) c).getContentId());
+           // System.out.println("Post Found" + ((Post) c).getContentId());
         }
         
     }
@@ -268,12 +304,12 @@ public class ContentDatabase {
        
         Newsfeed.jPanel4.add(postPanel);
         Newsfeed.jPanel4.add(Box.createRigidArea(new Dimension(30,20)));
-        System.out.println("Added post: " + storie.getContentId());
+    //    System.out.println("Added post: " + storie.getContentId());
     }
 
     
     int totalHeight = stories.size() * 200;  
-    System.out.println("TOTAL height: " + totalHeight);
+//    System.out.println("TOTAL height: " + totalHeight);
 
     
     Newsfeed.jPanel4.setPreferredSize(new Dimension(Newsfeed.jPanel4.getWidth(), totalHeight));
@@ -302,7 +338,7 @@ public class ContentDatabase {
         if(c instanceof Storie)
         {
             stories.add((Storie) c);
-            System.out.println("Story Found" + ((Storie) c).getContentId());
+          //  System.out.println("Story Found" + ((Storie) c).getContentId());
         }
         
     }
