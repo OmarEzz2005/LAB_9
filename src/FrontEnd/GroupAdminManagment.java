@@ -184,6 +184,11 @@ public class GroupAdminManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isAdminGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Admin", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No requests")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -205,6 +210,11 @@ public class GroupAdminManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isAdminGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Admin", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No requests")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -226,6 +236,11 @@ public class GroupAdminManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
+            if(!LOGIN.database.getCurrentUser().isAdminGroup(username))
+            {
+                JOptionPane.showMessageDialog(null, "you are not the Admin", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (username.equals("No requests")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;

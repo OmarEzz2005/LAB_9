@@ -147,7 +147,7 @@ public class GroupCurrentPosts extends javax.swing.JPanel {
         if (LOGIN.database.getCurrentUser().isCreatorGroup(Newsfeed.groupC)) {
             GroupCreatorManagment page =new GroupCreatorManagment();
             page.setVisible(true);
-            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
+            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
         if (parentFrame != null) {
             parentFrame.setContentPane(page);
             parentFrame.revalidate();
@@ -157,7 +157,7 @@ public class GroupCurrentPosts extends javax.swing.JPanel {
         } else {
             GroupAdminManagment page = new GroupAdminManagment();
             page.setVisible(true);
-            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
+            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton1);
         if (parentFrame != null) {
             parentFrame.setContentPane(page);
             parentFrame.revalidate();
@@ -172,12 +172,23 @@ public class GroupCurrentPosts extends javax.swing.JPanel {
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
             Newsfeed.PostC=username;
+            
+            GroupShowSinglePost page = new GroupShowSinglePost();
+            page.setVisible(true);
+            System.out.println(username);
+            System.out.println(Newsfeed.PostC);
+            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton2);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
             if(username.equals("No requests"))
             {
                 JOptionPane.showMessageDialog(null,"No post to show !!","Error",JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
+        }}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
