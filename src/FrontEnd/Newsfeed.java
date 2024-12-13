@@ -601,6 +601,8 @@ public class Newsfeed extends javax.swing.JPanel {
 
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
+        LOGIN.database.readFromFile();
+        LOGIN.groupdatabase.readFromFile();
         Newsfeed page = new Newsfeed();
         page.setVisible(true);
         

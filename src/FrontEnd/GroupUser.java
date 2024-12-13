@@ -59,6 +59,8 @@ public class GroupUser extends javax.swing.JPanel {
     
     
     public GroupUser(Group group) {
+        jPanel5 = new JPanel();
+        jPanel5.setLayout(new BoxLayout(jPanel5, BoxLayout.X_AXIS));
         initComponents();
         g = group;
         
@@ -85,8 +87,6 @@ public class GroupUser extends javax.swing.JPanel {
         jLabel2.setText("Group By "+group.getPrimaryAdmin());
         jLabel1.setText(group.getName());
         jTextArea1.setText(group.getDiscription());
-        jPanel5 = new JPanel();
-        jPanel5.setLayout(new BoxLayout(jPanel5, BoxLayout.X_AXIS));
         this.loadPosts();
         jPanel1.repaint();
     }
@@ -326,6 +326,7 @@ public class GroupUser extends javax.swing.JPanel {
 
     
     for (Post post : posts) {
+        //System.out.println("Reached succ...");
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -358,7 +359,7 @@ public class GroupUser extends javax.swing.JPanel {
             }
         }
         jPanel5.add(postPanel);
-        System.out.println("Added post: " + post.getContentId());
+   //     System.out.println("Added post: " + post.getContentId());
     }
     
 
