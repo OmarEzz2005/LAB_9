@@ -165,11 +165,12 @@ public class Group
             for (String postS : Posts) {
                 for (Content post : Newsfeed.contents.getContentList()) {
                     
-                    if (post.getContentId().equals(postS));
+                    if (post.getContentId().equals(postS) && post instanceof Post && post.getType().equals("Post"))
                     {
+                        System.out.println("Here");
                         postList.add((Post) post);
                     }
-
+                    
                 }
 
             }
