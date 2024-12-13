@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -87,6 +88,7 @@ public class UserAccount {
                 
               //  this.requests.add(new FriendRequests(this,user).getId()+"pending");
                 user.requests.add(new FriendRequests(this,user).getId() + "pending");
+                user.notifications.add("New Friend Request received from " + this.getUsername());
                 //JOptionPane.showMessageDialog(null,"Friend request sent from " + this.getUsername() + " to " + user.getUsername());
                 LOGIN.database.saveToFile();
                 return true;
@@ -434,14 +436,16 @@ public class UserAccount {
         return this.notifications;
     }
     
-     public void removeNotification(String removed) {
-        for (String selected : this.notifications) {
-            if( selected.equals(removed) )
-                    {
-                        this.notifications.remove(selected);
-                    }
+     public void removeNotification(String notification) {
+    Iterator<String> iterator = notifications.iterator();
+    while (iterator.hasNext()) {
+        if (iterator.next().equals(notification)) {
+            iterator.remove(); // Use iterator's remove method
+            break; // Assuming only one notification needs to be removed
         }
     }
+}
+
     
     
 }
