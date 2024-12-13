@@ -38,9 +38,8 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         if( groupList == null || groupList.isEmpty())
         {
             System.out.println("Here");
-            Object[] row = new Object[2];
-            row[0] = "No requests";
-            row[1] = "";
+            Object[] row = new Object[1];
+            row[0] = "No Groups";
             model.addRow(row);
             return;
         }
@@ -221,13 +220,20 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Newsfeed.groupC=username;
             GroupCurrentAdmins page = new GroupCurrentAdmins(username);
             page.setVisible(true);
+             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton2);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -235,13 +241,20 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Newsfeed.groupC=username;
             GroupCurrentUsers page = new GroupCurrentUsers(username);
             page.setVisible(true);
+             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton3);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -249,12 +262,21 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             GroupCurrentPosts page = new GroupCurrentPosts(username);
             page.setVisible(true);
+            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton8);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
+            
+            
         }         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -262,12 +284,19 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             GroupNewPostRequest page = new GroupNewPostRequest(username);
             page.setVisible(true);
+             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton7);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -275,13 +304,20 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
-            if (username.equals("No requests")) {
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No Group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Newsfeed.groupC=username;
             GroupNewAdminRequist page = new GroupNewAdminRequist(username);
             page.setVisible(true);
+             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jButton4);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }    
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -290,7 +326,7 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
         if (selectedRow != -1) {
             String username = (String) jTable1.getValueAt(selectedRow, 0);
 
-            if (username.equals("No requests")) {
+            if (username.equals("No Groups")) {
                 JOptionPane.showMessageDialog(null, "No group !!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -299,9 +335,8 @@ public class GroupCreatorManagment extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.removeRow(selectedRow);
             if (model.getRowCount() == 0) {
-                Object[] row = new Object[2];
-                row[0] = "No requests";
-                row[1] = "";
+                Object[] row = new Object[1];
+                row[0] = "No Groups";
                 model.addRow(row);
             }
             JOptionPane.showMessageDialog(null, "You have deleted the group", "Success", JOptionPane.INFORMATION_MESSAGE);
