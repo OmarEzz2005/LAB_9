@@ -522,7 +522,7 @@ public class Newsfeed extends javax.swing.JPanel {
                     int selectedIndex = jList2.getSelectedIndex();
                     if (selectedIndex != -1) {
                         String selectedNotification = jList2.getModel().getElementAt(selectedIndex);
-
+                        System.out.println(selectedNotification);
                         if (selectedNotification.contains("Friend Request")) {
                             // Open ViewFriendRequests page
                             ViewFriendRequests page = new ViewFriendRequests();
