@@ -519,7 +519,7 @@ public class Newsfeed extends javax.swing.JPanel {
         jList3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                    int selectedIndex = jList2.getSelectedIndex();
+                    int selectedIndex = jList3.getSelectedIndex();
                     if (selectedIndex != -1) {
                         String selectedNotification = jList3.getModel().getElementAt(selectedIndex);
                         System.out.println(selectedNotification);
