@@ -137,7 +137,12 @@ private String selectedImgPath=null;
         return;
     }
          String ImgPath=selectedImgPath;
-         Storie storie = new Storie(user, ContentText, ImgPath, "Storie");
+         Storie storie = new Storie.Builder()
+                  .setUser(user)
+                  .setContentText(ContentText)
+                  .setImgPath(ImgPath) 
+                  .build();
+      //   Storie storie = new Storie(user, ContentText, ImgPath, "Storie");
     contentdatabase.getContentList().add(storie);
     contentdatabase.saveToFile();
     JOptionPane.showMessageDialog(this, "Storie Added Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
