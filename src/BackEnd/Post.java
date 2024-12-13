@@ -19,6 +19,7 @@ public class Post extends Content{
     public String getType() {
         return "Post";
     }
+    
 
     
     

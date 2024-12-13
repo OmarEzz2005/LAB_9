@@ -407,7 +407,7 @@ public class UserAccount {
     }
     
     
-    public boolean isAdminGroup(String groupname)
+    public boolean isCreatorGroup(String groupname)
     {
         Group group = LOGIN.groupdatabase.getRecord(groupname);
         if(group.getPrimaryAdmin().equals(this.username))
@@ -416,6 +416,17 @@ public class UserAccount {
         }
         return false;
     }
+    
+    public boolean isAdminGroup(String groupname)
+    {
+        Group group = LOGIN.groupdatabase.getRecord(groupname);
+        if(group.getOtherAdmins().contains(this.getUsername()))
+        {
+            return true;
+        }
+        return false;
+    }
+    
     
     
     

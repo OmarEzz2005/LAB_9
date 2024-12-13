@@ -49,7 +49,8 @@ public class Newsfeed extends javax.swing.JPanel {
     
     
     UserDatabase users;
-    
+    public static String groupC ;
+    public static String PostC ;
     public static ContentDatabase contents = new ContentDatabase("Content.json");
     public static JPanel jPanel3;
     public static JPanel jPanel4;
