@@ -16,14 +16,14 @@ public class Group
     private String ID;
     public static int count =0;
     private String name;
-    private String Discription;
+    private String Discription	;
     private String GroupPhotoPath;
     private String PrimaryAdmin;
     private ArrayList<String> OtherAdmins=new ArrayList<>();
     private ArrayList<String> Users=new ArrayList<>();
     private ArrayList<String> Posts=new ArrayList<>();
+    private ArrayList<String> newPostreq=new ArrayList<>();
     private ArrayList<String> newAdminsreq=new ArrayList<>();
-    private ArrayList<String> newUserreq=new ArrayList<>();
     
     
 
@@ -39,16 +39,9 @@ public class Group
         this.Users=new ArrayList<>();
         this.Posts=new ArrayList<>();
         this.newAdminsreq=new ArrayList<>();
-        this.newUserreq=new ArrayList<>();
+        this.newPostreq=new ArrayList<>();
     }
-
-    public ArrayList<String> getNewUserreq() {
-        return newUserreq;
-    }
-
-    public void setNewUserreq(ArrayList<String> newUserreq) {
-        this.newUserreq = newUserreq;
-    }
+    
     
 
     public void UpdatePhoto(String GroupPhotoPath) {
@@ -60,6 +53,13 @@ public class Group
         this.Posts = Posts;
     }
 
+    public ArrayList<String> getNewPostsreq() {
+        return newPostreq;
+    }
+
+    public void setNewPostsreq(ArrayList<String> newPostsreq) {
+        this.newPostreq = newPostsreq;
+    }
 
     public ArrayList<String> getNewAdminsreq() {
         return newAdminsreq;
@@ -111,6 +111,7 @@ public class Group
     public String getPrimaryAdmin() {
         return PrimaryAdmin;
     }
+    
 
     public ArrayList<String> getOtherAdmins() {
         return OtherAdmins;
@@ -135,6 +136,23 @@ public class Group
         }
     }
         return userList; // Return the list of UserAccount objects
+   }
+    public ArrayList<UserAccount> getObjectNewAdminsREQ() {
+    ArrayList<UserAccount> newadminList = new ArrayList<>();
+    
+    // Check if there are any users in the group
+    if (newAdminsreq != null) {
+        // Iterate through each username in the 'Users' list
+        for (String userS : newAdminsreq) {
+            // Iterate over all users in the database and match the username
+            for (UserAccount userO : LOGIN.database.getUsers()) {
+                if (userO.getUsername().equals(userS)) {
+                    newadminList.add(userO); // Add matching user to the list
+                }
+            }
+        }
+    }
+        return newadminList; // Return the list of UserAccount objects
    }
 
 
@@ -178,8 +196,37 @@ public class Group
         }
         return null;
     }
+    public ArrayList<Post> getObjectNewPostREQ() {
+        ArrayList<Post> newpostList = new ArrayList<>();
+        if (newPostreq != null) {
+            for (String postS : newPostreq) {
+                for (Content post : Newsfeed.contents.getContentList()) {
+                    
+                    if (post.getContentId().equals(postS));
+                    {
+                        newpostList.add((Post) post);
+                    }
+
+                }
+
+            }
+            return newpostList;
+        }
+        return null;
+    }
     
-    
+    public Post getPost()
+    {
+        for (Post p: this.getObjectPost())
+        {
+            if(p.getContentId().equals(Newsfeed.PostC))
+            {
+                return p;
+            }
+            
+        }
+        return null;
+    }
     
     
     
