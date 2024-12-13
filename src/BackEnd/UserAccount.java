@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -435,14 +436,16 @@ public class UserAccount {
         return this.notifications;
     }
     
-     public void removeNotification(String removed) {
-        for (String selected : this.notifications) {
-            if( selected.equals(removed) )
-                    {
-                        this.notifications.remove(selected);
-                    }
+     public void removeNotification(String notification) {
+    Iterator<String> iterator = notifications.iterator();
+    while (iterator.hasNext()) {
+        if (iterator.next().equals(notification)) {
+            iterator.remove(); // Use iterator's remove method
+            break; // Assuming only one notification needs to be removed
         }
     }
+}
+
     
     
 }
