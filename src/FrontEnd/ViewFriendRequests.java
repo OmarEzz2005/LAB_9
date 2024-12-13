@@ -97,7 +97,15 @@ public class ViewFriendRequests extends javax.swing.JPanel {
             new String [] {
                 "UserName", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         Back.setText("Back");

@@ -93,7 +93,15 @@ public class GroupCurrentAdmins extends javax.swing.JPanel {
             new String [] {
                 "Group Current Admins"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setText("Show Profile");

@@ -99,7 +99,15 @@ public class GroupAdminManagment extends javax.swing.JPanel {
             new String [] {
                 "GroupName"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton8.setText("Show Current Posts");

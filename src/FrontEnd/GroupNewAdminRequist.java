@@ -94,7 +94,15 @@ public class GroupNewAdminRequist extends javax.swing.JPanel {
             new String [] {
                 "New Admin Requist"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setText("Accept");
