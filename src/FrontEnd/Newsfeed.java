@@ -229,6 +229,32 @@ public class Newsfeed extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    int selectedIndex = jList2.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        String selectedNotification = jList2.getModel().getElementAt(selectedIndex);
+                        System.out.println(selectedNotification);
+                        if (!selectedNotification.contains("No")) {
+                            // Open Chat page
+                            Chat page = new Chat();
+                            page.setVisible(true);
+
+                            LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jList2);
+                            if (parentFrame != null) {
+                                parentFrame.setContentPane(page);
+                                parentFrame.revalidate();
+                                parentFrame.repaint();
+                                parentFrame.pack();
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        });
         jScrollPane4.setViewportView(jList2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -357,15 +383,7 @@ public class Newsfeed extends javax.swing.JPanel {
             new String [] {
                 "Group Name"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane5.setViewportView(jTable2);
 
         Show.setText("Show");
@@ -423,15 +441,7 @@ public class Newsfeed extends javax.swing.JPanel {
             new String [] {
                 "Group Name"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane6.setViewportView(jTable3);
 
         ShowOthers.setText("Show");
@@ -563,9 +573,6 @@ public class Newsfeed extends javax.swing.JPanel {
                             String Gname = selectedNotification.substring(14);
                             System.out.println(Gname);
                             Group g = LOGIN.groupdatabase.getRecord(Gname);
-                            if(g== null){
-                                return;
-                            }
                             GroupUser page = new GroupUser(g);
                             page.setVisible(true);
 
