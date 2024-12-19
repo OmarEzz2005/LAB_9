@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
@@ -29,6 +30,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -149,13 +151,9 @@ public class ContentDatabase implements Database <Content>{
      
      
      
-     public void displayPosts(ArrayList<Post> posts) {
+  public void displayPosts(ArrayList<Post> posts) {
     Newsfeed.jPanel3.removeAll();
     Newsfeed.jPanel3.setLayout(new BoxLayout(Newsfeed.jPanel3, BoxLayout.Y_AXIS)); 
-   /* if(posts == null || posts.isEmpty())
-    {
-        
-    }*/
 
     for (Post post : posts) {
         UserAccount author = LOGIN.database.getRecord(post.getAutherId());
@@ -163,7 +161,7 @@ public class ContentDatabase implements Database <Content>{
 
         boolean isInSharedGroup = false;
 
-        // Check if the post author belongs to any group the current user has joined
+        
         for (Group group : LOGIN.groupdatabase.getgroups()) {
             if (LOGIN.database.getCurrentUser().isJoinedGroup(group.getName()) &&
                 group.getPosts().contains(post.getContentId())) {
@@ -172,22 +170,22 @@ public class ContentDatabase implements Database <Content>{
             }
         }
 
-        // Skip posts if the author is neither a friend nor in a shared group
+       
         if (!isFriend && !isInSharedGroup && !LOGIN.database.getCurrentUser().getUserID().equals(post.getAutherId())) {
             continue;
         }
 
-        // Create the main panel for the post
+        
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Create a header panel for group name and username
+        
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setOpaque(false);
 
-        // Add group name if applicable
+        
         for (Group group : LOGIN.groupdatabase.getgroups()) {
             if (LOGIN.database.getCurrentUser().isJoinedGroup(group.getName()) &&
                 group.getPosts().contains(post.getContentId())) {
@@ -198,15 +196,15 @@ public class ContentDatabase implements Database <Content>{
             }
         }
 
-        // Add username
+        
         JLabel usernameLabel = new JLabel(users.getRecord(post.getAutherId()).getUsername());
         usernameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         headerPanel.add(usernameLabel);
 
-        // Add the header to the top of the post panel
+        
         postPanel.add(headerPanel, BorderLayout.NORTH);
 
-        // Add post content
+       
         JTextArea contentArea = new JTextArea(post.getContenText());
         contentArea.setWrapStyleWord(true);
         contentArea.setLineWrap(true);
@@ -214,7 +212,7 @@ public class ContentDatabase implements Database <Content>{
         contentArea.setOpaque(false);
         postPanel.add(contentArea, BorderLayout.CENTER);
 
-        // Add post image if present
+        
         if (post.getImgPath() != null && !post.getImgPath().isEmpty()) {
             try {
                 ImageIcon imageIcon = new ImageIcon(post.getImgPath());
@@ -227,7 +225,55 @@ public class ContentDatabase implements Database <Content>{
             }
         }
 
-        // Add the post panel to the main panel
+       
+        JPanel commentsPanel = new JPanel();
+        commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
+
+       
+        for (String comment : post.getComments()) {
+            JLabel commentLabel = new JLabel(comment);
+            commentLabel.setFont(new Font("Arial", Font.ITALIC, 14));
+            commentsPanel.add(commentLabel);
+        }
+
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JButton likeButton = new JButton("Like (" + post.getLikes() + ")");
+        JButton commentButton = new JButton("Comment");
+
+        
+        likeButton.addActionListener(e -> {
+            String currentUser = LOGIN.database.getCurrentUser().getUsername();
+            post.toggleLike(currentUser); 
+            Newsfeed.contents.saveToFile();
+            likeButton.setText("Like (" + post.getLikes() + ")"); 
+        });
+
+        
+        commentButton.addActionListener(e -> {
+            String comment = JOptionPane.showInputDialog("Enter your comment:");
+            if (comment != null && !comment.trim().isEmpty()) {
+                String currentUser = LOGIN.database.getCurrentUser().getUsername();
+                post.addComment(currentUser, comment);
+                Newsfeed.contents.saveToFile();
+                
+                JLabel newCommentLabel = new JLabel(currentUser + ": " + comment);
+                newCommentLabel.setFont(new Font("Arial", Font.ITALIC, 14));
+                commentsPanel.add(newCommentLabel);
+                commentsPanel.revalidate();
+                commentsPanel.repaint();
+            }
+        });
+
+        buttonPanel.add(likeButton);
+        buttonPanel.add(commentButton);
+
+        
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(buttonPanel, BorderLayout.NORTH);
+        bottomPanel.add(commentsPanel, BorderLayout.CENTER);
+        postPanel.add(bottomPanel, BorderLayout.SOUTH);
         Newsfeed.jPanel3.add(postPanel);
     }
 
@@ -239,6 +285,10 @@ public class ContentDatabase implements Database <Content>{
     Newsfeed.jScrollPane2.revalidate();
     Newsfeed.jScrollPane2.repaint();
 }
+
+
+
+
 
    
     public void loadPosts() {
