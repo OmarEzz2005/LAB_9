@@ -12,18 +12,31 @@ public class Chat extends javax.swing.JPanel {
      * Creates new form Chat
      */
     
+    ChatManager chatManager = new ChatManager();
+    UserAccount friend;
+    
+    
+    public Chat(UserAccount friend) {
+         if (friend == null) {
+        throw new IllegalArgumentException("Friend cannot be null");
+    }
+    this.friend = friend;
+    initComponents();
+    loadChatHistory();
+    }
+    
+    
+    
+    
     private void loadChatHistory() {
-        List<Message> chatHistory = chatManager.getMessages(currentUser, friend);
+        List<Message> chatHistory = chatManager.getMessages(LOGIN.database.getCurrentUser().getUsername(), friend.getUsername());
         for (Message message : chatHistory) {
-            String senderDisplay = message.getSender().equals(currentUser) ? "You" : friend;
+            String senderDisplay = message.getSender().equals(LOGIN.database.getCurrentUser().getUsername()) ? "You" : friend.getUsername();
             chatArea.append(senderDisplay + ": " + message.getContent() + "\n");
         }
     }
     
-    public Chat() {
-        initComponents();
-        loadChatHistory();
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,7 +109,7 @@ public class Chat extends javax.swing.JPanel {
         // TODO add your handling code here:
             String content = messageField.getText();
             if (!content.isEmpty()) {
-                chatManager.sendMessage(currentUser, friend, content);
+                chatManager.sendMessage(LOGIN.database.getCurrentUser().getUsername(), friend.getUsername(), content);
                 chatArea.append("You: " + content + "\n");
                 messageField.setText("");
             }
