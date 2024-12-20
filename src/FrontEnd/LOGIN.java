@@ -4,6 +4,7 @@
  */
 package FrontEnd;
 
+import BackEnd.ChatDatabase;
 import BackEnd.ContentDatabase;
 import BackEnd.EmailVerification;
 import BackEnd.GroupDatabase;
@@ -30,7 +31,7 @@ public class LOGIN extends javax.swing.JFrame {
     
     public static UserDatabase database;
     public static GroupDatabase groupdatabase;
-    
+    public static ChatDatabase chatdatabase;
     public static String logged;
     
     
@@ -56,6 +57,9 @@ public class LOGIN extends javax.swing.JFrame {
         database.readFromFile();
         groupdatabase = new GroupDatabase("Group.json");   
         groupdatabase.readFromFile();
+        chatdatabase = new ChatDatabase("Chat.json");   
+        chatdatabase.readFromFile();
+        
     }
 
     /**

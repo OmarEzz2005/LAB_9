@@ -1,12 +1,14 @@
 package BackEnd;
+import FrontEnd.LOGIN;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChatManager {
-    private List<Message> messages = new ArrayList<>();
+    private List<Message> messages = LOGIN.chatdatabase.getChats();
 
     public void sendMessage(String sender, String receiver, String content) {
         messages.add(new Message(sender, receiver, content));
+        LOGIN.chatdatabase.saveToFile();
     }
 
     public List<Message> getMessages(String user1, String user2) {

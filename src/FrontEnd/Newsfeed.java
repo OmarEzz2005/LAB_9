@@ -238,7 +238,8 @@ public class Newsfeed extends javax.swing.JPanel {
                         System.out.println(selectedNotification);
                         if (!selectedNotification.contains("No")) {
                             // Open Chat page
-                            Chat page = new Chat();
+                            System.out.println(selectedNotification.split(" ")[0].trim());
+                            Chat page = new Chat(LOGIN.database.getRecordWithName(selectedNotification.split(" ")[0].trim()));
                             page.setVisible(true);
 
                             LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(jList2);
