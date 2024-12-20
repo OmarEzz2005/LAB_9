@@ -8,6 +8,8 @@ public class ChatManager {
 
     public void sendMessage(String sender, String receiver, String content) {
         messages.add(new Message(sender, receiver, content));
+        LOGIN.database.getRecordWithName(receiver).getNotifications().add("New Message From "+sender);
+        LOGIN.database.saveToFile();
         LOGIN.chatdatabase.saveToFile();
     }
 
