@@ -1,6 +1,7 @@
 package FrontEnd;
 import java.util.*;
 import BackEnd.*;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -23,6 +24,7 @@ public class Chat extends javax.swing.JPanel {
     this.friend = friend;
     initComponents();
     loadChatHistory();
+    jLabel1.setText(friend.getUsername());
     }
     
     
@@ -52,6 +54,7 @@ public class Chat extends javax.swing.JPanel {
         messageField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         chatArea = new javax.swing.JTextArea();
+        Back = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -63,11 +66,23 @@ public class Chat extends javax.swing.JPanel {
         });
 
         messageField.setText("message field, write message to be sent here...");
+        messageField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                messageFieldFocusGained(evt);
+            }
+        });
 
+        chatArea.setEditable(false);
         chatArea.setColumns(20);
         chatArea.setRows(5);
-        chatArea.setText("chat area, text visible here...");
         jScrollPane1.setViewportView(chatArea);
+
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -81,19 +96,26 @@ public class Chat extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(sendButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 8, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 46, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Back)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Back)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -115,8 +137,28 @@ public class Chat extends javax.swing.JPanel {
             }
     }//GEN-LAST:event_sendButtonActionPerformed
 
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
+        // TODO add your handling code here:
+        Newsfeed page = new Newsfeed();
+        page.setVisible(true);
+
+        LOGIN parentFrame = (LOGIN) SwingUtilities.getWindowAncestor(Back);
+        if (parentFrame != null) {
+            parentFrame.setContentPane(page);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+            parentFrame.pack();
+        }
+    }//GEN-LAST:event_BackActionPerformed
+
+    private void messageFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_messageFieldFocusGained
+        // TODO add your handling code here:
+        messageField.setText("");
+    }//GEN-LAST:event_messageFieldFocusGained
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Back;
     private javax.swing.JTextArea chatArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
